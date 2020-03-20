@@ -167,7 +167,7 @@ public class QaldIO {
      * @return
      * @throws IOException
      */
-    public static List<Question> readJSON(File inputFile) throws IOException {
+    public static List<Question> read(File inputFile) throws IOException {
         List<Question> questions = new ArrayList<>();
 
         try {
@@ -233,108 +233,13 @@ public class QaldIO {
         return questions;
     }
 
-
-    public static List<String> read(File inputFile) throws Exception {
-        List<String> questions = new ArrayList<>();
-
-        try {
-            JSONParser parser = new JSONParser();
-            JSONObject data = (JSONObject) parser.parse(new FileReader(inputFile));
-
-            System.out.println("Reading " + inputFile + " ...");
-
-            JSONArray qs = (JSONArray) data.get("questions");
-            Iterator it = qs.iterator();
-
-            while (it.hasNext()) {
-
-                JSONObject q = (JSONObject) it.next();
-
-                JSONArray elem = (JSONArray) q.get("question");
-                Iterator it_elem = elem.iterator();
-                while (it_elem.hasNext()) {
-                    JSONObject q_obj = (JSONObject) it_elem.next();
-                    if (((String) q_obj.get("language")).equals("en")) //finding the question written in english
-                    {
-                        questions.add((String) q_obj.get("string"));
-                    }
-                }
-
-            }
-
-        } catch (ParseException ex) {
-            Logger.getLogger(QaldIO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return questions;
-    }
-
-    public static void mergeDatasets2() throws Exception {
-        List<String> trainQald9 = QaldIO.read(new File("/home/lucia/data/QALD/allQALD/test/qald9_train.json"));
-        List<String> trainQald8 = QaldIO.read(new File("/home/lucia/data/QALD/allQALD/test/qald8_train.json"));
-        List<String> trainQald7 = QaldIO.read(new File("/home/lucia/data/QALD/allQALD/test/qald7_train.json"));
-
-        List<String> testQald9 = QaldIO.read(new File("/home/lucia/data/QALD/allQALD/test/qald9_test.json"));
-        List<String> testQald8 = QaldIO.read(new File("/home/lucia/data/QALD/allQALD/test/qald8_test.json"));
-        List<String> testQald7 = QaldIO.read(new File("/home/lucia/data/QALD/allQALD/test/qald7_test.json"));
-
-        FileWriter writer = new FileWriter("/home/lucia/data/QALD/qald_test_7_8_9.json");
-        JSONObject fileObj = new JSONObject();
-        JSONArray questionsArray = new JSONArray();
-
-        //File[] directoryListing = dir.listFiles();
-        List<File> directoryListing = new ArrayList<>();
-        directoryListing.add(new File("/home/lucia/data/QALD/allQALD/test/qald9_test.json"));
-        directoryListing.add(new File("/home/lucia/data/QALD/allQALD/test/qald8_test.json"));
-        directoryListing.add(new File("/home/lucia/data/QALD/allQALD/test/qald7_test.json"));
-
-        JSONParser parser = new JSONParser();
-        List<String> storedQuestions = new ArrayList<>();
-        int contained = 0;
-        int totalnumber = 0;
-        int i = 1;
-        for (File f : directoryListing) {
-            System.out.println("******" + f.getCanonicalPath());
-            JSONObject data = (JSONObject) parser.parse(new FileReader(f));
-            JSONArray qs = (JSONArray) data.get("questions");
-            Iterator it = qs.iterator();
-
-            while (it.hasNext()) {
-                totalnumber++;
-                JSONObject q = (JSONObject) it.next();
-                JSONArray quesArray = (JSONArray) q.get("question");
-                Iterator iterator = quesArray.iterator();
-                String qString = "";
-                while (iterator.hasNext()) {
-                    JSONObject questionLanguage = (JSONObject) iterator.next();
-                    String lan = (String) questionLanguage.get("language");
-                    if (lan.equals("en")) {
-                        qString = (String) questionLanguage.get("string");
-                    }
-                }
-                System.out.println(qString);
-                if (!storedQuestions.contains(qString.toLowerCase())) {
-                    storedQuestions.add(qString.toLowerCase());
-                    q.replace("id", i);
-                    i++;
-                    questionsArray.add(q);
-                } else {
-                    System.out.println("*");
-                    contained++;
-                }
-
-            }
-        }
-        fileObj.put("questions", questionsArray);
-        writer.write(fileObj.toJSONString());
-        writer.close();
-        System.out.println("total number: " + totalnumber);
-        System.out.println("contained: " + contained);
-
-    }
-
     public static void filterDataset() throws Exception {
-        List<String> train = QaldIO.read(new File("/home/lucia/data/QALD/qald_train_7_8_9.json"));
+        List<Question> train = QaldIO.read(new File("/home/lucia/data/QALD/qald_train_7_8_9.json"));
+        List<String> trainQuestions = new ArrayList<>();
+        for (Question q: train) {
+            trainQuestions.add(q.getText());
+        }
+        
         FileWriter writer = new FileWriter("/home/lucia/data/QALD/qald_test_7_8_9_filtered.json");
         JSONObject fileObj = new JSONObject();
         JSONArray questionsArray = new JSONArray();
@@ -361,7 +266,7 @@ public class QaldIO {
                 }
             }
             System.out.println(qString);
-            if (!train.contains(qString)) {
+            if (!trainQuestions.contains(qString)) {
                 q.replace("id", i);
                 i++;
                 questionsArray.add(q);
@@ -433,49 +338,7 @@ public class QaldIO {
         System.out.println("contained: " + contained);
     }
 
-    /*
-    public static void mergeDatasets(File dir) throws Exception {
-        FileWriter writer = new FileWriter("/home/lucia/data/QALD/qald_all_modQuestions_merge.json");
-        JSONObject fileObj = new JSONObject();
-        JSONArray questionsArray = new JSONArray();
 
-        File[] directoryListing = dir.listFiles();
-        JSONParser parser = new JSONParser();
-        List<String> storedQuestions = new ArrayList<>();
-        int contained = 0;
-        int totalnumber = 0;
-        int i = 1;
-        for (File f : directoryListing) {
-            System.out.println("******" + f.getCanonicalPath());
-            JSONObject data = (JSONObject) parser.parse(new FileReader(f));
-            JSONArray qs = (JSONArray) data.get("questions");
-            Iterator it = qs.iterator();
-            
-            while (it.hasNext()) {
-                totalnumber++;
-                JSONObject q = (JSONObject) it.next();
-                JSONArray quesArray = (JSONArray) q.get("question");
-                JSONObject ques = (JSONObject) quesArray.get(0);
-                String qString = (String) ques.get("string");
-                System.out.println(qString);
-                if (!storedQuestions.contains(qString)) {
-                    storedQuestions.add(qString);
-                    q.replace("id", i);
-                    i++;
-                    questionsArray.add(q);
-                } else {
-                    System.out.println("*");
-                    contained++;
-                }
-            }
-        }
-        fileObj.put("questions", questionsArray);
-        writer.write(fileObj.toJSONString());
-        writer.close();
-        System.out.println("total number: " + totalnumber);
-        System.out.println("contained: " + contained);
-    }
-     */
     public static void createCSV(File file) throws Exception {
         FileWriter fw = new FileWriter(new File("/home/lucia/data/QALD/qald_7_8_9_all_mod.csv"));
         BufferedWriter bw = new BufferedWriter(fw);

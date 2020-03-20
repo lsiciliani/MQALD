@@ -30,7 +30,7 @@ public class TestQAAPI {
         int numq = 0;
         int numqa = 0;
         try {
-            List<Question> questions = QaldIO.readJSON(new File(args[0]));
+            List<Question> questions = QaldIO.read(new File(args[0]));
             FileWriter writer = new FileWriter(args[1]);
             JSONObject fileObj = new JSONObject();
             JSONArray questionsArray = new JSONArray();
