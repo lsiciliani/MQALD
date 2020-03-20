@@ -1,6 +1,6 @@
-package di.uniba.mqald;
+package di.uniba.it.mqald;
 
-import di.uniba.mqald.QaldIO;
+import di.uniba.it.mqald.QaldIO;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package di.uniba.it.mqald.QASystems;
+package di.uniba.it.mqald.qasystems;
 
-import di.uniba.mqald.QaldIO;
-import di.uniba.mqald.Question;
+import di.uniba.it.mqald.QaldIO;
+import di.uniba.it.mqald.Question;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
