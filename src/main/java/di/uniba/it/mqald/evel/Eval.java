@@ -71,6 +71,7 @@ public class Eval {
                         }
                         m.div(goldQuesitons.size());
                         System.out.println(m.toString());
+                        System.out.println("F-QALD: "+EvalMetrics.computeF1(m.getPrecision(), m.getRecall()));
                     } else {
                         LOG.log(Level.WARNING, "Gold and sysytem have different size");
                     }

@@ -85,7 +85,7 @@ public class QaldEval {
                 } else if (!expected.isEmpty() && system.isEmpty()) { // QALD F If the golden answerset is not empty but the QA system responds with an empty answerset, it is assumed that the system determined that it cannot answer the question. Here we set the precision to 1 and the recall and Fmeasure to 0
                     precision = 1;
                     recall = 0;
-                    f = 0;
+                    f = EvalMetrics.computeF1(precision, recall);
                 } else {
                     LOG.info("Standard case");
                     Set<String> cg = collectValues(expected, var1);
