@@ -46,7 +46,7 @@ public class TestQAAPI {
                     
                     
                     //JSONObject answersToQuestion = GAnswer.getAPIAnswer(question.getText());
-                   //JSONObject answersToQuestion = QAnswer.getAPIAnswer(question.getText());
+                  //JSONObject answersToQuestion = QAnswer.getAPIAnswer(question.getText());
                    JSONObject answersToQuestion = TeBaQA.getAPIAnswer(question.getText());
 
 
