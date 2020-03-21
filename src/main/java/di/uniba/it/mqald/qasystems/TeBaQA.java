@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package di.uniba.it.mqald.QASystems;
+package di.uniba.it.mqald.qasystems;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +15,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -23,17 +24,18 @@ import org.json.simple.parser.ParseException;
  *
  * @author lucia
  */
-public class GAnswer{
-    
-    private static String address = "http://ganswer.gstore-pku.com/api/qald.jsp?query=";
-    
+public class TeBaQA {
+
+    private static String address = "http://139.18.2.39:8187/qa?query=";
+
     public static JSONObject getAPIAnswer(String question) {
+     
         JSONObject answer = new JSONObject();
         try {
             URL url = new URL(address + URLEncoder.encode(question, "utf-8"));
 
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
+            con.setRequestMethod("POST");
             //con.setRequestProperty("Content-Type", "application/json; utf-8");
             con.setRequestProperty("Accept", "application/json");
             con.setDoOutput(true);
@@ -48,9 +50,19 @@ public class GAnswer{
             }
             con.disconnect();
             //System.out.println(response.toString());
+
             JSONParser parser = new JSONParser();
-            answer = (JSONObject) parser.parse(response.toString());
-            
+            JSONObject apians = (JSONObject) parser.parse(response.toString());
+
+            JSONObject output = fixJSONOutput(apians);
+            JSONArray questions = (JSONArray) output.get("questions");
+            JSONObject questionObj = (JSONObject) questions.get(0);
+            JSONObject ansObj = (JSONObject) questionObj.get("question");
+
+            JSONArray questionsArray = new JSONArray();
+            questionsArray.add(ansObj);
+            answer.put("questions", questionsArray);
+
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(GAnswer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException ex) {
@@ -61,5 +73,25 @@ public class GAnswer{
             Logger.getLogger(GAnswer.class.getName()).log(Level.SEVERE, null, ex);
         }
         return answer;
+    }
+
+    private static JSONObject fixJSONOutput(JSONObject output) throws ParseException {
+        JSONParser parser = new JSONParser();
+        JSONArray questions = (JSONArray) output.get("questions");
+        JSONObject question = (JSONObject) questions.get(0);
+        JSONObject qObj = (JSONObject) question.get("question");
+        String answerString = (String) qObj.get("answers");
+        if (answerString == null) {
+            answerString = "{\"head\":{\"vars\":[\"uri\"]},\"results\":{\"bindings\":[]}}";
+        }
+        JSONObject ans = (JSONObject) parser.parse(answerString);
+
+        qObj.remove("answers");
+
+        JSONArray answers = new JSONArray();
+        answers.add(ans);
+        qObj.put("answers", answers);
+
+        return output;
     }
 }

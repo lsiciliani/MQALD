@@ -1,4 +1,4 @@
-package di.uniba.mqald;
+package di.uniba.it.mqald;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

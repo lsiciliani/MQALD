@@ -1,4 +1,4 @@
-package di.uniba.mqald;
+package di.uniba.it.mqald;
 
 
 import java.util.List;
