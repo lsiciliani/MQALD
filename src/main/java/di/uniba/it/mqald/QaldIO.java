@@ -32,6 +32,7 @@ import org.json.simple.parser.ParseException;
  */
 public class QaldIO {
     
+    // dato il file di input crea due output uno con modifier l'altro senza modifier
     public static void filterModifiers(File inputFile) throws Exception {
         FileWriter writer = new FileWriter("/home/lucia/data/QALD/qald_train_7_8_9_MODS.json");
         JSONObject fileObj = new JSONObject();
@@ -84,6 +85,7 @@ public class QaldIO {
         noModsWriter.close();
     }
     
+    //salva question in un file
     public static void write(List<Question> questions, File file) throws IOException {
         FileWriter writer = new FileWriter(file);
         JSONObject fileObj = new JSONObject();
@@ -234,6 +236,7 @@ public class QaldIO {
         return questions;
     }
     
+    //togli dal test tutte le query che stanno nel traning
     public static void filterDataset() throws Exception {
         List<Question> train = QaldIO.read(new File("/home/lucia/data/QALD/qald_train_7_8_9.json"));
         List<String> trainQuestions = new ArrayList<>();
@@ -284,6 +287,7 @@ public class QaldIO {
         
     }
     
+    // merge dei dataset quello passato per primo e quello più aggiornato quindi non viene fatto il replace della domanda
     public static void mergeDatasets(File dir) throws Exception {
         FileWriter writer = new FileWriter("/home/lucia/data/QALD/qald_train_7_8_9.json");
         JSONObject fileObj = new JSONObject();
@@ -339,6 +343,9 @@ public class QaldIO {
         System.out.println("contained: " + contained);
     }
     
+    // crea CSV con statistiche modifier
+    // IMPR: modifier caricati da file
+    // non utilizzando come input
     public static void createCSV(File file) throws Exception {
         FileWriter fw = new FileWriter(new File("/home/lucia/data/QALD/qald_7_8_9_all_mod.csv"));
         BufferedWriter bw = new BufferedWriter(fw);
