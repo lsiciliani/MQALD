@@ -38,25 +38,25 @@ public class QaldIO {
         JSONObject fileObj = new JSONObject();
         JSONArray questionsArray = new JSONArray();
         int qModsID = 1;
-        
+
         FileWriter noModsWriter = new FileWriter("/home/lucia/data/QALD/qald_train_7_8_9_NO_MODS.json");
         JSONObject noModsFileObj = new JSONObject();
         JSONArray noModsQuestionsArray = new JSONArray();
         int noModsID = 1;
-        
+
         JSONParser parser = new JSONParser();
         JSONObject data = (JSONObject) parser.parse(new FileReader(inputFile));
-        
+
         System.out.println("***Reading " + inputFile + " ...");
-        
+
         JSONArray qs = (JSONArray) data.get("questions");
         Iterator it = qs.iterator();
-        
+
         while (it.hasNext()) {
             JSONObject q = (JSONObject) it.next();
-            
+
             String query = (String) ((JSONObject) q.get("query")).get("sparql");
-            
+
             List<String> mods = Utils.checkFilters(query);
             if (!mods.isEmpty()) {
                 JSONArray modifiers = new JSONArray();
@@ -68,18 +68,18 @@ public class QaldIO {
                 questionsArray.add(q);
                 qModsID++;
             } else {
-                
+
                 q.replace("id", noModsID);
                 noModsQuestionsArray.add(q);
                 noModsID++;
-                
+
             }
         }
-        
+
         fileObj.put("questions", questionsArray);
         writer.write(fileObj.toJSONString());
         writer.close();
-        
+
         noModsFileObj.put("questions", noModsQuestionsArray);
         noModsWriter.write(noModsFileObj.toJSONString());
         noModsWriter.close();
@@ -92,29 +92,29 @@ public class QaldIO {
         JSONArray questionsArray = new JSONArray();
         for (Question q : questions) {
             JSONObject obj = new JSONObject();
-            
+
             obj.put("id", q.getId());
-            
+
             obj.put("answertype", q.getAnswertype());
-            
+
             JSONArray question = new JSONArray();
             JSONObject qust = new JSONObject();
             qust.put("language", "en");
             qust.put("string", q.getText());
             question.add(qust);
             obj.put("question", question);
-            
+
             JSONArray modifiers = new JSONArray();
             for (String m : q.getModifiers()) {
                 JSONObject mod = new JSONObject();
                 modifiers.add(m);
             }
             obj.put("modifiers", modifiers);
-            
+
             JSONObject query = new JSONObject();
             query.put("sparql", q.getQuery());
             obj.put("query", query);
-            
+
             JSONArray answers = new JSONArray();
             List<Answer> answer = q.getAnswers();
             if (!answer.isEmpty()) {
@@ -126,14 +126,14 @@ public class QaldIO {
                 }
             } else {
                 JSONObject answerObj = q.getAnswerObj();
-                
+
                 JSONObject ans = new JSONObject();
                 ans.put("type", "boolean");
                 ans.put("value", answerObj.get("boolean").toString());
                 answers.add(ans);
             }
             obj.put("answers", answers);
-            
+
             questionsArray.add(obj);
         }
         fileObj.put("questions", questionsArray);
@@ -151,7 +151,7 @@ public class QaldIO {
             System.out.println("ansType: " + q.getAnswertype());
             System.out.println("query: " + q.getQuery());
             System.out.println("text: " + q.getText());
-            
+
             int i = 0;
             for (Answer a : q.getAnswers()) {
                 System.out.println("ans" + i + " " + a.getText() + "\ttype:" + a.getType());
@@ -169,21 +169,22 @@ public class QaldIO {
      */
     public static List<Question> read(File inputFile) throws IOException {
         List<Question> questions = new ArrayList<>();
-        
+
         try {
             JSONParser parser = new JSONParser();
             JSONObject data = (JSONObject) parser.parse(new FileReader(inputFile));
-            
+
             System.out.println("Reading " + inputFile + " ...");
-            
+
             JSONArray qs = (JSONArray) data.get("questions");
             Iterator it = qs.iterator();
-            
+
             while (it.hasNext()) {
                 Question question = new Question();
                 JSONObject q = (JSONObject) it.next();
-                
+
                 question.setId(q.get("id").toString());
+              
                 question.setAnswertype((String) q.get("answertype"));
 //                question.setAggregation((boolean) q.get("aggregation"));
 //                question.setOnlydbo((boolean) q.get("onlydbo"));
@@ -214,25 +215,25 @@ public class QaldIO {
                     Iterator it_bin = bindings.iterator();
                     while (it_bin.hasNext()) {
                         JSONObject binding = (JSONObject) it_bin.next();
-                        
                         String key = (String) binding.keySet().iterator().next();
-                        
+
                         JSONObject single_bind = (JSONObject) binding.get(key);
                         Answer ans = new Answer((String) single_bind.get("value"), (String) single_bind.get("type"));
                         answers.add(ans);
+
                     }
-                    
+
                 }
-                
+
                 question.setAnswers(answers);
-                
+
                 questions.add(question);
             }
-            
+
         } catch (ParseException ex) {
             Logger.getLogger(QaldIO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return questions;
     }
     
@@ -243,16 +244,16 @@ public class QaldIO {
         for (Question q : train) {
             trainQuestions.add(q.getText());
         }
-        
+
         FileWriter writer = new FileWriter("/home/lucia/data/QALD/qald_test_7_8_9_filtered.json");
         JSONObject fileObj = new JSONObject();
         JSONArray questionsArray = new JSONArray();
-        
+
         JSONParser parser = new JSONParser();
         JSONObject data = (JSONObject) parser.parse(new FileReader("/home/lucia/data/QALD/qald_test_7_8_9.json"));
         JSONArray qs = (JSONArray) data.get("questions");
         Iterator it = qs.iterator();
-        
+
         int totalnumber = 0;
         int contained = 0;
         int i = 1;
@@ -284,7 +285,7 @@ public class QaldIO {
         writer.close();
         System.out.println("total number: " + totalnumber);
         System.out.println("contained: " + contained);
-        
+
     }
     
     // merge dei dataset quello passato per primo e quello più aggiornato quindi non viene fatto il replace della domanda
@@ -298,7 +299,7 @@ public class QaldIO {
         directoryListing.add(new File("/home/lucia/data/QALD/allQALD/train/qald9_train.json"));
         directoryListing.add(new File("/home/lucia/data/QALD/allQALD/train/qald8_train.json"));
         directoryListing.add(new File("/home/lucia/data/QALD/allQALD/train/qald7_train.json"));
-        
+
         JSONParser parser = new JSONParser();
         List<String> storedQuestions = new ArrayList<>();
         int contained = 0;
@@ -309,7 +310,7 @@ public class QaldIO {
             JSONObject data = (JSONObject) parser.parse(new FileReader(f));
             JSONArray qs = (JSONArray) data.get("questions");
             Iterator it = qs.iterator();
-            
+
             while (it.hasNext()) {
                 totalnumber++;
                 JSONObject q = (JSONObject) it.next();
@@ -333,7 +334,7 @@ public class QaldIO {
                     System.out.println("*");
                     contained++;
                 }
-                
+
             }
         }
         fileObj.put("questions", questionsArray);
@@ -347,7 +348,7 @@ public class QaldIO {
     // IMPR: modifier caricati da file
     // non utilizzando come input
     public static void createCSV(File file) throws Exception {
-        FileWriter fw = new FileWriter(new File("/home/lucia/data/QALD/qald_7_8_9_all_mod.csv"));
+        FileWriter fw = new FileWriter(new File("/home/lucia/data/QALD/csv_qald_train_7_8_9_MODS.csv"));
         BufferedWriter bw = new BufferedWriter(fw);
         CSVPrinter csvPrinter = new CSVPrinter(bw, CSVFormat.TDF.withHeader("id", "question", "sparql", "ask", "bind", "filter", "having", "group by", "union", "limit", "offset", "order by", "count", "now", "year"));
         List<String> modsLabes = new ArrayList<>();
@@ -363,22 +364,22 @@ public class QaldIO {
         modsLabes.add(9, "COUNT");
         modsLabes.add(10, "NOW");
         modsLabes.add(11, "YEAR");
-        
+
         JSONParser parser = new JSONParser();
         JSONObject data = (JSONObject) parser.parse(new FileReader(file));
-        
+
         System.out.println("Reading " + file + " ...");
-        
+
         JSONArray qs = (JSONArray) data.get("questions");
         Iterator it = qs.iterator();
-        
+
         while (it.hasNext()) {
             JSONObject q = (JSONObject) it.next();
-            
+
             String id = String.valueOf(q.get("id"));
             String questionText = "";
             JSONArray questionJson = (JSONArray) q.get("question");
-            
+
             Iterator it_elem = questionJson.iterator();
             while (it_elem.hasNext()) {
                 JSONObject q_obj = (JSONObject) it_elem.next();
@@ -387,7 +388,7 @@ public class QaldIO {
                     questionText = (String) q_obj.get("string");
                 }
             }
-            
+
             List<String> mods = new ArrayList<>();
             mods.add(0, "");
             mods.add(1, "");
@@ -401,11 +402,11 @@ public class QaldIO {
             mods.add(9, "");
             mods.add(10, "");
             mods.add(11, "");
-            
+
             for (String ml : modsLabes) {
                 JSONArray jsonMods = (JSONArray) q.get("modifiers");
                 Iterator iterator = jsonMods.iterator();
-                
+
                 while (iterator.hasNext()) {
                     String m = (String) iterator.next();
                     if (m.equals(ml)) {
@@ -413,15 +414,15 @@ public class QaldIO {
                     }
                 }
             }
-            
+
             JSONObject query = (JSONObject) q.get("query");
             String queryText = (String) query.get("sparql");
-            
+
             csvPrinter.printRecord(id, questionText, queryText, mods.get(0), mods.get(1), mods.get(2), mods.get(3), mods.get(4), mods.get(5), mods.get(6), mods.get(7), mods.get(8), mods.get(9), mods.get(10), mods.get(11));
-            
+
         }
         csvPrinter.flush();
         csvPrinter.close();
     }
-    
+
 }

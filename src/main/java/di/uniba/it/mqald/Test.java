@@ -22,10 +22,10 @@ public class Test {
     public static void main(String[] args) {
         try {
 
-            // QaldIO.mergeDatasets(new File("/home/lucia/data/QALD/allQALD/train"));
+            QaldIO.mergeDatasets(new File("/home/lucia/data/QALD/allQALD/train"));
             // QaldIO.filterDataset();
-            QaldIO.filterModifiers(new File("/home/lucia/data/QALD/qald_train_7_8_9.json"));
-            //QaldIO.createCSV(new File("/home/lucia/data/QALD/qald_7_8_9_all_mods.json"));
+            //QaldIO.filterModifiers(new File("/home/lucia/data/QALD/qald_train_7_8_9.json"));
+            QaldIO.createCSV(new File("/home/lucia/data/QALD/qald_train_7_8_9_MODS.json"));
 
             //QaldIO.write(modQuestions, new File("/home/lucia/data/QALD/modDataset/qald9_test_modQuestions.json"));
             //QaldIO.mergeDatasets(new File("/home/lucia/data/QALD/allQALD"));

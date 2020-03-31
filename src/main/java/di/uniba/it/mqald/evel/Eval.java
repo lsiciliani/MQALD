@@ -9,6 +9,7 @@ import di.uniba.it.mqald.QaldIO;
 import di.uniba.it.mqald.Question;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
@@ -42,6 +43,7 @@ public class Eval {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        List<Question> answeredQuestions = new ArrayList<>();
         try {
             CommandLine cmd = cmdParser.parse(options, args);
             if (cmd.hasOption("g") && cmd.hasOption("s")) {
@@ -61,6 +63,9 @@ public class Eval {
                             if (gq.getId().equals(sq.getId())) {
                                 LOG.log(Level.INFO, "Quesiton id: {0}", gq.getId());
                                 EvalMetrics r = QaldEval.compareAnswersJSON(gq.getAnswerObj(), sq.getAnswerObj());
+                                if (r.getF() != 0) {
+                                    answeredQuestions.add(goldQuesitons.get(i));
+                                }
                                 System.out.println(r.toString());
                                 m.add(r);
                             } else {
@@ -72,6 +77,11 @@ public class Eval {
                         m.div(goldQuesitons.size());
                         System.out.println(m.toString());
                         System.out.println("F-QALD: "+EvalMetrics.computeF1(m.getPrecision(), m.getRecall()));
+                        System.out.println("# answered questions: " + answeredQuestions.size());
+                        for (Question q : answeredQuestions) {
+                            System.out.println("Answered");
+                            System.out.println("ID: " + q.getId() + "   " + q.getText());
+                        }
                     } else {
                         LOG.log(Level.WARNING, "Gold and sysytem have different size");
                     }

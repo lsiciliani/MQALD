@@ -7,6 +7,7 @@ package di.uniba.it.mqald.qasystems;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -41,14 +42,21 @@ public class TeBaQA {
             con.setDoOutput(true);
             con.setConnectTimeout(1000 * 60);
             con.setReadTimeout(1000 * 60);
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
+            if (question.equals("Give me all people that were born in Vienna and died in Berlin."))
+                System.out.println("here");
             StringBuilder response = new StringBuilder();
-            String responseLine = null;
-            while ((responseLine = br.readLine()) != null) {
-                response.append(responseLine.trim());
+            int code = con.getResponseCode();
+            if (code != 500){
+                BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
+                
+                String responseLine = null;
+                while ((responseLine = br.readLine()) != null) {
+                    response.append(responseLine.trim());
+                }
+                con.disconnect();
+            } else {
+                response.append("{\"questions\":[{\"question\":{\"answers\":\"{\\\"head\\\":{\\\"vars\\\":[\\\"x\\\"]},\\\"results\\\":{\\\"bindings\\\":[]}}\"}}]}");
             }
-            con.disconnect();
             //System.out.println(response.toString());
 
             JSONParser parser = new JSONParser();
