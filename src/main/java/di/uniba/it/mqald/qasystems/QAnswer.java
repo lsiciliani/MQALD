@@ -43,12 +43,18 @@ public class QAnswer {
             con.setDoOutput(true);
             con.setConnectTimeout(1000 * 60);
             con.setReadTimeout(1000 * 60);
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
             StringBuilder response = new StringBuilder();
-            String responseLine = null;
-            while ((responseLine = br.readLine()) != null) {
-                response.append(responseLine.trim());
+
+            int code = con.getResponseCode();
+            if (code != 500){
+                BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
+
+                String responseLine = null;
+                while ((responseLine = br.readLine()) != null) {
+                    response.append(responseLine.trim());
+                }
+            } else {
+                response.append("{\"questions\":[{\"question\":{\"answers\":\"{\\\"head\\\":{\\\"vars\\\":[\\\"x\\\"]},\\\"results\\\":{\\\"bindings\\\":[]}}\"}}]}");
             }
             con.disconnect();
             //System.out.println(response.toString());
@@ -58,15 +64,13 @@ public class QAnswer {
 
             JSONObject output = fixJSONOutput(apians);
             JSONArray questions = (JSONArray) output.get("questions");
-            JSONObject questionObj = (JSONObject)questions.get(0);
+            JSONObject questionObj = (JSONObject) questions.get(0);
             JSONObject ansObj = (JSONObject) questionObj.get("question");
 
-            
             JSONArray questionsArray = new JSONArray();
             questionsArray.add(ansObj);
             answer.put("questions", questionsArray);
-            
-           
+
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(GAnswer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException ex) {
@@ -85,17 +89,21 @@ public class QAnswer {
         JSONObject question = (JSONObject) questions.get(0);
         JSONObject qObj = (JSONObject) question.get("question");
         String answerString = (String) qObj.get("answers");
-        if (answerString == null)
+        if (answerString == null) {
             answerString = "{\"head\":{\"vars\":[\"uri\"]},\"results\":{\"bindings\":[]}}";
+        }
+        answerString = answerString.replaceAll("\\s", "");
+        if (answerString.contains("\"bindings\":[{}]")) {
+            answerString = answerString.replace("\"bindings\":[{}]", "\"bindings\":[]");
+        }
         JSONObject ans = (JSONObject) parser.parse(answerString);
 
-        
         qObj.remove("answers");
 
         JSONArray answers = new JSONArray();
         answers.add(ans);
         qObj.put("answers", answers);
-        
+
         return output;
     }
 }

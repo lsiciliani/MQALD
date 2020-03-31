@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONArray;
@@ -44,10 +45,10 @@ public class TestQAAPI {
                     //JSONObject answersToQuestion = GanswerQASystem.getInstance().getAnswersToQuestion(q, "en");
                     //JSONObject answersToQuestion = QAnswerQASystem.getInstance().getAnswersToQuestion(q, "en");
                     
-                    
                     //JSONObject answersToQuestion = GAnswer.getAPIAnswer(question.getText());
-                   //JSONObject answersToQuestion = QAnswer.getAPIAnswer(question.getText());
-                   JSONObject answersToQuestion = TeBaQA.getAPIAnswer(question.getText());
+                
+                   JSONObject answersToQuestion = QAnswer.getAPIAnswer(question.getText());
+                   //JSONObject answersToQuestion = TeBaQA.getAPIAnswer(question.getText());
 
 
                     JSONArray questionsA = (JSONArray) answersToQuestion.get("questions");
