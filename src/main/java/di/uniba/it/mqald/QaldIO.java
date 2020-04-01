@@ -32,21 +32,18 @@
  * GNU GENERAL PUBLIC LICENSE - Version 3, 29 June 2007
  *
  */
-
 package di.uniba.it.mqald;
 
-import di.uniba.it.mqald.Answer;
-import di.uniba.it.mqald.Question;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.csv.CSVFormat;
@@ -66,15 +63,26 @@ import org.json.simple.parser.ParseException;
  * @author lucia
  */
 public class QaldIO {
-    
-    // dato il file di input crea due output uno con modifier l'altro senza modifier
-    public static void filterModifiers(File inputFile) throws Exception {
-        FileWriter writer = new FileWriter("/home/lucia/data/QALD/qald_train_7_8_9_MODS.json");
-        JSONObject fileObj = new JSONObject();
+
+    private static final Logger LOG = Logger.getLogger(QaldIO.class.getName());
+
+    /**
+     * Given an input file, this method produces two files: one with queries
+     * that contain modifiers and another one containing queries without
+     * modifiers
+     *
+     * @param inputFile Input file
+     * @param outputModFile Output file with modifiers
+     * @param outputFile Output file without modifiers
+     * @throws Exception
+     */
+    public static void filterModifiers(File inputFile, File outputModFile, File outputFile) throws Exception {
+        FileWriter writerMod = new FileWriter(outputModFile);
+        JSONObject modsFileObj = new JSONObject();
         JSONArray questionsArray = new JSONArray();
         int qModsID = 1;
 
-        FileWriter noModsWriter = new FileWriter("/home/lucia/data/QALD/qald_train_7_8_9_NO_MODS.json");
+        FileWriter noModsWriter = new FileWriter(outputFile);
         JSONObject noModsFileObj = new JSONObject();
         JSONArray noModsQuestionsArray = new JSONArray();
         int noModsID = 1;
@@ -82,7 +90,7 @@ public class QaldIO {
         JSONParser parser = new JSONParser();
         JSONObject data = (JSONObject) parser.parse(new FileReader(inputFile));
 
-        System.out.println("***Reading " + inputFile + " ...");
+        LOG.log(Level.INFO, "Reading file: {0}", inputFile);
 
         JSONArray qs = (JSONArray) data.get("questions");
         Iterator it = qs.iterator();
@@ -111,18 +119,25 @@ public class QaldIO {
             }
         }
 
-        fileObj.put("questions", questionsArray);
-        writer.write(fileObj.toJSONString());
-        writer.close();
+        modsFileObj.put("questions", questionsArray);
+        writerMod.write(modsFileObj.toJSONString());
+        writerMod.close();
 
         noModsFileObj.put("questions", noModsQuestionsArray);
         noModsWriter.write(noModsFileObj.toJSONString());
         noModsWriter.close();
     }
-    
-    //salva question in un file
-    public static void write(List<Question> questions, File file) throws IOException {
-        FileWriter writer = new FileWriter(file);
+
+    /**
+     * Save a list of questions into an outputFile. The output file will contain
+     * information about modifiers for each query
+     *
+     * @param questions List of questions
+     * @param outputFile Output outputFile
+     * @throws IOException
+     */
+    public static void write(List<Question> questions, File outputFile) throws IOException {
+        FileWriter writer = new FileWriter(outputFile);
         JSONObject fileObj = new JSONObject();
         JSONArray questionsArray = new JSONArray();
         for (Question q : questions) {
@@ -141,7 +156,6 @@ public class QaldIO {
 
             JSONArray modifiers = new JSONArray();
             for (String m : q.getModifiers()) {
-                JSONObject mod = new JSONObject();
                 modifiers.add(m);
             }
             obj.put("modifiers", modifiers);
@@ -180,7 +194,7 @@ public class QaldIO {
      *
      * @param questions
      */
-    public static void prettyPrint(List<Question> questions) {
+    /*public static void prettyPrint(List<Question> questions) {
         for (Question q : questions) {
             System.out.println("id: " + q.getId());
             System.out.println("ansType: " + q.getAnswertype());
@@ -194,37 +208,30 @@ public class QaldIO {
             }
             System.out.println("\n\n\n");
         }
-    }
-
+    }*/
     /**
+     * Read a QALD JSON file and return a list of questions
      *
-     * @param inputFile
-     * @return
+     * @param inputFile Input QALD file
+     * @return List of questions
      * @throws IOException
      */
     public static List<Question> read(File inputFile) throws IOException {
         List<Question> questions = new ArrayList<>();
-
         try {
             JSONParser parser = new JSONParser();
             JSONObject data = (JSONObject) parser.parse(new FileReader(inputFile));
-
-            System.out.println("Reading " + inputFile + " ...");
-
+            LOG.log(Level.INFO, "Reading file: {0}", inputFile);
             JSONArray qs = (JSONArray) data.get("questions");
             Iterator it = qs.iterator();
-
             while (it.hasNext()) {
                 Question question = new Question();
                 JSONObject q = (JSONObject) it.next();
-
                 question.setId(q.get("id").toString());
-              
                 question.setAnswertype((String) q.get("answertype"));
-//                question.setAggregation((boolean) q.get("aggregation"));
-//                question.setOnlydbo((boolean) q.get("onlydbo"));
-//                question.setHybrid((boolean) q.get("hybrid"));
-
+                //question.setAggregation((boolean) q.get("aggregation"));
+                //question.setOnlydbo((boolean) q.get("onlydbo"));
+                //question.setHybrid((boolean) q.get("hybrid"));
                 if (q.containsKey("question")) {
                     JSONArray elem = (JSONArray) q.get("question");
                     Iterator it_elem = elem.iterator();
@@ -251,41 +258,43 @@ public class QaldIO {
                     while (it_bin.hasNext()) {
                         JSONObject binding = (JSONObject) it_bin.next();
                         String key = (String) binding.keySet().iterator().next();
-
                         JSONObject single_bind = (JSONObject) binding.get(key);
                         Answer ans = new Answer((String) single_bind.get("value"), (String) single_bind.get("type"));
                         answers.add(ans);
-
                     }
-
                 }
-
                 question.setAnswers(answers);
-
                 questions.add(question);
             }
-
         } catch (ParseException ex) {
             Logger.getLogger(QaldIO.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return questions;
     }
-    
+
     //togli dal test tutte le query che stanno nel traning
-    public static void filterDataset() throws Exception {
-        List<Question> train = QaldIO.read(new File("/home/lucia/data/QALD/qald_train_7_8_9.json"));
+    /**
+     * This method removes from the testing all the queries that occur into the
+     * training
+     *
+     * @param testingFile Testing file
+     * @param trainingFile Training file
+     * @param outputFile Output file
+     * @throws Exception
+     */
+    public static void filterDataset(File testingFile, File trainingFile, File outputFile) throws Exception {
+        List<Question> train = QaldIO.read(trainingFile);
         List<String> trainQuestions = new ArrayList<>();
         for (Question q : train) {
             trainQuestions.add(q.getText());
         }
 
-        FileWriter writer = new FileWriter("/home/lucia/data/QALD/qald_test_7_8_9_filtered.json");
+        FileWriter writer = new FileWriter(outputFile);
         JSONObject fileObj = new JSONObject();
         JSONArray questionsArray = new JSONArray();
 
         JSONParser parser = new JSONParser();
-        JSONObject data = (JSONObject) parser.parse(new FileReader("/home/lucia/data/QALD/qald_test_7_8_9.json"));
+        JSONObject data = (JSONObject) parser.parse(new FileReader(testingFile));
         JSONArray qs = (JSONArray) data.get("questions");
         Iterator it = qs.iterator();
 
@@ -305,43 +314,48 @@ public class QaldIO {
                     qString = (String) questionLanguage.get("string");
                 }
             }
-            System.out.println(qString);
+            LOG.info(qString);
             if (!trainQuestions.contains(qString)) {
                 q.replace("id", i);
                 i++;
                 questionsArray.add(q);
             } else {
-                System.out.println("*");
+                LOG.info("*");
                 contained++;
             }
         }
         fileObj.put("questions", questionsArray);
         writer.write(fileObj.toJSONString());
         writer.close();
-        System.out.println("total number: " + totalnumber);
-        System.out.println("contained: " + contained);
+        LOG.log(Level.INFO, "total number: {0}", totalnumber);
+        LOG.log(Level.INFO, "contained: {0}", contained);
 
     }
-    
-    // merge dei dataset quello passato per primo e quello più aggiornato quindi non viene fatto il replace della domanda
-    public static void mergeDatasets(File dir) throws Exception {
-        FileWriter writer = new FileWriter("/home/lucia/data/QALD/qald_train_7_8_9.json");
+
+    /**
+     * This method merges several QALD files. IMPORTANT: The order of input
+     * files is relevant. The first input file should be the most recent QALD
+     * dataset.
+     *
+     * @param outputFile Output file
+     * @param inputFiles Input files
+     * @throws Exception
+     */
+    public static void mergeDatasets(File outputFile, File... inputFiles) throws Exception {
+        FileWriter writer = new FileWriter(outputFile);
         JSONObject fileObj = new JSONObject();
         JSONArray questionsArray = new JSONArray();
-
-        //File[] directoryListing = dir.listFiles();
-        List<File> directoryListing = new ArrayList<>();
-        directoryListing.add(new File("/home/lucia/data/QALD/allQALD/train/qald9_train.json"));
-        directoryListing.add(new File("/home/lucia/data/QALD/allQALD/train/qald8_train.json"));
-        directoryListing.add(new File("/home/lucia/data/QALD/allQALD/train/qald7_train.json"));
-
+        List<File> files = new ArrayList<>();
+        for (File f : inputFiles) {
+            files.add(f);
+        }
         JSONParser parser = new JSONParser();
         List<String> storedQuestions = new ArrayList<>();
         int contained = 0;
         int totalnumber = 0;
         int i = 1;
-        for (File f : directoryListing) {
-            System.out.println("******" + f.getCanonicalPath());
+        for (File f : files) {
+            LOG.log(Level.INFO, "Reading: {0}", f.getName());
             JSONObject data = (JSONObject) parser.parse(new FileReader(f));
             JSONArray qs = (JSONArray) data.get("questions");
             Iterator it = qs.iterator();
@@ -359,14 +373,14 @@ public class QaldIO {
                         qString = (String) questionLanguage.get("string");
                     }
                 }
-                System.out.println(qString);
+                LOG.info(qString);
                 if (!storedQuestions.contains(qString.toLowerCase())) {
                     storedQuestions.add(qString.toLowerCase());
                     q.replace("id", i);
                     i++;
                     questionsArray.add(q);
                 } else {
-                    System.out.println("*");
+                    LOG.info("*");
                     contained++;
                 }
 
@@ -375,35 +389,34 @@ public class QaldIO {
         fileObj.put("questions", questionsArray);
         writer.write(fileObj.toJSONString());
         writer.close();
-        System.out.println("total number: " + totalnumber);
-        System.out.println("contained: " + contained);
+        LOG.log(Level.INFO, "total number: {0}", totalnumber);
+        LOG.log(Level.INFO, "contained: {0}", contained);
     }
-    
-    // crea CSV con statistiche modifier
-    // IMPR: modifier caricati da file
-    // non utilizzando come input
-    public static void createCSV(File file) throws Exception {
-        FileWriter fw = new FileWriter(new File("/home/lucia/data/QALD/csv_qald_train_7_8_9_MODS.csv"));
+
+    /**
+     * This method creates a CSV file that contains information about modifiers
+     * for each query occurring into the input file (QALD JSON)
+     *
+     * @param inputFile Input file
+     * @param outputFile Output CSV file
+     * @throws Exception
+     */
+    public static void createCSV(File inputFile, File outputFile) throws Exception {
+        FileWriter fw = new FileWriter(inputFile);
         BufferedWriter bw = new BufferedWriter(fw);
-        CSVPrinter csvPrinter = new CSVPrinter(bw, CSVFormat.TDF.withHeader("id", "question", "sparql", "ask", "bind", "filter", "having", "group by", "union", "limit", "offset", "order by", "count", "now", "year"));
-        List<String> modsLabes = new ArrayList<>();
-        modsLabes.add(0, "ASK");
-        modsLabes.add(1, "BIND");
-        modsLabes.add(2, "FILTER");
-        modsLabes.add(3, "HAVING");
-        modsLabes.add(4, "GROUP BY");
-        modsLabes.add(5, "UNION");
-        modsLabes.add(6, "LIMIT");
-        modsLabes.add(7, "OFFSET");
-        modsLabes.add(8, "ORDER BY");
-        modsLabes.add(9, "COUNT");
-        modsLabes.add(10, "NOW");
-        modsLabes.add(11, "YEAR");
+        Set<String> modSet = Utils.loadModifiersFromFile(new File("modifiers"));
+        String[] modsLabels = modSet.toArray(new String[modSet.size()]);
+        String[] header = new String[modsLabels.length + 3];
+        header[0] = "id";
+        header[1] = "question";
+        header[2] = "sparql";
+        System.arraycopy(modsLabels, 0, header, 3, modsLabels.length);
+        CSVPrinter csvPrinter = new CSVPrinter(bw, CSVFormat.TDF.withHeader(header));
 
         JSONParser parser = new JSONParser();
-        JSONObject data = (JSONObject) parser.parse(new FileReader(file));
+        JSONObject data = (JSONObject) parser.parse(new FileReader(outputFile));
 
-        System.out.println("Reading " + file + " ...");
+        System.out.println("Reading " + outputFile + " ...");
 
         JSONArray qs = (JSONArray) data.get("questions");
         Iterator it = qs.iterator();
@@ -424,28 +437,17 @@ public class QaldIO {
                 }
             }
 
-            List<String> mods = new ArrayList<>();
-            mods.add(0, "");
-            mods.add(1, "");
-            mods.add(2, "");
-            mods.add(3, "");
-            mods.add(4, "");
-            mods.add(5, "");
-            mods.add(6, "");
-            mods.add(7, "");
-            mods.add(8, "");
-            mods.add(9, "");
-            mods.add(10, "");
-            mods.add(11, "");
+            String[] mods = new String[modsLabels.length];
+            Arrays.fill(mods, "0");
 
-            for (String ml : modsLabes) {
+            for (int k = 0; k < modsLabels.length; k++) {
                 JSONArray jsonMods = (JSONArray) q.get("modifiers");
                 Iterator iterator = jsonMods.iterator();
 
                 while (iterator.hasNext()) {
                     String m = (String) iterator.next();
-                    if (m.equals(ml)) {
-                        mods.add(modsLabes.indexOf(ml), "x");
+                    if (m.equals(modsLabels[k])) {
+                        mods[k] = "1";
                     }
                 }
             }
@@ -453,7 +455,13 @@ public class QaldIO {
             JSONObject query = (JSONObject) q.get("query");
             String queryText = (String) query.get("sparql");
 
-            csvPrinter.printRecord(id, questionText, queryText, mods.get(0), mods.get(1), mods.get(2), mods.get(3), mods.get(4), mods.get(5), mods.get(6), mods.get(7), mods.get(8), mods.get(9), mods.get(10), mods.get(11));
+            String[] values = new String[mods.length + 3];
+            values[0] = id;
+            values[1] = questionText;
+            values[2] = queryText;
+            System.arraycopy(mods, 0, values, 3, mods.length);
+
+            csvPrinter.printRecord((Object) values);
 
         }
         csvPrinter.flush();

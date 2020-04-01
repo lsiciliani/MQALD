@@ -32,13 +32,13 @@
  * GNU GENERAL PUBLIC LICENSE - Version 3, 29 June 2007
  *
  */
-
 package di.uniba.it.mqald;
-
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -47,8 +47,10 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -68,6 +70,11 @@ import org.json.simple.parser.JSONParser;
  */
 public class Utils {
 
+    /**
+     *
+     * @param query
+     * @return
+     */
     public static List<String> checkFilters(String query) {
         List<String> modifiers = new ArrayList<>();
 
@@ -137,5 +144,23 @@ public class Utils {
         return modifiers;
     }
 
-   
+    /**
+     *
+     * @param inputFile
+     * @return
+     * @throws IOException
+     */
+    public static Set<String> loadModifiersFromFile(File inputFile) throws IOException {
+        Set<String> set = new HashSet<>();
+        BufferedReader in = new BufferedReader(new FileReader(inputFile));
+        while (in.ready()) {
+            String line = in.readLine().trim();
+            if (!line.startsWith("#")) {
+                set.add(line);
+            }
+        }
+        in.close();
+        return set;
+    }
+
 }

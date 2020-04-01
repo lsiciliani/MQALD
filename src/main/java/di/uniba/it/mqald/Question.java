@@ -32,19 +32,10 @@
  * GNU GENERAL PUBLIC LICENSE - Version 3, 29 June 2007
  *
  */
-
 package di.uniba.it.mqald;
-
 
 import java.util.List;
 import org.json.simple.JSONObject;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 
 /**
  *
@@ -65,7 +56,7 @@ public class Question {
     private String text;
 
     private String query;
-    
+
     private List<String> modifiers;
 
     private List<Answer> answers;
@@ -190,10 +181,18 @@ public class Question {
         this.query = query;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<String> getModifiers() {
         return modifiers;
     }
 
+    /**
+     *
+     * @param modifiers
+     */
     public void setModifiers(List<String> modifiers) {
         this.modifiers = modifiers;
     }
@@ -214,13 +213,20 @@ public class Question {
         this.answers = answers;
     }
 
+    /**
+     *
+     * @return
+     */
     public JSONObject getAnswerObj() {
         return answerObj;
     }
 
+    /**
+     *
+     * @param answerObj
+     */
     public void setAnswerObj(JSONObject answerObj) {
         this.answerObj = answerObj;
     }
 
 }
-

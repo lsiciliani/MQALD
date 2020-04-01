@@ -32,7 +32,6 @@
  * GNU GENERAL PUBLIC LICENSE - Version 3, 29 June 2007
  *
  */
-
 package di.uniba.it.mqald;
 
 /**
@@ -40,10 +39,10 @@ package di.uniba.it.mqald;
  * @author lucia
  */
 public class Answer {
-    
-     private String text;
-     
-     private String type;
+
+    private String text;
+
+    private String type;
 
     /**
      *
@@ -54,7 +53,7 @@ public class Answer {
         this.text = text;
         this.type = type;
     }
-    
+
     /**
      *
      * @param text
