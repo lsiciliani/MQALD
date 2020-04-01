@@ -32,7 +32,6 @@
  * GNU GENERAL PUBLIC LICENSE - Version 3, 29 June 2007
  *
  */
-
 package di.uniba.it.mqald.evel;
 
 import di.uniba.it.mqald.QaldIO;
@@ -66,7 +65,8 @@ public class Eval {
     static {
         options = new Options();
         options.addOption("g", true, "Gold file")
-                .addOption("s", true, "System file");
+                .addOption("s", true, "System file")
+                .addOption("v", false, "Verbose");
     }
 
     /**
@@ -91,12 +91,14 @@ public class Eval {
                             Question gq = goldQuesitons.get(i);
                             Question sq = sysQuesitons.get(i);
                             if (gq.getId().equals(sq.getId())) {
-                                LOG.log(Level.INFO, "Quesiton id: {0}", gq.getId());
                                 EvalMetrics r = QaldEval.compareAnswersJSON(gq.getAnswerObj(), sq.getAnswerObj());
                                 if (r.getF() != 0) {
                                     answeredQuestions.add(goldQuesitons.get(i));
                                 }
-                                System.out.println(r.toString());
+                                if (cmd.hasOption("v")) {
+                                    System.out.println("Quesiton id: " + gq.getId());
+                                    System.out.println(r.toString());
+                                }
                                 m.add(r);
                             } else {
                                 LOG.warning("Invalid id");
@@ -105,15 +107,18 @@ public class Eval {
                             i++;
                         }
                         m.div(goldQuesitons.size());
-                        System.out.println(m.toString());
-                        System.out.println("F-QALD: "+EvalMetrics.computeF1(m.getPrecision(), m.getRecall()));
-                        System.out.println("# answered questions: " + answeredQuestions.size());
-                        for (Question q : answeredQuestions) {
-                            System.out.println("Answered");
-                            System.out.println("ID: " + q.getId() + "   " + q.getText());
+                        if (cmd.hasOption("v")) {
+                            System.out.println("# answered questions: " + answeredQuestions.size());
+                            for (Question q : answeredQuestions) {
+                                System.out.println("Answered");
+                                System.out.println("ID: " + q.getId() + "   " + q.getText());
+                            }
                         }
+                        System.out.println("Results:");
+                        System.out.println(m.toString());
+                        System.out.println("F-QALD: " + EvalMetrics.computeF1(m.getPrecision(), m.getRecall()));
                     } else {
-                        LOG.log(Level.WARNING, "Gold and sysytem have different size");
+                        LOG.log(Level.WARNING, "Gold and system have different size");
                     }
                 } catch (IOException ex) {
                     LOG.log(Level.SEVERE, null, ex);

@@ -47,44 +47,88 @@ public class EvalMetrics {
 
     double f = 0;
 
+    /**
+     *
+     */
     public EvalMetrics() {
     }
 
+    /**
+     *
+     * @param precision
+     * @param recall
+     */
     public EvalMetrics(double precision, double recall) {
         this.precision = precision;
         this.recall = recall;
     }
 
+    /**
+     *
+     * @param precision
+     * @param recall
+     * @param f
+     */
     public EvalMetrics(double precision, double recall, double f) {
         this.precision = precision;
         this.recall = recall;
         this.f = f;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getPrecision() {
         return precision;
     }
 
+    /**
+     *
+     * @param precision
+     */
     public void setPrecision(double precision) {
         this.precision = precision;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getRecall() {
         return recall;
     }
 
+    /**
+     *
+     * @param recall
+     */
     public void setRecall(double recall) {
         this.recall = recall;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getF() {
         return f;
     }
 
+    /**
+     *
+     * @param f
+     */
     public void setF(double f) {
         this.f = f;
     }
 
+    /**
+     *
+     * @param p
+     * @param r
+     * @return
+     */
     public static double computeF1(double p, double r) {
         if ((p + r) == 0) {
             return 0;
@@ -93,12 +137,20 @@ public class EvalMetrics {
         }
     }
 
+    /**
+     *
+     * @param m
+     */
     public void add(EvalMetrics m) {
         this.precision += m.getPrecision();
         this.recall += m.getRecall();
         this.f += m.getF();
     }
 
+    /**
+     *
+     * @param n
+     */
     public void div(double n) {
         if (n != 0) {
             this.precision /= n;

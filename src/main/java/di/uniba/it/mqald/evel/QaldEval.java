@@ -46,13 +46,19 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 /**
- *
+ * This class implements the evaluation approach used in QALD-9
  * @author pierpaolo
  */
 public class QaldEval {
 
     private static final Logger LOG = Logger.getLogger(QaldEval.class.getName());
 
+    /**
+     *
+     * @param expectedAnswers
+     * @param systemAnswers
+     * @return
+     */
     public static EvalMetrics compareAnswersJSON(String expectedAnswers, String systemAnswers) {
         try {
             JSONParser parser = new JSONParser();
@@ -67,6 +73,12 @@ public class QaldEval {
         }
     }
 
+    /**
+     *
+     * @param expectedJson
+     * @param systemJson
+     * @return
+     */
     public static EvalMetrics compareAnswersJSON(JSONObject expectedJson, JSONObject systemJson) {
         double precision = 0;
         double recall = 0;
