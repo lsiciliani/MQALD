@@ -34,9 +34,16 @@
  */
 package di.uniba.it.mqald;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 /**
  *
@@ -44,24 +51,80 @@ import java.util.logging.Logger;
  */
 public class CreateDataset {
 
+    private static final Logger LOG = Logger.getLogger(CreateDataset.class.getName());
+
+    static Options options;
+
+    static CommandLineParser cmdParser = new DefaultParser();
+
+    static {
+        options = new Options();
+        options.addOption("d", true, "Resources directory");
+    }
+
     /**
      *
      * @param args
      */
     public static void main(String[] args) {
+
+        //QaldIO.mergeDatasets(new File("/home/lucia/data/QALD/allQALD/train"));
+        // QaldIO.filterDataset();
+        //QaldIO.filterModifiers(new File("/home/lucia/data/QALD/qald_train_7_8_9.json"));
+        //QaldIO.createCSV(new File("/home/lucia/data/QALD/qald_train_7_8_9_MODS.json"));
+        //QaldIO.write(modQuestions, new File("/home/lucia/data/QALD/modDataset/qald9_test_modQuestions.json"));
+        //QaldIO.mergeDatasets(new File("/home/lucia/data/QALD/allQALD"));
         try {
-
-            //QaldIO.mergeDatasets(new File("/home/lucia/data/QALD/allQALD/train"));
-            // QaldIO.filterDataset();
-            //QaldIO.filterModifiers(new File("/home/lucia/data/QALD/qald_train_7_8_9.json"));
-            //QaldIO.createCSV(new File("/home/lucia/data/QALD/qald_train_7_8_9_MODS.json"));
-
-            //QaldIO.write(modQuestions, new File("/home/lucia/data/QALD/modDataset/qald9_test_modQuestions.json"));
-            //QaldIO.mergeDatasets(new File("/home/lucia/data/QALD/allQALD"));
-            System.out.println("DONE!");
-
-        } catch (Exception ex) {
-            Logger.getLogger(CreateDataset.class.getName()).log(Level.SEVERE, null, ex);
+            CommandLine cmd = cmdParser.parse(options, args);
+            if (cmd.hasOption("d")) {
+                try {
+                    LOG.info("Check files...");
+                    for (int i = 7; i <= 9; i++) {
+                        File file = new File(cmd.getOptionValue("d") + "/qald-" + i + "-train-multilingual.json");
+                        if (!file.exists()) {
+                            throw new IOException("File not present: " + file.getCanonicalPath());
+                        }
+                        file = new File(cmd.getOptionValue("d") + "/qald-" + i + "-test-multilingual.json");
+                        if (!file.exists()) {
+                            throw new IOException("File not present: " + file.getCanonicalPath());
+                        }
+                        LOG.info("Merge training...");
+                        QaldIO.mergeDatasets(new File(cmd.getOptionValue("d") + "/train-merge-multilingual.json"),
+                                new File(cmd.getOptionValue("d") + "/qald-9-train-multilingual.json"),
+                                new File(cmd.getOptionValue("d") + "/qald-8-train-multilingual.json"),
+                                new File(cmd.getOptionValue("d") + "/qald-7-train-multilingual.json"));
+                        LOG.info("Merget test...");
+                        QaldIO.mergeDatasets(new File(cmd.getOptionValue("d") + "/test-pre-merge-multilingual.json"),
+                                new File(cmd.getOptionValue("d") + "/qald-9-test-multilingual.json"),
+                                new File(cmd.getOptionValue("d") + "/qald-8-test-multilingual.json"),
+                                new File(cmd.getOptionValue("d") + "/qald-7-test-multilingual.json"));
+                        LOG.info("Filtering test...");
+                        QaldIO.filterDataset(new File(cmd.getOptionValue("d") + "/test-pre-merge-multilingual.json"),
+                                new File(cmd.getOptionValue("d") + "/train-merge-multilingual.json"),
+                                new File(cmd.getOptionValue("d") + "/test-merge-multilingual.json"));
+                        new File(cmd.getOptionValue("d") + "/test-pre-merge-multilingual.json").delete();
+                        LOG.info("Filtering modifiers...");
+                        QaldIO.filterModifiers(new File(cmd.getOptionValue("d") + "/train-merge-multilingual.json"),
+                                new File(cmd.getOptionValue("d") + "/train-merge-MOD-multilingual.json"),
+                                new File(cmd.getOptionValue("d") + "/train-merge-NOMOD-multilingual.json"));
+                        QaldIO.filterModifiers(new File(cmd.getOptionValue("d") + "/test-merge-multilingual.json"),
+                                new File(cmd.getOptionValue("d") + "/test-merge-MOD-multilingual.json"),
+                                new File(cmd.getOptionValue("d") + "/test-merge-NOMOD-multilingual.json"));
+                        LOG.info("Create CSV...");
+                        QaldIO.createCSV(new File(cmd.getOptionValue("d") + "/train-merge-MOD-multilingual.json"),
+                                new File(cmd.getOptionValue("d") + "/train-merge-MOD-multilingual.csv"));
+                        QaldIO.createCSV(new File(cmd.getOptionValue("d") + "/test-merge-MOD-multilingual.json"),
+                                new File(cmd.getOptionValue("d") + "/test-merge-MOD-multilingual.csv"));
+                    }
+                } catch (Exception ex) {
+                    LOG.log(Level.SEVERE, null, ex);
+                }
+            } else {
+                HelpFormatter helpFormatter = new HelpFormatter();
+                helpFormatter.printHelp("Create dataset", options, true);
+            }
+        } catch (ParseException ex) {
+            LOG.log(Level.SEVERE, null, ex);
         }
     }
 

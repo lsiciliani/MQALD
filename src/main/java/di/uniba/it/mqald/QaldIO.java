@@ -113,6 +113,7 @@ public class QaldIO {
             } else {
 
                 q.replace("id", noModsID);
+                q.put("modifiers", new JSONArray());
                 noModsQuestionsArray.add(q);
                 noModsID++;
 
@@ -402,7 +403,7 @@ public class QaldIO {
      * @throws Exception
      */
     public static void createCSV(File inputFile, File outputFile) throws Exception {
-        FileWriter fw = new FileWriter(inputFile);
+        FileWriter fw = new FileWriter(outputFile);
         BufferedWriter bw = new BufferedWriter(fw);
         Set<String> modSet = Utils.loadModifiersFromFile(new File("modifiers"));
         String[] modsLabels = modSet.toArray(new String[modSet.size()]);
@@ -411,12 +412,12 @@ public class QaldIO {
         header[1] = "question";
         header[2] = "sparql";
         System.arraycopy(modsLabels, 0, header, 3, modsLabels.length);
-        CSVPrinter csvPrinter = new CSVPrinter(bw, CSVFormat.TDF.withHeader(header));
+        CSVPrinter csvPrinter = new CSVPrinter(bw, CSVFormat.DEFAULT.withDelimiter(',').withQuote('"').withHeader(header));
 
         JSONParser parser = new JSONParser();
-        JSONObject data = (JSONObject) parser.parse(new FileReader(outputFile));
+        JSONObject data = (JSONObject) parser.parse(new FileReader(inputFile));
 
-        System.out.println("Reading " + outputFile + " ...");
+        System.out.println("Reading " + inputFile + " ...");
 
         JSONArray qs = (JSONArray) data.get("questions");
         Iterator it = qs.iterator();
@@ -461,8 +462,7 @@ public class QaldIO {
             values[2] = queryText;
             System.arraycopy(mods, 0, values, 3, mods.length);
 
-            csvPrinter.printRecord((Object) values);
-
+            csvPrinter.printRecord(values);
         }
         csvPrinter.flush();
         csvPrinter.close();
