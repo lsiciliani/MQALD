@@ -10,6 +10,7 @@ Without this configuration present, some functionality in the IDE may be limited
         <configurations>
             <configuration id="evaluation" profiles=""/>
             <configuration id="genfil" profiles=""/>
+            <configuration id="mqald" profiles=""/>
         </configurations>
     </config-data>
     <properties xmlns="http://www.netbeans.org/ns/maven-properties-data/1">

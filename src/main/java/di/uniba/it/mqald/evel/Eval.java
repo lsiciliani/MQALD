@@ -92,7 +92,7 @@ public class Eval {
                             Question sq = sysQuesitons.get(i);
                             if (gq.getId().equals(sq.getId())) {
                                 EvalMetrics r = QaldEval.compareAnswersJSON(gq.getAnswerObj(), sq.getAnswerObj());
-                                if (r.getF() != 0) {
+                                if (r.getF()  == 1) {
                                     answeredQuestions.add(goldQuesitons.get(i));
                                 }
                                 if (cmd.hasOption("v")) {
