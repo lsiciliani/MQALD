@@ -89,7 +89,7 @@ public class CreateDataset {
                             throw new IOException("File not present: " + file.getCanonicalPath());
                         }
                         LOG.info("Merge training...");
-                        QaldIO.mergeDatasets(new File(cmd.getOptionValue("d") + "/MQALD-train-multilingual.json"),
+                        QaldIO.mergeDatasets(new File(cmd.getOptionValue("d") + "/train-pre-merge-multilingual.json"),
                                 new File(cmd.getOptionValue("d") + "/qald-9-train-multilingual.json"),
                                 new File(cmd.getOptionValue("d") + "/qald-8-train-multilingual.json"),
                                 new File(cmd.getOptionValue("d") + "/qald-7-train-multilingual.json"));
@@ -100,9 +100,12 @@ public class CreateDataset {
                                 new File(cmd.getOptionValue("d") + "/qald-7-test-multilingual.json"));
                         LOG.info("Filtering test...");
                         QaldIO.filterDataset(new File(cmd.getOptionValue("d") + "/test-pre-merge-multilingual.json"),
-                                new File(cmd.getOptionValue("d") + "/MQALD-train-multilingual.json"),
-                                new File(cmd.getOptionValue("d") + "/MQALD-test-multilingual.json"));
+                                new File(cmd.getOptionValue("d") + "/train-pre-merge-multilingual.json"),
+                                new File(cmd.getOptionValue("d") + "/MQALD-test-multilingual.json"),
+                                new File(cmd.getOptionValue("d") + "/MQALD-train-multilingual.json"));
                         new File(cmd.getOptionValue("d") + "/test-pre-merge-multilingual.json").delete();
+                        new File(cmd.getOptionValue("d") + "/train-pre-merge-multilingual.json").delete();
+                        
                         LOG.info("Filtering modifiers...");
                         QaldIO.filterModifiers(new File(cmd.getOptionValue("d") + "/MQALD-train-multilingual.json"),
                                 new File(cmd.getOptionValue("d") + "/MQALD-train-MOD-multilingual.json"),

@@ -33,7 +33,7 @@
  *
  */
 
-package di.uniba.it.mqald.evel;
+package di.uniba.it.mqald.eval;
 
 /**
  *

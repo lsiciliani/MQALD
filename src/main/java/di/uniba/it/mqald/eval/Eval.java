@@ -32,7 +32,7 @@
  * GNU GENERAL PUBLIC LICENSE - Version 3, 29 June 2007
  *
  */
-package di.uniba.it.mqald.evel;
+package di.uniba.it.mqald.eval;
 
 import di.uniba.it.mqald.QaldIO;
 import di.uniba.it.mqald.Question;

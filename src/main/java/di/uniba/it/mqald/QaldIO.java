@@ -283,14 +283,15 @@ public class QaldIO {
      * @param outputFile Output file
      * @throws Exception
      */
-    public static void filterDataset(File testingFile, File trainingFile, File outputFile) throws Exception {
+    public static void filterDataset(File testingFile, File trainingFile, File outputTestFile, File outputTrainFile) throws Exception {
         List<Question> train = QaldIO.read(trainingFile);
+        JSONArray removedTestQuestion = new JSONArray();
         List<String> trainQuestions = new ArrayList<>();
         for (Question q : train) {
             trainQuestions.add(q.getText());
         }
 
-        FileWriter writer = new FileWriter(outputFile);
+        FileWriter writer = new FileWriter(outputTestFile);
         JSONObject fileObj = new JSONObject();
         JSONArray questionsArray = new JSONArray();
 
@@ -322,14 +323,80 @@ public class QaldIO {
                 questionsArray.add(q);
             } else {
                 LOG.info("*");
+                removedTestQuestion.add(q);
                 contained++;
             }
         }
         fileObj.put("questions", questionsArray);
         writer.write(fileObj.toJSONString());
         writer.close();
+
+        //***//
+        writer = new FileWriter(outputTrainFile);
+        fileObj = new JSONObject();
+        questionsArray = new JSONArray();
+
+        parser = new JSONParser();
+        data = (JSONObject) parser.parse(new FileReader(trainingFile));
+        qs = (JSONArray) data.get("questions");
+        it = qs.iterator();
+
+        while (it.hasNext()) {
+            JSONObject q = (JSONObject) it.next();
+            JSONArray quesArray = (JSONArray) q.get("question");
+            Iterator iterator = quesArray.iterator();
+            String qString = "";
+            while (iterator.hasNext()) {
+                JSONObject questionLanguage = (JSONObject) iterator.next();
+                String lan = (String) questionLanguage.get("language");
+                if (lan.equals("en")) {
+                    qString = (String) questionLanguage.get("string");
+                }
+            }
+            if (qString.equals("Who is the youngest player in the Premier League?")) {
+                System.out.println("here");
+            }
+            boolean found = false;
+            Iterator rit = removedTestQuestion.iterator();
+            while (rit.hasNext()) {
+                
+                JSONObject rq = (JSONObject) rit.next();
+                JSONArray rquesArray = (JSONArray) rq.get("question");
+                Iterator riterator = rquesArray.iterator();
+                String rqString = "";
+                while (riterator.hasNext()) {
+                    JSONObject rquestionLanguage = (JSONObject) riterator.next();
+                    String rlan = (String) rquestionLanguage.get("language");
+                    if (rlan.equals("en")) {
+                        rqString = (String) rquestionLanguage.get("string");
+                    }
+                }
+                
+                if (qString.equals(rqString)) {
+
+                    String qaldver = (String) q.get("qald-version");
+                    String rqaldver = (String) rq.get("qald-version");
+                    if (Integer.parseInt(rqaldver) > Integer.parseInt(qaldver)) {
+                        found = true;
+                        questionsArray.add(rq);
+                    }
+                }
+            }
+            if (!found) {
+                questionsArray.add(q);
+            }
+            
+        }
+        fileObj.put("questions", questionsArray);
+        writer.write(fileObj.toJSONString());
+        writer.close();
+
         LOG.log(Level.INFO, "total number: {0}", totalnumber);
         LOG.log(Level.INFO, "contained: {0}", contained);
+
+    }
+
+    public static void updateTrainingset(File trainingFile, JSONArray questions) {
 
     }
 
@@ -378,10 +445,13 @@ public class QaldIO {
                 if (!storedQuestions.contains(qString.toLowerCase())) {
                     storedQuestions.add(qString.toLowerCase());
                     q.replace("id", i);
+                    q.put("qald-version", f.getName().replaceAll("[^0-9]", ""));
                     i++;
                     questionsArray.add(q);
                 } else {
                     LOG.info("*");
+                    q.put("qald-version", f.getName().replaceAll("[^0-9]", ""));
+                    questionsArray = updateQuestionArray(questionsArray, q);
                     contained++;
                 }
 
@@ -392,6 +462,51 @@ public class QaldIO {
         writer.close();
         LOG.log(Level.INFO, "total number: {0}", totalnumber);
         LOG.log(Level.INFO, "contained: {0}", contained);
+    }
+
+    public static JSONArray updateQuestionArray(JSONArray questionsArray, JSONObject q) {
+        JSONArray qArray = (JSONArray) q.get("question");
+        Iterator iterator = qArray.iterator();
+        String qString = "";
+        while (iterator.hasNext()) {
+            JSONObject questionLanguage = (JSONObject) iterator.next();
+            String lan = (String) questionLanguage.get("language");
+            if (lan.equals("en")) {
+                qString = (String) questionLanguage.get("string");
+            }
+        }
+
+        Iterator it = questionsArray.iterator();
+        while (it.hasNext()) {
+            JSONObject qa = (JSONObject) it.next();
+            JSONArray quesArray = (JSONArray) qa.get("question");
+            Iterator iteratorqa = quesArray.iterator();
+            String qaString = "";
+            while (iteratorqa.hasNext()) {
+                JSONObject questionLanguage = (JSONObject) iteratorqa.next();
+                String lanqa = (String) questionLanguage.get("language");
+                if (lanqa.equals("en")) {
+                    qaString = (String) questionLanguage.get("string");
+                }
+            }
+            if (qaString.equals(qString)) {
+                String qVer = (String) q.get("qald-version");
+                String qaVer = (String) qa.get("qald-version");
+                if (Integer.parseInt(qVer) > Integer.parseInt(qaVer)) {
+                    qa.put("answertype", q.get("answertype"));
+                    qa.put("aggregation", q.get("aggregation"));
+                    qa.put("onlydbo", q.get("onlydbo"));
+                    qa.put("hybrid", q.get("hybrid"));
+                    qa.put("query", q.get("query"));
+                    qa.put("answers", q.get("answers"));
+                    qa.put("modifiers", q.get("modifiers"));
+                    qa.put("qald-version", q.get("qald-version"));
+                }
+
+            }
+
+        }
+        return questionsArray;
     }
 
     /**
