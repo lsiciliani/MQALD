@@ -125,7 +125,7 @@ public class QaldEval {
                         empty = false;
                     }
                 }
-                if (empty == true) {
+                if (empty) {
                     system = new JSONArray();
                 }
 
