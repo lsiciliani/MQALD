@@ -32,7 +32,6 @@
  * GNU GENERAL PUBLIC LICENSE - Version 3, 29 June 2007
  *
  */
-
 package di.uniba.it.mqald.eval;
 
 import java.util.HashSet;
@@ -47,6 +46,7 @@ import org.json.simple.parser.ParseException;
 
 /**
  * This class implements the evaluation approach used in QALD-9
+ *
  * @author pierpaolo
  */
 public class QaldEval {
@@ -92,6 +92,7 @@ public class QaldEval {
             if (expectedJson.get("boolean").equals(systemJson.get("boolean"))) {
                 precision = 1;
                 recall = 1;
+                f = 1;
             } else {
                 precision = 0;
                 recall = 0;
@@ -119,15 +120,15 @@ public class QaldEval {
                 Iterator sys_it = system.iterator();
                 boolean empty = true;
                 while (sys_it.hasNext()) {
-                    JSONObject obj= (JSONObject) sys_it.next();
+                    JSONObject obj = (JSONObject) sys_it.next();
                     if (!obj.isEmpty()) {
                         empty = false;
                     }
                 }
                 if (empty == true) {
                     system = new JSONArray();
-                }                 
-                
+                }
+
                 if (expected.isEmpty() && system.isEmpty()) { // If the golden answerset is empty and the system does respond with an empty answer, we set precision, recall and F-measure to 1
                     precision = 1;
                     recall = 1;
