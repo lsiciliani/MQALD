@@ -116,6 +116,18 @@ public class QaldEval {
                 if (system == null) {
                     system = new JSONArray();
                 }
+                Iterator sys_it = system.iterator();
+                boolean empty = true;
+                while (sys_it.hasNext()) {
+                    JSONObject obj= (JSONObject) sys_it.next();
+                    if (!obj.isEmpty()) {
+                        empty = false;
+                    }
+                }
+                if (empty == true) {
+                    system = new JSONArray();
+                }                 
+                
                 if (expected.isEmpty() && system.isEmpty()) { // If the golden answerset is empty and the system does respond with an empty answer, we set precision, recall and F-measure to 1
                     precision = 1;
                     recall = 1;

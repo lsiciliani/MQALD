@@ -258,10 +258,13 @@ public class QaldIO {
                     Iterator it_bin = bindings.iterator();
                     while (it_bin.hasNext()) {
                         JSONObject binding = (JSONObject) it_bin.next();
-                        String key = (String) binding.keySet().iterator().next();
-                        JSONObject single_bind = (JSONObject) binding.get(key);
-                        Answer ans = new Answer((String) single_bind.get("value"), (String) single_bind.get("type"));
-                        answers.add(ans);
+                        Iterator it_keyset = binding.keySet().iterator();
+                        while (it_keyset.hasNext()) {
+                            String key = (String) it_keyset.next();
+                            JSONObject single_bind = (JSONObject) binding.get(key);
+                            Answer ans = new Answer((String) single_bind.get("value"), (String) single_bind.get("type"));
+                            answers.add(ans);
+                        }
                     }
                 }
                 question.setAnswers(answers);
@@ -353,13 +356,10 @@ public class QaldIO {
                     qString = (String) questionLanguage.get("string");
                 }
             }
-            if (qString.equals("Who is the youngest player in the Premier League?")) {
-                System.out.println("here");
-            }
             boolean found = false;
             Iterator rit = removedTestQuestion.iterator();
             while (rit.hasNext()) {
-                
+
                 JSONObject rq = (JSONObject) rit.next();
                 JSONArray rquesArray = (JSONArray) rq.get("question");
                 Iterator riterator = rquesArray.iterator();
@@ -371,7 +371,7 @@ public class QaldIO {
                         rqString = (String) rquestionLanguage.get("string");
                     }
                 }
-                
+
                 if (qString.equals(rqString)) {
 
                     String qaldver = (String) q.get("qald-version");
@@ -385,7 +385,7 @@ public class QaldIO {
             if (!found) {
                 questionsArray.add(q);
             }
-            
+
         }
         fileObj.put("questions", questionsArray);
         writer.write(fileObj.toJSONString());
