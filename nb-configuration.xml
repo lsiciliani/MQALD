@@ -18,10 +18,11 @@ Any value defined here will override the pom.xml file value but is only applicab
     </properties>
     <config-data xmlns="http://www.netbeans.org/ns/maven-config-data/1">
         <configurations>
+            <configuration id="createAnswers" profiles=""/>
             <configuration id="evaluation" profiles=""/>
             <configuration id="genfil" profiles=""/>
             <configuration id="mqald" profiles=""/>
-            <configuration id="createAnswers" profiles=""/>
+            <configuration id="createDataset" profiles=""/>
         </configurations>
     </config-data>
 </project-shared-configuration>

@@ -117,6 +117,21 @@ public class QaldEval {
                 if (system == null) {
                     system = new JSONArray();
                 }
+                
+                JSONArray systemnonempty = new JSONArray();
+                for (int i = 0; i < system.size(); i++) {
+                    JSONObject obj = (JSONObject) system.get(i);
+                    if (!obj.isEmpty()) {
+                        systemnonempty.add(obj);
+                    }
+                }
+                if (systemnonempty.isEmpty()) {
+                    system = new JSONArray();
+                } else if (system.size()!=systemnonempty.size()) {
+                    system = systemnonempty;
+                }
+                
+               /*
                 Iterator sys_it = system.iterator();
                 boolean empty = true;
                 while (sys_it.hasNext()) {
@@ -128,6 +143,8 @@ public class QaldEval {
                 if (empty) {
                     system = new JSONArray();
                 }
+*/
+
 
                 if (expected.isEmpty() && system.isEmpty()) { // If the golden answerset is empty and the system does respond with an empty answer, we set precision, recall and F-measure to 1
                     precision = 1;

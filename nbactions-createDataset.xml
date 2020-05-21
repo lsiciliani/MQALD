@@ -10,7 +10,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath di.uniba.it.mqald.eval.Eval -g /home/lucia/data/QALD/testMQALDcode_final/MQALD-test-multilingual.json -s /home/lucia/data/QALD/QAsystemsAnswers/ganswer/ver1/ganswer_qald_test_7_8_9_filtered.json -v true</exec.args>
+                <exec.args>-classpath %classpath di.uniba.it.mqald.CreateDataset -d /home/lucia/data/QALD/testMQALDcode_final</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>
@@ -24,7 +24,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath di.uniba.it.mqald.eval.Eval -g /home/lucia/data/QALD/testMQALDcode_final/MQALD-test-multilingual.json -s /home/lucia/data/QALD/QAsystemsAnswers/ganswer/ver1/ganswer_qald_test_7_8_9_filtered.json -v true</exec.args>
+                <exec.args>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath di.uniba.it.mqald.CreateDataset -d /home/lucia/data/QALD/testMQALDcode_final</exec.args>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
             </properties>
@@ -39,7 +39,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath di.uniba.it.mqald.eval.Eval -g /home/lucia/data/QALD/testMQALDcode_final/MQALD-test-multilingual.json -s /home/lucia/data/QALD/QAsystemsAnswers/ganswer/ver1/ganswer_qald_test_7_8_9_filtered.json -v true</exec.args>
+                <exec.args>-classpath %classpath di.uniba.it.mqald.CreateDataset -d /home/lucia/data/QALD/testMQALDcode_final</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>
