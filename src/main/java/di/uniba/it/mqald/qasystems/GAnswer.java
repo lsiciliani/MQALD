@@ -56,6 +56,8 @@ public class GAnswer implements QASystem {
 
     private static final String ADDRESS = "http://ganswer.gstore-pku.com/api/qald.jsp?query=";
 
+    private static int MAX_ATTEMPTS = 3;
+
     /**
      *
      * @param question
@@ -63,33 +65,40 @@ public class GAnswer implements QASystem {
      */
     @Override
     public JSONObject getAnswer(String question) {
+        int attempts = 0;
         JSONObject answer = new JSONObject();
+        while (attempts < MAX_ATTEMPTS) {
         try {
-            URL url = new URL(ADDRESS + URLEncoder.encode(question, "utf-8"));
+                URL url = new URL(ADDRESS + URLEncoder.encode(question, "utf-8"));
+                System.out.println("Connecting to " + url.toString() + " Attempt n. " + attempts);
 
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            //con.setRequestProperty("Content-Type", "application/json; utf-8");
-            con.setRequestProperty("Accept", "application/json");
-            con.setDoOutput(true);
-            con.setConnectTimeout(1000 * 60);
-            con.setReadTimeout(1000 * 60);
-            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
-            StringBuilder response = new StringBuilder();
-            String responseLine = null;
-            while ((responseLine = br.readLine()) != null) {
-                response.append(responseLine.trim());
-            }
-            con.disconnect();
-            //System.out.println(response.toString());
-            JSONParser parser = new JSONParser();
-            answer = (JSONObject) parser.parse(response.toString());
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                //con.setRequestProperty("Content-Type", "application/json; utf-8");
+                con.setRequestProperty("Accept", "application/json");
+                con.setDoOutput(true);
+                con.setConnectTimeout(1000 * 60);
+                con.setReadTimeout(5000 * 60);
+                BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
+                StringBuilder response = new StringBuilder();
+                String responseLine = null;
+                while ((responseLine = br.readLine()) != null) {
+                    response.append(responseLine.trim());
+                }
+                con.disconnect();
+                //System.out.println(response.toString());
+                JSONParser parser = new JSONParser();
+                answer = (JSONObject) parser.parse(response.toString());
+                break;
+
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(GAnswer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException | ParseException ex) {
             Logger.getLogger(GAnswer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(GAnswer.class.getName()).log(Level.SEVERE, null, ex);
+            attempts++;
+        }
         }
         return answer;
     }

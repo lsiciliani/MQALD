@@ -34,9 +34,17 @@
  */
 package di.uniba.it.mqald;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,29 +57,19 @@ public class RandomTest {
 
     public static void main(String args[]) {
         try {
-            File f1 = new File("/home/lucia/Scrivania/MQALD-train-MOD-multilingual.json");
-            List<Question> qVer1 = QaldIO.read(f1);
-            List<String> q1 = new ArrayList<>();
-            for (Question q : qVer1) {
-                q1.add(q.getText());
-            }
 
-            File f2 = new File("/home/lucia/data/QALD/testMQALDcode_(copia)/MQALD-train-MOD-multilingual.json");
-            List<Question> qVer2 = QaldIO.read(f2);
-            List<String> q2 = new ArrayList<>();
-            for (Question q : qVer2) {
-                q2.add(q.getText());
-            }
+            QaldIO.mergeDatasets(new File("/home/lucia/data/QALD/MQALD_ext/MQALD-test-MOD-multilingual_ext.json"), new File("/home/lucia/data/QALD/MQALD/MQALD-test-MOD-multilingual.json"), new File("/home/lucia/Scrivania/MQALD_ext2.json"));
 
-            
-            for (String q : q2) {
-                if (!q1.contains(q)) {
-                    System.out.println("q: " + q);
-                }
-            }
-            
-        } catch (IOException ex) {
-            Logger.getLogger(RandomTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
+
 }

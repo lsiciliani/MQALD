@@ -212,9 +212,12 @@ public class QaldIO {
                 JSONObject q = (JSONObject) it.next();
                 question.setId(q.get("id").toString());
                 question.setAnswertype((String) q.get("answertype"));
-                //question.setAggregation((boolean) q.get("aggregation"));
-                //question.setOnlydbo((boolean) q.get("onlydbo"));
-                //question.setHybrid((boolean) q.get("hybrid"));
+                if (q.containsKey("aggregation"))
+                    question.setAggregation((boolean) q.get("aggregation"));
+                if (q.containsKey("onlydbo"))
+                    question.setOnlydbo((boolean) q.get("onlydbo"));
+                if (q.containsKey("hybrid"))
+                    question.setHybrid((boolean) q.get("hybrid"));
                 if (q.containsKey("question")) {
                     JSONArray elem = (JSONArray) q.get("question");
                     Iterator it_elem = elem.iterator();
@@ -250,6 +253,17 @@ public class QaldIO {
                     }
                 }
                 question.setAnswers(answers);
+                if (q.containsKey("modifiers")) {
+                    List<String> modifiers = new ArrayList<>();
+                    JSONArray mods_array = (JSONArray) q.get("modifiers");
+                    Iterator it_mods = mods_array.iterator();
+                    while (it_mods.hasNext()) {
+                        String mod = (String) it_mods.next();
+                        modifiers.add(mod);
+                    }
+                    question.setModifiers(modifiers);
+                }
+
                 questions.add(question);
             }
         } catch (ParseException ex) {
