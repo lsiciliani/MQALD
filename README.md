@@ -14,25 +14,25 @@ Setup
 2. type "mvn package" into the project folder. Maven creates two jar files into the **target/** subfolder. One jar contains all the dependecies, the other one does not contains dependencies. The **lib/** contains all the jars' libraries.
 
 For running the project, you can go into the **target/** subfolder and run the following commands:
-1. for the creation of the output file (see CreateAnswer section for the parameters description)
+1. for the creation of the output file (see **CreateAnswer** section for the parameters description)
 > java -cp MQALD-1.0-SNAPSHOT-jar-with-dependencies.jar di.uniba.it.mqald.qasystems.CreateAnswer \<parameters\>
-2. for the evaluation (see Eval section for the parameters description)
-> java -cp MQALD-1.0-SNAPSHOT-jar-with-dependencies.jar di.uniba.it.mqald.eval.Eval <parameters>
+2. for the evaluation (see **Eval** section for the parameters description)
+> java -cp MQALD-1.0-SNAPSHOT-jar-with-dependencies.jar di.uniba.it.mqald.eval.Eval \<parameters>\
 
 CreateAnswer
 ---------------
 
-usage: Create the answers JSON file for a specific QA system. Available systems are: GAnswer, QAnswer, TeBaQA. [-i <arg>] [-o <arg>] [-s <arg>] <br>
- -i <arg>   Input file (questions) <br>
- -o <arg>   Output file (answers) <br>
- -s <arg>   System name (available systems: GAnswer, QAnswer, TeBaQA <br>
+usage: Create the answers JSON file for a specific QA system. Available systems are: GAnswer, QAnswer, TeBaQA. [-i \<arg\>] [-o \<arg\>] [-s \<arg\>] <br>
+ -i \<arg\>   Input file (questions) <br>
+ -o \<arg\>   Output file (answers) <br>
+ -s \<arg\>   System name (available systems: GAnswer, QAnswer, TeBaQA <br>
 
 Eval
 -------
 
-usage: Evaluate system output against the gold standard. [-g <arg>] [-s <arg>] [-v] <br>
- -g <arg>   Gold standard file <br>
- -s <arg>   System file <br>
+usage: Evaluate system output against the gold standard. [-g \<arg\>] [-s \<arg\>] [-v] <br>
+ -g \<arg\>   Gold standard file <br>
+ -s \<arg\>   System file <br>
  -v         Verbose <br>
 
 Contacts
