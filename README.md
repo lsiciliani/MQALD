@@ -23,8 +23,7 @@ CreateAnswer
 ---------------
 
 usage: Create the answers JSON file for a specific QA system. Available <br>
-       systems are: GAnswer, QAnswer, TeBaQA. [-i <arg>] [-o <arg>] [-s <br>
-       <arg>] <br>
+       systems are: GAnswer, QAnswer, TeBaQA. [-i <arg>] [-o <arg>] [-s <arg>] <br>
  -i <arg>   Input file (questions) <br>
  -o <arg>   Output file (answers) <br>
  -s <arg>   System name (available systems: GAnswer, QAnswer, TeBaQA <br>
@@ -32,13 +31,12 @@ usage: Create the answers JSON file for a specific QA system. Available <br>
 Eval
 -------
 
-usage: Evaluate system output against the gold standard. [-g <arg>] [-s <br>
-       <arg>] [-v] <br>
+usage: Evaluate system output against the gold standard. [-g <arg>] [-s <arg>] [-v] <br>
  -g <arg>   Gold standard file <br>
  -s <arg>   System file <br>
  -v         Verbose <br>
 
 Contacts
 -----------
-Lucia Siciliani, lucia.siciali@uniba.it
+Lucia Siciliani, lucia.siciali@uniba.it <br>
 Pierpaolo Basile, pierpaolo.basile@uniba.it
