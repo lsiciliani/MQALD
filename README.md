@@ -15,15 +15,14 @@ Setup
 
 For running the project, you can go into the **target/** subfolder and run the following commands:
 1. for the creation of the output file (see CreateAnswer section for the parameters description)
-> java -cp MQALD-1.0-SNAPSHOT-jar-with-dependencies.jar di.uniba.it.mqald.qasystems.CreateAnswer <parameters>
+> java -cp MQALD-1.0-SNAPSHOT-jar-with-dependencies.jar di.uniba.it.mqald.qasystems.CreateAnswer \<parameters\>
 2. for the evaluation (see Eval section for the parameters description)
 > java -cp MQALD-1.0-SNAPSHOT-jar-with-dependencies.jar di.uniba.it.mqald.eval.Eval <parameters>
 
 CreateAnswer
 ---------------
 
-usage: Create the answers JSON file for a specific QA system. Available <br>
-       systems are: GAnswer, QAnswer, TeBaQA. [-i <arg>] [-o <arg>] [-s <arg>] <br>
+usage: Create the answers JSON file for a specific QA system. Available systems are: GAnswer, QAnswer, TeBaQA. [-i <arg>] [-o <arg>] [-s <arg>] <br>
  -i <arg>   Input file (questions) <br>
  -o <arg>   Output file (answers) <br>
  -s <arg>   System name (available systems: GAnswer, QAnswer, TeBaQA <br>
