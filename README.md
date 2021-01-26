@@ -27,6 +27,9 @@ usage: Create the answers JSON file for a specific QA system. Available systems 
  -o \<arg\>   Output file (answers) <br>
  -s \<arg\>   System name (available systems: GAnswer, QAnswer, TeBaQA <br>
 
+For creating the answer file for the QAnswer system type:
+> java -cp MQALD-1.0-SNAPSHOT-jar-with-dependencies.jar di.uniba.it.mqald.qasystems.CreateAnswer -i resources/MQALD-test-multilingual.json -o resources/MQALD-test-QAnswer.json -s QAnswer
+
 Eval
 -------
 
@@ -34,6 +37,9 @@ usage: Evaluate system output against the gold standard. [-g \<arg\>] [-s \<arg\
  -g \<arg\>   Gold standard file <br>
  -s \<arg\>   System file <br>
  -v         Verbose <br>
+
+For evaluating the answer file of the QAnswer system type:
+> java -cp MQALD-1.0-SNAPSHOT-jar-with-dependencies.jar di.uniba.it.mqald.eval.Eval -g resources/MQALD-test-multilingual.json -s resources/MQALD-test-QAnswer.json -v
 
 Contacts
 -----------
