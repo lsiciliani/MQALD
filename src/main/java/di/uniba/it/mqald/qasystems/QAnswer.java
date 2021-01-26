@@ -74,7 +74,7 @@ public class QAnswer implements QASystem {
             con.setRequestProperty("Accept", "application/json");
             con.setDoOutput(true);
             con.setConnectTimeout(1000 * 60);
-            con.setReadTimeout(1000 * 60);
+            con.setReadTimeout(5000 * 60);
             StringBuilder response = new StringBuilder();
             int code = con.getResponseCode();
             if (code != 500) {
@@ -99,11 +99,11 @@ public class QAnswer implements QASystem {
             questionsArray.add(ansObj);
             answer.put("questions", questionsArray);
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(GAnswer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QAnswer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException | ParseException ex) {
-            Logger.getLogger(GAnswer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QAnswer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(GAnswer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QAnswer.class.getName()).log(Level.SEVERE, null, ex);
         }
         return answer;
     }

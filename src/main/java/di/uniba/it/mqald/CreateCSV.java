@@ -34,42 +34,56 @@
  */
 package di.uniba.it.mqald;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 /**
  *
  * @author lucia
  */
-public class RandomTest {
+public class CreateCSV {
 
-    public static void main(String args[]) {
-        try {
+    private static final Logger LOG = Logger.getLogger(CreateCSV.class.getName());
 
-            QaldIO.mergeDatasets(new File("/home/lucia/data/QALD/MQALD_ext/MQALD-test-MOD-multilingual_ext.json"), new File("/home/lucia/data/QALD/MQALD/MQALD-test-MOD-multilingual.json"), new File("/home/lucia/Scrivania/MQALD_ext2.json"));
+    static Options options;
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    static CommandLineParser cmdParser = new DefaultParser();
+
+    static {
+        options = new Options();
+        options.addOption("i", true, "Input JSON file");
+        options.addOption("o", true, "Output CSV file");
     }
 
+    /**
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+
+        try {
+            CommandLine cmd = cmdParser.parse(options, args);
+            if (cmd.hasOption("i") && cmd.hasOption("o")) {
+                try {
+                    LOG.info("Create CSV...");
+                    QaldIO.createCSV(new File(cmd.getOptionValue("i")), new File(cmd.getOptionValue("o")));
+                } catch (Exception ex) {
+                    LOG.log(Level.SEVERE, null, ex);
+                }
+            } else {
+                HelpFormatter helpFormatter = new HelpFormatter();
+                helpFormatter.printHelp("Create CSV file", options, true);
+            }
+        } catch (ParseException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+        }
+    }
 
 }

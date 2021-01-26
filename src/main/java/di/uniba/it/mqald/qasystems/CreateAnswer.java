@@ -54,7 +54,7 @@ import org.json.simple.JSONObject;
 /**
  * This class creates a JSON QALD file that contains answers to a JSON QALD file
  * Currently, three systems are available: GAnswer, QAnswer, TeBaQA.
- * 
+ *
  * @author lucia
  */
 public class CreateAnswer {
@@ -82,6 +82,7 @@ public class CreateAnswer {
             CommandLine cmd = cmdParser.parse(options, args);
             if (cmd.hasOption("i") && cmd.hasOption("o") && cmd.hasOption("s")) {
                 try {
+                    FileWriter tmpfile = new FileWriter(cmd.getOptionValue("o") + ".tmp");
                     QASystem system = (QASystem) ClassLoader.getSystemClassLoader().loadClass("di.uniba.it.mqald.qasystems." + cmd.getOptionValue("s")).newInstance();
                     long time = 0;
                     int numq = 0;
@@ -104,6 +105,9 @@ public class CreateAnswer {
                                 ans.put("id", question.getId());
                             }
                             questionsArray.add(ans);
+                            tmpfile.write(ans.toJSONString());
+                            tmpfile.write("\n");
+                            tmpfile.flush();
                             numqa++;
                             long t0 = System.currentTimeMillis() - starTime;
                             time += t0;
@@ -115,6 +119,7 @@ public class CreateAnswer {
                     fileObj.put("questions", questionsArray); //mod by lucia
                     writer.write(fileObj.toJSONString()); //
                     writer.close();
+                    tmpfile.close();
                     LOG.log(Level.INFO, "Total questions/Answered questions: {0}/{1}", new Object[]{numq, numqa});
                     LOG.log(Level.INFO, "Total time: {0}", time);
                     LOG.log(Level.INFO, "Avg time: {0}", time / numq);
@@ -123,7 +128,7 @@ public class CreateAnswer {
                 }
             } else {
                 HelpFormatter helpFormatter = new HelpFormatter();
-                helpFormatter.printHelp("Create answer", options, true);
+                helpFormatter.printHelp("Create the answers JSON file for a specific QA system. Available systems are: GAnswer, QAnswer, TeBaQA.", options, true);
             }
         } catch (ParseException ex) {
             Logger.getLogger(QaldIO.class.getName()).log(Level.SEVERE, null, ex);

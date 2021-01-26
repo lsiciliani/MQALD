@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.cli.CommandLine;
@@ -49,6 +50,8 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -64,7 +67,7 @@ public class Eval {
 
     static {
         options = new Options();
-        options.addOption("g", true, "Gold file")
+        options.addOption("g", true, "Gold standard file")
                 .addOption("s", true, "System file")
                 .addOption("v", false, "Verbose");
     }
@@ -79,53 +82,52 @@ public class Eval {
             if (cmd.hasOption("g") && cmd.hasOption("s")) {
                 try {
                     File gf = new File(cmd.getOptionValue("g"));
-                    List<Question> goldQuesitons = QaldIO.read(gf);
+                    Map<String, Question> goldQuesitons = QaldIO.questionList2Map(QaldIO.read(gf));
                     File sf = new File(cmd.getOptionValue("s"));
-                    List<Question> sysQuesitons = QaldIO.read(sf);
-                    if (goldQuesitons.size() == sysQuesitons.size()) {
-                        Collections.sort(goldQuesitons, new QuestionIdComparator());
-                        Collections.sort(sysQuesitons, new QuestionIdComparator());
-                        int i = 0;
-                        EvalMetrics m = new EvalMetrics(0, 0, 0);
-                        while (i < goldQuesitons.size()) {
-                            Question gq = goldQuesitons.get(i);
-                            Question sq = sysQuesitons.get(i);
-                            if (gq.getId().equals(sq.getId())) {
-                                EvalMetrics r = QaldEval.compareAnswersJSON(gq.getAnswerObj(), sq.getAnswerObj());
-                                if (r.getF()  != 0) {
-                                    answeredQuestions.add(goldQuesitons.get(i));
-                                }
-                                if (cmd.hasOption("v")) {
-                                    System.out.println("Quesiton id: " + gq.getId());
-                                    System.out.println(r.toString());
-                                }
-                                m.add(r);
-                            } else {
-                                LOG.warning("Invalid id");
-                                break;
-                            }
-                            i++;
-                        }
-                        m.div(goldQuesitons.size());
-                        if (cmd.hasOption("v")) {
-                            System.out.println("# answered questions: " + answeredQuestions.size());
-                            for (Question q : answeredQuestions) {
-                                System.out.println("Answered");
-                                System.out.println("ID: " + q.getId() + "   " + q.getText());
-                            }
-                        }
-                        System.out.println("Results:");
-                        System.out.println(m.toString());
-                        System.out.println("F-QALD: " + EvalMetrics.computeF1(m.getPrecision(), m.getRecall()));
-                    } else {
+                    Map<String, Question> sysQuesitons = QaldIO.questionList2Map(QaldIO.read(sf));
+                    if (goldQuesitons.size() != sysQuesitons.size()) {
                         LOG.log(Level.WARNING, "Gold and system have different size");
+                        LOG.log(Level.WARNING, "Gold size: {0}", goldQuesitons.size());
+                        LOG.log(Level.WARNING, "System size: {0}", sysQuesitons.size());
                     }
+                    EvalMetrics m = new EvalMetrics(0, 0, 0);
+                    for (String idq : goldQuesitons.keySet()) {
+                        Question gq = goldQuesitons.get(idq);
+                        Question sq = sysQuesitons.get(idq);
+                        if (sq != null) {
+                            EvalMetrics r = QaldEval.compareAnswersJSON(gq.getAnswerObj(), sq.getAnswerObj());
+                            if (r.getF() != 0) {
+                                answeredQuestions.add(gq);
+                            }
+                            if (cmd.hasOption("v")) {
+                                System.out.println("Quesiton id: " + gq.getId());
+                                System.out.println(r.toString());
+                            }
+                            m.add(r);
+                        } else {
+                            LOG.log(Level.WARNING, "No answer for: {0}", gq.getId());
+                            EvalMetrics r = new EvalMetrics(1, 0, 0);
+                            m.add(r);
+                        }
+                    }
+                    m.div(goldQuesitons.size());
+                    if (cmd.hasOption("v")) {
+                        System.out.println("# answered questions: " + answeredQuestions.size());
+                        for (Question q : answeredQuestions) {
+                            System.out.println("Answered");
+                            System.out.println("ID: " + q.getId() + "   " + q.getText());
+                        }
+                    }
+                    System.out.println("Results:");
+                    System.out.println(m.toString());
+                    System.out.println("F-QALD: " + EvalMetrics.computeF1(m.getPrecision(), m.getRecall()));
+
                 } catch (IOException ex) {
                     LOG.log(Level.SEVERE, null, ex);
                 }
             } else {
                 HelpFormatter helpFormatter = new HelpFormatter();
-                helpFormatter.printHelp("Evalutaion", options, true);
+                helpFormatter.printHelp("Evaluate system output against the gold standard.", options, true);
             }
         } catch (ParseException ex) {
             LOG.log(Level.SEVERE, null, ex);

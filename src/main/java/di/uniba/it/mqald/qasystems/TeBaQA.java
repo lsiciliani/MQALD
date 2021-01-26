@@ -71,13 +71,13 @@ public class TeBaQA implements QASystem {
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST");
             //con.setRequestProperty("Content-Type", "application/json; utf-8");
-            con.setRequestProperty("Accept", "application/json");
+            //con.setRequestProperty("Accept", "application/json");
             con.setDoOutput(true);
             con.setConnectTimeout(1000 * 60);
-            con.setReadTimeout(1000 * 60);
-            if (question.equals("Give me all people that were born in Vienna and died in Berlin.")) {
+            con.setReadTimeout(5000 * 60);
+            /*if (question.equals("Give me all people that were born in Vienna and died in Berlin.")) {
                 System.out.println("here");
-            }
+            }*/
             StringBuilder response = new StringBuilder();
             int code = con.getResponseCode();
             if (code != 500) {
@@ -102,11 +102,11 @@ public class TeBaQA implements QASystem {
             questionsArray.add(ansObj);
             answer.put("questions", questionsArray);
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(GAnswer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TeBaQA.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException | ParseException ex) {
-            Logger.getLogger(GAnswer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TeBaQA.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(GAnswer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TeBaQA.class.getName()).log(Level.SEVERE, null, ex);
         }
         return answer;
     }

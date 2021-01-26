@@ -55,8 +55,8 @@ public class EvalMetrics {
 
     /**
      *
-     * @param precision
-     * @param recall
+     * @param d
+     * @param d1
      */
     public EvalMetrics(double precision, double recall) {
         this.precision = precision;
@@ -65,9 +65,9 @@ public class EvalMetrics {
 
     /**
      *
-     * @param precision
-     * @param recall
-     * @param f
+     * @param d
+     * @param d1
+     * @param d2
      */
     public EvalMetrics(double precision, double recall, double f) {
         this.precision = precision;

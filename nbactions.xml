@@ -10,7 +10,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath di.uniba.it.mqald.qasystems.CreateAnswer -i /home/lucia/data/QALD/testMQALDcode_(copia)/MQALD-test-multilingual.json -o /home/lucia/data/QALD/QAsystemsAnswers/ganswer/ver2/ganswer_MQALD-test-multilingual.json -s GAnswer</exec.args>
+                <exec.args>-classpath %classpath di.uniba.it.mqald.eval.Eval -g /home/pierpaolo/dataset/qald/QALD/9/data/qald-9-test-multilingual.json -s /home/pierpaolo/dataset/qald/QALD/9/data/qald-9-test_25052020_yaqa</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>
@@ -24,7 +24,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath di.uniba.it.mqald.qasystems.CreateAnswer -i /home/lucia/data/QALD/testMQALDcode_(copia)/MQALD-test-multilingual.json -o /home/lucia/data/QALD/QAsystemsAnswers/ganswer/ver2/ganswer_MQALD-test-multilingual.json -s GAnswer</exec.args>
+                <exec.args>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath di.uniba.it.mqald.eval.Eval -g /home/pierpaolo/dataset/qald/QALD/9/data/qald-9-test-multilingual.json -s /home/pierpaolo/dataset/qald/QALD/9/data/qald-9-test_25052020_yaqa</exec.args>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
             </properties>
@@ -39,7 +39,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath di.uniba.it.mqald.qasystems.CreateAnswer -i /home/lucia/data/QALD/testMQALDcode_(copia)/MQALD-test-multilingual.json -o /home/lucia/data/QALD/QAsystemsAnswers/ganswer/ver2/ganswer_MQALD-test-multilingual.json -s GAnswer</exec.args>
+                <exec.args>-classpath %classpath di.uniba.it.mqald.eval.Eval -g /home/pierpaolo/dataset/qald/QALD/9/data/qald-9-test-multilingual.json -s /home/pierpaolo/dataset/qald/QALD/9/data/qald-9-test_25052020_yaqa</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>

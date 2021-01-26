@@ -41,8 +41,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -191,7 +193,6 @@ public class QaldIO {
         writer.close();
     }
 
-
     /**
      * Read a QALD JSON file and return a list of questions
      *
@@ -212,12 +213,15 @@ public class QaldIO {
                 JSONObject q = (JSONObject) it.next();
                 question.setId(q.get("id").toString());
                 question.setAnswertype((String) q.get("answertype"));
-                if (q.containsKey("aggregation"))
+                if (q.containsKey("aggregation")) {
                     question.setAggregation((boolean) q.get("aggregation"));
-                if (q.containsKey("onlydbo"))
+                }
+                if (q.containsKey("onlydbo")) {
                     question.setOnlydbo((boolean) q.get("onlydbo"));
-                if (q.containsKey("hybrid"))
+                }
+                if (q.containsKey("hybrid")) {
                     question.setHybrid((boolean) q.get("hybrid"));
+                }
                 if (q.containsKey("question")) {
                     JSONArray elem = (JSONArray) q.get("question");
                     Iterator it_elem = elem.iterator();
@@ -272,11 +276,17 @@ public class QaldIO {
         return questions;
     }
 
-    
-    
+    public static Map<String, Question> questionList2Map(List<Question> questions) {
+        Map<String, Question> map = new HashMap<>();
+        for (Question q : questions) {
+            map.put(q.getId(), q);
+        }
+        return map;
+    }
+
     /**
      * This method removes from the testing all the queries that occur into the
-     * training updating them 
+     * training updating them
      *
      * @param testingFile Testing file
      * @param trainingFile Training file
@@ -332,7 +342,6 @@ public class QaldIO {
         LOG.log(Level.INFO, "contained: {0}", contained);
 
     }
-
 
     /**
      * This method merges several QALD files. IMPORTANT: The order of input
@@ -398,6 +407,12 @@ public class QaldIO {
         LOG.log(Level.INFO, "contained: {0}", contained);
     }
 
+    /**
+     *
+     * @param questionsArray
+     * @param q
+     * @return
+     */
     public static JSONArray updateQuestionArray(JSONArray questionsArray, JSONObject q) {
         JSONArray qArray = (JSONArray) q.get("question");
         Iterator iterator = qArray.iterator();
@@ -510,8 +525,7 @@ public class QaldIO {
             values[1] = questionText;
             values[2] = queryText;
             System.arraycopy(mods, 0, values, 3, mods.length);
-
-            csvPrinter.printRecord(values);
+            csvPrinter.printRecord((Object[]) values);
         }
         csvPrinter.flush();
         csvPrinter.close();
