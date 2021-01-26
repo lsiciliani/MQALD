@@ -16,11 +16,11 @@ Setup
 For running the project, you can go into the **target/** subfolder and run the following commands:
 1. for the creation of the output file (see **CreateAnswer** section for the parameters description)
 ```
-java -cp MQALD-1.0-SNAPSHOT-jar-with-dependencies.jar di.uniba.it.mqald.qasystems.CreateAnswer \<parameters\>
+java -cp MQALD-1.0-SNAPSHOT-jar-with-dependencies.jar di.uniba.it.mqald.qasystems.CreateAnswer
 ```
 2. for the evaluation (see **Eval** section for the parameters description)
 ```
-java -cp MQALD-1.0-SNAPSHOT-jar-with-dependencies.jar di.uniba.it.mqald.eval.Eval \<parameters\>
+java -cp MQALD-1.0-SNAPSHOT-jar-with-dependencies.jar di.uniba.it.mqald.eval.Eval
 ```
 
 CreateAnswer
