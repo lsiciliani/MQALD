@@ -1,4 +1,4 @@
-MQALD (Ver. 3.00 - updated 25/01/2021)
+MQALD (updated 29/01/2021)
 ====================
 
 Question Answering (QA) over Knowledge Graphs (KG) has the aim of developing a system that is capable of answering a user's question using the information coming from one or multiple Knowledge Graphs, like DBpedia, Wikidata and so on.
@@ -6,6 +6,8 @@ This kind of system needs to translate the question of the user, written using n
 The translation process is already tricky to solve even when trying to answer simple questions that involve a single triple pattern but becomes very troublesome when trying to cope with questions that require the presence in the final query of modifiers, aggregate functions, and query forms.
 The attention over this aspect is growing but has never been thoroughly addressed by the existing literature.
 Starting from the latest advances in this field, we want to make a further step towards this direction by giving a comprehensive description of this topic, the main issues revolving around it, and making publicly available a dataset designed to evaluate the performance of a QA system in translating such articulated questions into a specific data query language. 
+
+The last version of the MQALD dataset is available on Zenodo: https://zenodo.org/record/4050353
 
 Setup
 --------
@@ -33,7 +35,7 @@ usage: Create the answers JSON file for a specific QA system. Available systems 
 
 For creating the answer file for the QAnswer system, type:
 ```
-java -cp MQALD-1.0-SNAPSHOT-jar-with-dependencies.jar di.uniba.it.mqald.qasystems.CreateAnswer -i resources/MQALD-test-multilingual.json -o resources/out/MQALD-test-QAnswer.json -s QAnswer
+java -cp MQALD-1.0-SNAPSHOT-jar-with-dependencies.jar di.uniba.it.mqald.qasystems.CreateAnswer -i resources/MQALD.json -o resources/out/MQALD-QAnswer.json -s QAnswer
 ```
 
 Eval
@@ -46,7 +48,7 @@ usage: Evaluate system output against the gold standard. [-g \<arg\>] [-s \<arg\
 
 For evaluating the answer file of the QAnswer system, type:
 ```
-java -cp MQALD-1.0-SNAPSHOT-jar-with-dependencies.jar di.uniba.it.mqald.eval.Eval -g resources/MQALD-test-multilingual.json -s resources/out/MQALD-test-QAnswer.json -v
+java -cp MQALD-1.0-SNAPSHOT-jar-with-dependencies.jar di.uniba.it.mqald.eval.Eval -g resources/MQALD.json -s resources/out/MQALD-QAnswer.json -v
 ```
 
 Contacts
