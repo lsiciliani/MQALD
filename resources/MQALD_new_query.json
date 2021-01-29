@@ -1,0 +1,4430 @@
+{
+	"questions": [
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "How many mountains are higher than 2000 meters in Germany?",
+					"keywords": "how many, mountain, Germany, higher than, 2000 meters",
+					"language": "en"
+				},
+				{
+					"string": "Quante montagne sono più alte di 2000 metri in Germania?",
+					"keywords": "quante, montagna, Germania, più alte di, 2000 metri",
+					"language": "it"
+				},
+				{
+					"string": "Combien de montagnes font plus de 2000 mètres en Allemagne?",
+					"keywords": "Combien, montagne, Allemagne, plus de, 2000 mètres",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuántas montañas superan los 2000 metros en Alemania?",
+					"keywords": "Cuántas, montañas, Alemania, superan los, 2000 metros",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX onto: <http://dbpedia.org/ontology/> SELECT COUNT(?uri) as ?mountains WHERE  { ?uri rdf:type onto:Mountain ;    onto:elevation ?elevation ; onto:locatedInArea <http://dbpedia.org/resource/Germany> FILTER(?elevation>2000)}"
+			},
+			"answers": [{
+				"head": {
+					"vars": ["mountains"]
+				},
+				"results": {
+					"bindings": [{
+						"mountains": {
+							"type": "number",
+							"value": "127"
+						}
+					}]
+				}
+			}],
+			"aggregation": true,
+			"id": 155,
+			"modifiers": ["COUNT", "FILTER"]
+		},
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "How many Italian cities or towns have more than 300000 inhabitants?",
+					"keywords": "how many, Italian, cities, or, towns, more than, 300000, inhabitants",
+					"language": "en"
+				},
+				{
+					"string": "Quante città o paesi italiani hanno più di 300000 abitanti? ",
+					"keywords": "quante, città, o, paesi, italiane, più di, 300000, abitanti",
+					"language": "it"
+				},
+				{
+					"string": "Combien de villes ou pays italiennes comptent plus de 300000 habitants? ",
+					"keywords": "combien, villes, italliennes, plus de, 300000, habitants ",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuántas ciudades o paises italianas tienen más de 300000 habitantes? ",
+					"keywords": "Cuántas, ciudades, italianas, más de, 300000, habitantes",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX ontology: <http://dbpedia.org/ontology/> SELECT COUNT(?uri) as ?cities WHERE { { ?uri rdf:type ontology:City } UNION { ?uri rdf:type ontology:Town } ?uri ontology:country <http://dbpedia.org/resource/Italy>; ontology:populationTotal ?population FILTER ( ?population > 300000 ) }"
+			},
+			"answers": [{
+				"head": {
+					"vars": ["cities"]
+				},
+				"results": {
+					"bindings": [{
+						"cities": {
+							"type": "literal",
+							"value": "21"
+						}
+					}]
+				}
+			}],
+
+			"aggregation": false,
+			"id": 156,
+			"modifiers": ["UNION", "COUNT", "FILTER"]
+		},
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Which countries contain more than 100 lakes?",
+					"keywords": "countries, more than, 100, lakes",
+					"language": "en"
+				},
+				{
+					"string": "Quali paesi contentengono più di 100 laghi?",
+					"keywords": "paesi, più di, 100, laghi",
+					"language": "it"
+				},
+				{
+					"string": "Quels pays contiennent plus de 100 lacs? ",
+					"keywords": "pays,  plus de, 100, lacs",
+					"language": "fr"
+				},
+				{
+					"string": "¿Qué países contienen más de 100 lagos? ",
+					"keywords": "paises, más de, 100, lagos",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT ?uri WHERE { ?lake rdf:type dbo:Lake ; dbo:location ?uri . ?uri rdf:type dbo:Country } GROUP BY ?uri HAVING ( COUNT(?lake) > 100 )"
+			},
+			"answers": [{
+				"head": {
+					"vars": ["uri"]
+				},
+				"results": {
+					"bindings": [{
+							"uri": {
+								"type": "uri",
+								"value": "http://dbpedia.org/resource/United_States"
+							}
+						},
+						{
+							"uri": {
+								"type": "uri",
+								"value": "http://dbpedia.org/resource/Peru"
+							}
+						}
+					]
+				}
+			}],
+			"aggregation": true,
+			"id": 157,
+			"modifiers": ["GROUP BY", "COUNT", "HAVING"]
+		},
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Which area contains the highest mountains in the world?",
+					"keywords": "area, highest, mountains",
+					"language": "en"
+				},
+				{
+					"string": "Quale area contiene le montagne più alte al mondo?",
+					"keywords": "area, montagne, più alte",
+					"language": "it"
+				},
+				{
+					"string": "Quelle région contient les plus hautes montagnes du monde?",
+					"keywords": "région, les plus hautes, montagnes",
+					"language": "fr"
+				},
+				{
+					"string": "¿Qué área contiene las montañas más altas del mundo? ",
+					"keywords": "área, las montañas, más altas",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT ?area WHERE { ?uri rdf:type dbo:Mountain;    dbo:elevation ?elevation.   ?uri dbo:locatedInArea ?area } ORDER BY DESC(?elevation) LIMIT 1"},
+			"answers": [
+				{
+				"head": { "vars": ["area"] },
+				"results": {
+					"bindings": [
+						{"area": { "type": "uri", "value": "http://dbpedia.org/resource/Benewah_County,_Idaho" } }
+					]
+				 }
+			  }
+			],
+			"aggregation": true,
+			"id": 158,
+			"modifiers": ["ORDER BY", "LIMIT"]
+		
+		},
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Is Barack Obama's wife younger than George W. Bush's one?",
+					"keywords": "Barack Obama, wife,  younger than, George W. Bush, wife",
+					"language": "en"
+				},
+				{
+					"string": "La moglie di Barack Obama è più giovane della moglie di George W.Bush?",
+					"keywords": "moglie, Barack Obama, più giovane, moglie, George W.Bush ",
+					"language": "it"
+				},
+				{
+					"string": "L'épouse de Barack Obama est-elle plus jeune que celle de George W. Bush?",
+					"keywords": "épouse, Barack Obama, plus jeune que, celle, George W. Bush ",
+					"language": "fr"
+				},
+				{
+					"string": "¿Es la esposa de Barack Obama más joven que la esposa de George W. Bush?",
+					"keywords": " esposa, Barack Obama , más joven que, esposa, George W. Bush ",
+					"language": "es"
+				}
+			],
+			"answertype": "boolean",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> ASK WHERE {dbr:Barack_Obama dbo:spouse ?wifeO;  dbo:birthDate ?dG.  dbr:George_W._Bush dbo:spouse ?wifeG;  dbo:birthDate ?dO. FILTER (?dG<?dO) }"
+				},
+			"answers": [
+				{
+					"head": {},
+					"boolean": true,
+					"results": {}
+				}],
+			"aggregation": true,
+			"id": 159,
+			"modifiers": ["ASK", "FILTER"]
+		},
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Which countries contain mountains with an average elevation above 4000 meters?",
+					"keywords": "countries, contain,  mountains, average, elevation, above, 4000 meters",
+					"language": "en"
+				},
+				{
+					"string": "Quali paesi contengono montagne con una elevazione media superiore a 4000 metri?",
+					"keywords": "stati, montagne, elevazione, media, superiore a, 4000 metri",
+					"language": "it"
+				},
+				{
+					"string": "Quels pays contiennent des montagnes dont l'altitude moyenne est supérieure à 4000 mètres?",
+					"keywords": "pays, contiennent, montagnes, altitude moyenne, supérieure à, 4000 mètres",
+					"language": "fr"
+				},
+				{
+					"string": "¿Qué países contienen montañas con una elevación promedio de más de 4000 metros?",
+					"keywords": "países, contienen, montañas,  elevación, promedio, más de, 4000 metros",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT ?area WHERE { ?area rdf:type dbo:Country. ?uri rdf:type dbo:Mountain;   dbo:elevation ?elevation.   ?uri dbo:locatedInArea ?area .  }GROUP BY ?area HAVING( AVG(?elevation)>4000)"
+				},
+			"answers": [
+				{ "head": { "vars": ["area"] },
+				"results": {  "bindings": [
+								{ "area": { "type": "uri", "value": "http://dbpedia.org/resource/Argentina" }},
+								{ "area": { "type": "uri", "value": "http://dbpedia.org/resource/Nepal" }},
+								{ "area": { "type": "uri", "value": "http://dbpedia.org/resource/Afghanistan" }},
+								{ "area": { "type": "uri", "value": "http://dbpedia.org/resource/China" }},
+								{ "area": { "type": "uri", "value": "http://dbpedia.org/resource/Bolivia" }},
+								{ "area": { "type": "uri", "value": "http://dbpedia.org/resource/India" }},
+								{ "area": { "type": "uri", "value": "http://dbpedia.org/resource/Uzbekistan" }},
+								{ "area": { "type": "uri", "value": "http://dbpedia.org/resource/Peru" }},
+								{ "area": { "type": "uri", "value": "http://dbpedia.org/resource/Bhutan" }},
+								{ "area": { "type": "uri", "value": "http://dbpedia.org/resource/Tajikistan" }},
+								{ "area": { "type": "uri", "value": "http://dbpedia.org/resource/Darvaz_(region)" }},
+								{ "area": { "type": "uri", "value": "http://dbpedia.org/resource/Pakistan" }},
+								{ "area": { "type": "uri", "value": "http://dbpedia.org/resource/Kyrgyzstan" }}
+								] 
+							} 
+				}
+			],
+			"aggregation": true,
+			"id": 160,
+			"modifiers": ["GROUP BY", "HAVING", "AVG"]
+		},
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "What is the third highest mountain in Italy?",
+					"keywords": "third, highest, mountain, Italy",
+					"language": "en"
+				},
+				{
+					"string": "Qual è la terza Montagna più alta in Italia?",
+					"keywords": "terza, Montagna, più alta , Italia",
+					"language": "it"
+				},
+				{
+					"string": "Quelle est la troisième plus haute montagne d'Italie?",
+					"keywords": "troisième, plus haute, montagne, Italie",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuál es la tercera montaña más alta de Italia?",
+					"keywords": "tercera, montaña, más alta, Italia ",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT ?uri WHERE  { ?uri rdf:type dbo:Mountain; dbo:elevation ?elevation; dbo:locatedInArea dbr:Italy  }ORDER BY DESC(?elevation) LIMIT 1 OFFSET 3"
+				},
+			"answers": [
+				{ "head": { "vars": ["uri"] },
+				"results": {
+					"bindings": [
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Signalkuppe" }}
+						] 
+						} 
+				}
+			],
+			"aggregation": true,
+			"id": 161,
+			"modifiers": ["ORDER BY", "LIMIT", "OFFSET"]
+		},
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "What is the lowest mountain in Germany?",
+					"keywords": "lowest, mountain, Germany",
+					"language": "en"
+				},
+				{
+					"string": "Qual è la più bassa montagna della Germania?",
+					"keywords": "più bassa, Montagna, Germania",
+					"language": "it"
+				},
+				{
+					"string": "Quelle est la plus basse montagne d'Allemagne?",
+					"keywords": "plus basse, montagne, Allemagne",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuál es la montaña más baja de Alemania?",
+					"keywords": "montaña, más baja, Alemania",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX dbo: <http://dbpedia.org/ontology/> SELECT ?uri WHERE  { ?uri rdf:type dbo:Mountain ;    dbo:elevation ?elevation ;    dbo:locatedInArea <http://dbpedia.org/resource/Germany>  }ORDER BY ASC(?elevation) LIMIT 1"
+				},
+			"answers": [
+				{ "head": { "vars": ["uri"] },
+				"results": {
+					"bindings": [
+							{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Kreuzberg_(Tempelhofer_Berge)" }} 
+							] 
+					}
+				}
+			],
+			"aggregation": true,
+			"id": 162,
+			"modifiers": ["ORDER BY", "LIMIT"]
+		},
+		
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Which countries have more than 100 mountains?",
+					"keywords": "countries, more than, 100, mountains",
+					"language": "en"
+				},
+				{
+					"string": "Quali sono gli stati che hanno più di 100 montagne?",
+					"keywords": "stati, hanno, più di, 100 montagne",
+					"language": "it"
+				},
+				{
+					"string": "Quels états ont plus de 100 montagnes?",
+					"keywords": "états, plus de, 100, montagnes",
+					"language": "fr"
+				},
+				{
+					"string": "¿Qué estados tienen más de 100 montañas?",
+					"keywords": "estados, tienen, más de, 100, montañas",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": { 
+				"sparql": "SELECT ?uri WHERE { ?x a <http://dbpedia.org/ontology/Mountain>;  <http://dbpedia.org/ontology/locatedInArea> ?uri.  ?uri a <http://dbpedia.org/ontology/Country> }  GROUP BY ?uri HAVING ( COUNT(?x) > 100 )"
+				},
+			"answers": [
+				{ "head": { "vars": ["uri"] },
+					"results": { 
+						"bindings": [
+							{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Republic_of_Ireland" }},
+							{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Spain" }},
+							{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Bolivia" }},
+							{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/India" }},
+							{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Italy" }},
+							{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Norway" }},
+							{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/South_Korea" }},
+							{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/United_States" }},
+							{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Austria" }},
+							{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Canada" }},
+							{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Australia" }},
+							{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/China" }},
+							{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Germany" }},
+							{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/France" }},
+							{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Japan" }},
+							{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Switzerland" }},
+							{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Peru" }},
+							{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Serbia" }},
+							{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Pakistan" }} 
+							] 
+						} 
+				}	
+			],
+			"aggregation": true,
+			"id": 163,
+			"modifiers": ["GROUP BY", "HAVING","COUNT"]
+		},
+		
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Give me all Stephen King books for which the publication date is known.",
+					"keywords": "Stephen King, books, publication date",
+					"language": "en"
+				},
+				{
+					"string": "Dammi tutti i libri di Stephen King per cui è conosciuta la data di pubblicazione",
+					"keywords": "libri, Stephen King, data di pubblicazione",
+					"language": "it"
+				},
+				{
+					"string": "Retournez tous les livres de Stephen King comme la date de publication est connue",
+					"keywords": "livres, Stephen King, date de publication",
+					"language": "fr"
+				},
+				{
+					"string": "Devuelva todos los libros de Stephen King para los que se conoce la fecha de publicación",
+					"keywords": "libros, Stephen King, fecha de publicación",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbr: <http://dbpedia.org/resource/> PREFIX dbo: <http://dbpedia.org/ontology/> SELECT DISTINCT ?book WHERE { ?book dbo:author dbr:Stephen_King;    rdf:type dbo:Book   OPTIONAL{{?book dbp:releaseDate ?date} UNION {?book dbo:publicationDate ?date} UNION {?book dbo:pubDate ?date}}   FILTER(Bound(?date))}"
+				},
+			"answers": [
+				{ "head": { "vars": ["book"] },
+				"results": { "bindings": [
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/The_Bachman_Books" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Night_Shift_(short_story_collection)" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/The_Long_Walk" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/The_Plant" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/From_a_Buick_8" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Robert_Bloch's_Psychos" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Rose_Madder_(novel)" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Insomnia_(novel)" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Pet_Sematary" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Blockade_Billy" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Secret_Windows" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/The_Dead_Zone_(novel)" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/The_Regulators_(novel)" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Different_Seasons" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Dolores_Claiborne" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Gerald's_Game" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Hearts_in_Atlantis" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Nightmares_&_Dreamscapes" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Six_Stories" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/The_Body_(novella)" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/The_Eyes_of_the_Dragon" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/The_Girl_Who_Loved_Tom_Gordon" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Needful_Things" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/It_(novel)" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/The_Dark_Tower:_The_Gunslinger" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/The_Dark_Tower_II:_The_Drawing_of_the_Three" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/The_Dark_Tower_III:_The_Waste_Lands" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/The_Dark_Tower_IV:_Wizard_and_Glass" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/The_Shining_(novel)" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/The_Stand" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/The_Stand" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Christine_(novel)" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Cycle_of_the_Werewolf" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Bag_of_Bones" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/The_Dark_Half" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Desperation_(novel)" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Danse_Macabre_(book)" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Just_After_Sunset" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Roadwork" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Everything's_Eventual" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Faithful_(book)" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/N._(novella)" }},
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Guns_(essay)" }} 
+						] 
+					}
+				}
+			],
+			"aggregation": false,
+			"id": 164,
+			"modifiers": ["UNION", "FILTER"]
+		},
+		
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Which writers have written more than 100 books?",
+					"keywords": "writers, written, more than, 100, books",
+					"language": "en"
+				},
+				{
+					"string": "Quali scrittori hanno scritto più di 100 libri?",
+					"keywords": "scrittori, più di, 100, opere letterarie",
+					"language": "it"
+				},
+				{
+					"string": "Quels écrivains ont écrit plus de 100 livres?",
+					"keywords": "écrivains, plus de, 100, livres",
+					"language": "fr"
+				},
+				{
+					"string": "¿Qué escritores han escrito más de 100 libros?",
+					"keywords": "escritores, más de, 100, libros",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbr: <http://dbpedia.org/resource/> PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX purl: <http://purl.org/linguistics/gold/> SELECT ?writer WHERE { SELECT ?writer COUNT(?book) as ?numB WHERE { ?writer rdf:type dbo:Writer. ?book dbo:author ?writer; rdf:type dbo:Book } GROUP BY ?writer HAVING(COUNT(?book)>100) }"
+				},
+			"answers": [
+				{ "head": { "vars": ["writer"] },
+				"results": {
+					"bindings": [
+						{ "writer": { "type": "uri", "value": "http://dbpedia.org/resource/Isaac_Asimov" }}, 
+						{ "writer": { "type": "uri", "value": "http://dbpedia.org/resource/L._Sprague_de_Camp" }},
+						{ "writer": { "type": "uri", "value": "http://dbpedia.org/resource/Agatha_Christie" }},
+						{ "writer": { "type": "uri", "value": "http://dbpedia.org/resource/Stephen_King" }}
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 165,
+			"modifiers": ["COUNT", "GROUP BY", "HAVING"]
+		},
+		
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "What is the average height among active players in the NBA?",
+					"keywords": "average height, active players, NBA",
+					"language": "en"
+				},
+				{
+					"string": "Qual'è l'altezza media tra i giocatori attivi nell' NBA?",
+					"keywords": "altezza media, giocatori attivi, NBA",
+					"language": "it"
+				},
+				{
+					"string": "Quelle est la taille moyenne des joueurs actifs en NBA?",
+					"keywords": "taille moyenne, joueurs actifs, NBA",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuál es la altura promedio entre los jugadores activos en la NBA?",
+					"keywords": "altura promedio,jugadores activos, NBA",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbr: <http://dbpedia.org/resource/> PREFIX dbo: <http://dbpedia.org/ontology/> SELECT AVG(?n) as ?medium_heght WHERE { ?x a dbo:BasketballPlayer; dbo:league dbr:National_Basketball_Association; dbo:height ?n  OPTIONAL { ?x dbo:activeYearsEndYear ?d } FILTER( !BOUND (?d))}"
+				},
+			"answers": [
+				{ "head": { "vars": ["medium_heght"] },
+				  "results": { 
+					"bindings": [
+						{ "medium_heght": { "type": "literal", "value": "2.007882828282828" }
+						} 
+						] 
+					}
+				}
+			],
+			"aggregation": true,
+			"id": 166,
+			"modifiers": ["AVG", "FILTER"]
+		},
+		
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "What is the height of the tallest player among those active in the NBA?",
+					"keywords": "height, tallest player, active, NBA",
+					"language": "en"
+				},
+				{
+					"string": "Qual'è l'altezza del giocatore più alto tra quelli attivi nell'NBA?",
+					"keywords": "altezza, giocatore, più alto, attivi, NBA",
+					"language": "it"
+				},
+				{
+					"string": "Quelle est la taille du plus grand joueur parmi ceux actifs dans la NBA?",
+					"keywords": "taille, plus grand, joueur, actifs, NBA",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuál es la altura del jugador más alto entre los activos en la NBA?",
+					"keywords": "altura, jugador, más alto, activos, NBA",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbr: <http://dbpedia.org/resource/> PREFIX dbo: <http://dbpedia.org/ontology/> SELECT ?n WHERE { ?x a dbo:BasketballPlayer; dbo:league dbr:National_Basketball_Association; dbo:height ?n  OPTIONAL { ?x dbo:activeYearsEndYear ?d } FILTER( !BOUND (?d))} ORDER BY DESC(?n) LIMIT 1"
+				},
+			"answers": [
+				{ "head": { "vars": ["n"] },
+				  "results": { 
+					"bindings": [
+						{ "n": { "type": "literal", "value": "2.2098" }
+						} 
+					] 
+				 } 
+				}
+			],
+			"aggregation": true,
+			"id": 167,
+			"modifiers": ["FILTER", "ORDER BY","LIMIT"]
+		},
+			
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "What are the works of Leonardo Da Vinci whose name starts with M sorted by name?",
+					"keywords": "works, Leonardo Da Vinci, name starts with M, sorted by name",
+					"language": "en"
+				},
+				{
+					"string": "Quali sono le opere di Leonardo Da Vinci il cui nome inzia per M ordinate per nome?",
+					"keywords": "opere, Leonardo Da Vinci, nome inzia per M, ordinate per nome",
+					"language": "it"
+				},
+				{
+					"string": "Quelles sont les oeuvres de Léonard de Vinci dont le nom commence par M trié par nom?",
+					"keywords": "oeuvres, Léonard de Vinci, nom commence par M, trié par nom",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuáles son las obras de Leonardo Da Vinci cuyo nombre comienza con M ordenado por nombre?",
+					"keywords": "obras, Leonardo Da Vinci, nombre comienza con M, ordenado por nombre",
+					"language": "es"
+				}
+			],
+			"answertype": "literal",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbr: <http://dbpedia.org/resource/> PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX foaf:<http://xmlns.com/foaf/0.1/> SELECT DISTINCT ?name WHERE {?uri dbo:author dbr:Leonardo_da_Vinci; foaf:name ?name FILTER regex(?name, \"^M\") }ORDER BY(?name)"
+				},
+			"answers": [
+				{ "head": {  "vars": ["name"] },
+				  "results": { 
+					"bindings": [
+						{ "name": { "type": "literal", "value": "Madone de Laroque" }},
+						{ "name": { "type": "literal", "value": "Madonna Litta" }},
+						{ "name": { "type": "literal", "value": "Madonna and Saint Anne" }},
+						{ "name": { "type": "literal", "value": "Madonna of the Yarnwinder" }},
+						{ "name": { "type": "literal", "value": "Mona Lisa" }} 
+						] 
+					} 
+				}
+
+			],
+			"aggregation": true,
+			"id": 168,
+			"modifiers": ["FILTER", "ORDER BY", "LIMIT"]
+		
+		},
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Is Leonardo Da Vinci the author of the Mona Lisa?",
+					"keywords": "Leonardo Da Vinci, author, Mona Lisa",
+					"language": "en"
+				},
+				{
+					"string": "Leonardo Da Vinci è l'autore della Mona Lisa?",
+					"keywords": "Leonardo Da Vinci, autore, Mona Lisa",
+					"language": "it"
+				},
+				{
+					"string": "Leonardo Da Vinci est-il l'auteur de la Joconde?",
+					"keywords": "Leonardo Da Vinci, auteur, Joconde",
+					"language": "fr"
+				},
+				{
+					"string": "¿Es Leonardo Da Vinci el autor de la Mona Lisa?",
+					"keywords": "Leonardo Da Vinci, autor, Mona Lisa",
+					"language": "es"
+				}
+			],
+			"answertype": "boolean",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbr: <http://dbpedia.org/resource/> PREFIX dbo: <http://dbpedia.org/ontology/> ASK WHERE {dbr:Mona_Lisa dbo:author dbr:Leonardo_da_Vinci}"
+				},
+			"answers": [
+				{  "head": {},
+					"boolean": true,
+					"results": {}
+				}
+			],
+			"aggregation": false,
+			"id": 169,
+			"modifiers": ["ASK"]
+		
+		},
+		
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "What are the first 10 works in alphabetical order made by Leonardo da Vinci?",
+					"keywords": "first, 10, works, alphabetical order, made by, Leonardo da Vinci",
+					"language": "en"
+				},
+				{
+					"string": "Quali sono le prime 10 opere in ordine alfabetico realizzate da Leonardo da Vinci?",
+					"keywords": "prime, 10, opere, ordine alfabetico, realizzate, Leonardo da Vinci",
+					"language": "it"
+				},
+				{
+					"string": "Quelles sont les 10 premières oeuvres par ordre alphabétique de Léonard de Vinci?",
+					"keywords": "10, premières, oeuvres, ordre alphabétique, Léonard de Vinci",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuáles son las primeras 10 obras en orden alfabético hechas por Leonardo da Vinci?",
+					"keywords": "primeras, 10, obras,orden alfabético, hechas por, Leonardo da Vinci",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbr: <http://dbpedia.org/resource/> PREFIX dbo: <http://dbpedia.org/ontology/> SELECT ?uri WHERE {?uri dbo:author dbr:Leonardo_da_Vinci} ORDER BY ASC(?uri) LIMIT 10"
+				},
+			"answers": [
+				{ "head": { "vars": ["uri"] },
+				  "results": { 
+					"bindings": [
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Adoration_of_the_Magi_(Leonardo)" }},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Annunciation_(Leonardo)" }},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Bacchus_(Leonardo)" }},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Benois_Madonna" }},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Codex_Leicester" }},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Ginevra_de'_Benci" }},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Head_of_a_Woman_(Leonardo)" }},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/La_Bella_Principessa" }},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/La_belle_ferronni\u00E8re" }},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Lady_with_an_Ermine" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 170,
+			"modifiers": ["ORDER BY", "LIMIT"]
+		
+		},
+		
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "In how many films has Al Pacino acted?",
+					"keywords": "how many, films, Al Pacino, acted",
+					"language": "en"
+				},
+				{
+					"string": "In quanti film ha recitato Al Pacino?",
+					"keywords": "quanti, film, Al Pacino, recitato",
+					"language": "it"
+				},
+				{
+					"string": "Dans combien de films Al Pacino a-t-il joué?",
+					"keywords": "Dans combien, films, Al Pacino, a-t-il joué",
+					"language": "fr"
+				},
+				{
+					"string": "¿En cuántas películas ha actuado Al Pacino?",
+					"keywords": "cuántas, películas, Al Pacino, actuado",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT COUNT(?film) as ?film_Protagonista WHERE { ?film dbo:starring dbr:Al_Pacino }"
+				},
+			"answers": [
+				{ 
+				"head": { "vars": ["film_Protagonista"] },
+				"results": { 
+					"bindings": [
+						{ "film_Protagonista": { "type": "literal", "value": "44" }
+						} 
+					]
+				}
+			}
+			],
+			"aggregation": true,
+			"id": 171,
+			"modifiers": ["COUNT"]
+		},
+			
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Who are the actors who have starred in more than 100 English-language films?",
+					"keywords": "Who, actors, have starred, in more than 100, English-language, films",
+					"language": "en"
+				},
+				{
+					"string": "Quali sono gli attori che hanno recitato in più di 100 film in lingua inglese?",
+					"keywords": "Quali, attori, hanno recitato, in più di 100, film, lingua inglese",
+					"language": "it"
+				},
+				{
+					"string": "Quels sont les acteurs qui ont joué dans plus de 100 films en anglais?",
+					"keywords": "Quels, acteurs, ont joué, dans plus de 100, films, anglais",
+					"language": "fr"
+				},
+				{
+					"string": "¿Quiénes son los actores que han protagonizado más de 100 películas en inglés?",
+					"keywords": "¿Quiénes, actores, han protagonizado, más de 100, películas, inglés",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbp: <http://dbpedia.org/property/> SELECT ?attore WHERE { SELECT ?attore, COUNT(?film) as ?n_film WHERE {?film dbo:starring ?attore; dbp:language ?lingua FILTER regex(?lingua, \"^En\" )} GROUP BY ?attore HAVING ( COUNT(?film) > 100) ORDER BY DESC (?n_film) }"
+				},
+			"answers": [
+				{ "head": { "vars": ["attore"] },
+				  "results": {
+					"bindings": [
+						{ "attore": { "type": "uri", "value": "http://dbpedia.org/resource/Moe_Howard" }},
+						{ "attore": { "type": "uri", "value": "http://dbpedia.org/resource/Larry_Fine" }},
+						{ "attore": { "type": "uri", "value": "http://dbpedia.org/resource/Oliver_Hardy" }},
+						{ "attore": { "type": "uri", "value": "http://dbpedia.org/resource/John_Wayne" }},
+						{ "attore": { "type": "uri", "value": "http://dbpedia.org/resource/Mickey_Rooney" }},
+						{ "attore": { "type": "uri", "value": "http://dbpedia.org/resource/Curly_Howard" }}
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 172,
+			"modifiers": ["COUNT", "GROUP BY", "HAVING", "FILTER", "ORDER BY"]
+		},
+		
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Who directed more than ten Universal Studios films?",
+					"keywords": "Who, directed, more than ten, Universal Studios, films",
+					"language": "en"
+				},
+				{
+					"string": "Chi ha diretto più di dieci film della Universal Studios? ",
+					"keywords": "Chi, ha diretto, più di dieci, film , Universal Studios",
+					"language": "it"
+				},
+				{
+					"string": "Qui a réalisé plus de dix films Studio_universal?",
+					"keywords": "Qui, réalisé, plus de dix, films, Universal Studios",
+					"language": "fr"
+				},
+				{
+					"string": "¿Quién dirigió más de diez películas de Studio_universal?",
+					"keywords": "¿Quién, dirigió, más de diez, películas, Universal Studios",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbp: <http://dbpedia.org/property/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT ?director WHERE { SELECT ?director, COUNT(?film) as ?n_film_Universal WHERE {?film dbo:distributor dbr:Universal_Studios; dbo:director ?director} GROUP BY ?director HAVING ( COUNT(?film) > 10 ) }"
+				},
+			"answers": [
+				{ "head": { "vars": ["director"] },
+				  "results": { "bindings": [
+						{ "director": { "type": "uri", "value": "http://dbpedia.org/resource/Tod_Browning"}},
+						{ "director": { "type": "uri", "value": "http://dbpedia.org/resource/Joe_De_Grasse"}},
+						{ "director": { "type": "uri", "value": "http://dbpedia.org/resource/Walter_Lantz"}},
+						{ "director": { "type": "uri", "value": "http://dbpedia.org/resource/Henry_MacRae"}},
+						{ "director": { "type": "uri", "value": "http://dbpedia.org/resource/Paul_J._Smith_(director)"}},
+						{ "director": { "type": "uri", "value": "http://dbpedia.org/resource/John_Ford"}},
+						{ "director": { "type": "uri", "value": "http://dbpedia.org/resource/Robert_F._Hill"}},
+						{ "director": { "type": "uri", "value": "http://dbpedia.org/resource/Don_Patterson_(animator)"}},
+						{ "director": { "type": "uri", "value": "http://dbpedia.org/resource/Alex_Lovy"}}
+						] 
+					} 
+				}		
+			],
+			"aggregation": true,
+			"id": 173,
+			"modifiers": ["COUNT", "GROUP BY", "HAVING"]
+		},
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Give me all the electronic music bands having hometown in France or in Italy.",
+					"keywords": "electronic music, bands, hometown, France, or, Italy",
+					"language": "en"
+				},
+				{
+					"string": "Dammi tutte le band di musica elettronica che hanno città natale in Francia o in Italia.",
+					"keywords": "band, musica elettronica, città natale, Francia, o, Italia",
+					"language": "it"
+				},
+				{
+					"string": "Donnez-moi tous les groupes de musique électronique ayant leur ville natale en France ou en Italie.",
+					"keywords": "groupes, musique électronique, ville natale, France, ou, Italie",
+					"language": "fr"
+				},
+				{
+					"string": "Dame todas las bandas de música electrónica que tienen su ciudad natal en Francia o en Italia.",
+					"keywords": "bandas, música electrónica, ciudad natal, Francia, o, Italia",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT ?uri WHERE { ?uri rdf:type dbo:Band. ?uri dbo:genre dbr:Electronic_music. {{?uri dbo:hometown dbr:France} UNION {?uri dbo:hometown dbr:Italy}}}"
+				},
+			"answers": [
+				{ "head": { "vars": ["uri"] },
+				  "results": { "bindings": [
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Y.A.S."}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Tom_Snare"}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Daft_Punk"}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Kap_Bambino"}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Kalisia"}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Team_Ghost"}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/DOP_(band)"}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Deep_Forest"}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Télépopmusik"}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Mils_(band)"}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Panzer_Flower"}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/The_Penelopes"}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Boolfight"}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Masaladosa"}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/The_Other_Colors"}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Keen_(band)"}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Bologna_Violenta"}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Exp_(band)"}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Baustelle"}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Monuments_(band)"}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Area_(band)"}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Krisma"}},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Teapot_Industries"}}
+						] 
+					} 
+				}		
+			],
+			"aggregation": true,
+			"id": 174,
+			"modifiers": ["UNION"]
+		},		
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "How many movies did David Peaples write?",
+					"keywords": "How many, movies, David Peaples, write",
+					"language": "en"
+				},
+				{
+					"string": "Quanti film ha scritto David Peaples?",
+					"keywords": "Quanti, film, scritti, David Peaples",
+					"language": "it"
+				},
+				{
+					"string": "Combien de films David Peaples a-t-il écrits?",
+					"keywords": "Combien, films, David Peaples, écrits",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuántas películas ha escrito David Peaples?",
+					"keywords": "Cuántas, películas, escrito, David Peaples",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT COUNT(?uri) as ?numF WHERE {?uri dbo:writer dbr:David_Peoples; rdf:type dbo:Film }"
+				},
+			"answers": [
+				{ "head": { "vars": ["numF"] },
+				  "results": { 
+					"bindings": [
+						{ "numF": { "type": "literal", "value": "5" }} ] } }
+			],
+			"aggregation": true,
+			"id": 175,
+			"modifiers": ["COUNT"]
+		},
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "What are the birthplace and the death place of Elvis Presley?",
+					"keywords": "birthplace, and, death place, Elvis Presley",
+					"language": "en"
+				},
+				{
+					"string": "Quali sono il luogo di nascita e di morte di Elvis Presley?",
+					"keywords": "luogo di nascita, e, luogo di morte, Elvis Presley",
+					"language": "it"
+				},
+				{
+					"string": "Quels sont le lieu de naissance et le lieu de mort d'Elvis Presley?",
+					"keywords": "lieu de naissance, et, lieu de mort, Elvis Presley",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuáles son el lugar de nacimiento y muerte de Elvis Presley?",
+					"keywords": "lugar de nacimiento, y, lugar de muerte, Elvis Presley",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT DISTINCT ?x WHERE { {dbr:Elvis_Presley dbo:birthPlace ?x.} UNION {dbr:Elvis_Presley dbo:deathPlace ?x}}"
+				},
+			"answers": [
+				{ "head": { "vars": ["x"] },
+				  "results": { 
+				  "bindings": [
+					{ "x": { "type": "uri", "value": "http://dbpedia.org/resource/Tupelo,_Mississippi" }},
+ 					{ "x": { "type": "uri", "value": "http://dbpedia.org/resource/Memphis,_Tennessee" }}
+					] 
+				} 
+				}
+			],
+			"aggregation": true,
+			"id": 176,
+			"modifiers": ["UNION"]
+		},	
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Who wrote the most books in 1990?",
+					"keywords": "Who, wrote, the most, books, 1990",
+					"language": "en"
+				},
+				{
+					"string": "Chi ha scritto più libri nel 1990?",
+					"keywords": "Chi, ha scritto, più ,libri, 1990",
+					"language": "it"
+				},
+				{
+					"string": "Qui a écrit le plus de livres en 1990?",
+					"keywords": "Qui, a écrit, plus, livres, 1990",
+					"language": "fr"
+				},
+				{
+					"string": "¿Quién escribió la mayoría de los libros en 1990?",
+					"keywords": "¿Quién, escribió, mayoría, libros, 1990",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbp: <http://dbpedia.org/property/> SELECT ?writer WHERE { ?uri dbo:author ?writer;rdf:type dbo:Book;dbp:releaseDate ?d. FILTER ((?d >= \"1990-01-01\"^^xsd:date) && (?d <= \"1990-12-31\"^^xsd:date))}GROUP BY ?writer ORDER BY DESC (COUNT(?uri)) LIMIT 1"
+				},
+			"answers": [
+				{ "head": { "vars": ["writer"] },
+				  "results": { 
+				  "bindings": [
+					{ "writer": { "type": "uri", "value": "http://dbpedia.org/resource/Edward_Abbey" }} 
+					] 
+				} 
+				}
+			],
+			"aggregation": true,
+			"id": 177,
+			"modifiers": ["COUNT", "GROUP BY", "ORDER BY", "LIMIT", "FILTER"]
+		},
+			
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "In what year was the youngest player in Serie A born?",
+					"keywords": "year, birth, player, youngest, Serie A",
+					"language": "en"
+				},
+				{
+					"string": "In che anno è nato il giocatore più giovane della Serie A?",
+					"keywords": "anno, nascita, giocatore, più giovane, Serie A",
+					"language": "it"
+				},
+				{
+					"string": "En quelle année est né le plus jeune joueur de la Serie A?",
+					"keywords": "année, naissance, joueur, cadet, Serie A",
+					"language": "fr"
+				},
+				{
+					"string": "In what year was the youngest player in Serie A born?",
+					"keywords": "año, nacimiento, jugador, más joven, Serie A",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": true,
+			"query": {
+				"sparql": "REFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT YEAR(?date) as ?BirthYear WHERE { ?uri dbo:team ?team . ?league dbo:league dbr:Serie_A . ?league dbo:team ?team . ?uri dbo:birthDate ?date } ORDER BY DESC(?date) LIMIT 1"
+				},
+			"answers": [
+				{ "head": { "vars": ["BirthYear"] },
+				  "results": {
+					"bindings": [
+						{ "BirthYear": { "type": "literal", "value": "1999" }} ] } }
+			],
+			"aggregation": true,
+			"id": 178,
+			"modifiers": ["YEAR", "ORDER BY", "LIMIT"]
+		},
+			
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "In what year was the first Premier League player born?",
+					"keywords": "year of birth, first player, Premier League, born",
+					"language": "en"
+				},
+				{
+					"string": "In che anno è nato il primo giocatore della Premier-League?",
+					"keywords": "anno nascita, primo giocatore, Premier-League",
+					"language": "it"
+				},
+				{
+					"string": "En quelle année est né le premier joueur de Premier League?",
+					"keywords": "année de naissance, premier joueur, Premier League",
+					"language": "fr"
+				},
+				{
+					"string": "¿En qué año nació el primer jugador de la Premier League?",
+					"keywords": "año de nacimiento, primer jugador, Premier League",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX res: <http://dbpedia.org/resource/> SELECT YEAR(MIN(?date)) as ?BirthYear WHERE { ?uri dbo:team ?team . ?league dbo:league res:Premier_League . ?league dbo:team ?team . ?uri dbo:birthDate ?date }"
+				},
+			"answers": [
+				{ "head": { "vars": ["BirthYear"] },
+				  "results": { 
+					"bindings": [
+						{ "BirthYear": { "type": "literal", "value": "1854" }} ] } }
+			],
+			"aggregation": true,
+			"id": 179,
+			"modifiers": ["YEAR","MIN"]
+		},
+			
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Has Al pacino ever starred in a film directed by Brian de Palma?",
+					"keywords": "Al pacino, starred, film, directed by, Brian de Palma",
+					"language": "en"
+				},
+				{
+					"string": "Al pacino hai mai recitato in un film diretto da Brian de Palma?",
+					"keywords": "Al pacino, protagonista, film, diretto da, Brian de Palma",
+					"language": "it"
+				},
+				{
+					"string": "Al pacino avez-vous déjà joué dans un film réalisé par Brian de Palma?",
+					"keywords": "Al pacino, personnage principal, film, réalisé par, Brian de Palma",
+					"language": "fr"
+				},
+				{
+					"string": "Al pacino, ¿alguna vez has protagonizado una película dirigida por Brian de Palma?",
+					"keywords": "Al pacino, personaje principal, película, dirigida por Brian de Palma",
+					"language": "es"
+				}
+			],
+			"answertype": "boolean",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> ASK WHERE { ?film dbo:starring dbr:Al_Pacino; dbo:director dbr:Brian_De_Palma }"
+				},
+			"answers": [
+				{  "head": {},
+				   "boolean": true,
+				   "results" : {}
+				}
+			],
+			"aggregation": false,
+			"id": 180,
+			"modifiers": ["ASK"]
+		},
+		
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Has Steven Spielberg ever directed a film called Jurassic Park?",
+					"keywords": "Steven spielberg, directed, jurassic park",
+					"language": "en"
+				},
+				{
+					"string": "Steven spielberg ha mai diretto un film che si chiama jurassic Park?",
+					"keywords": "Steven spielberg, diretto, jurassic Park",
+					"language": "it"
+				},
+				{
+					"string": "Steven Spielberg a-t-il déjà réalisé un film intitulé Jurassic Park?",
+					"keywords": "Steven spielberg, réalisé, jurassic park",
+					"language": "fr"
+				},
+				{
+					"string": "¿Alguna vez Steven Spielberg dirigió una película llamada Jurassic Park?",
+					"keywords": "Steven spielberg, dirigió, parque jurásico",
+					"language": "es"
+				}
+			],
+			"answertype": "boolean",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX foaf:<http://xmlns.com/foaf/0.1/> ASK WHERE { ?film dbo:director dbr:Steven_Spielberg; foaf:name ?name FILTER regex(?name, \"Jurassic Park\") }"
+				},
+			"answers": [
+				{  "head": {},
+				   "boolean": true,
+				   "results" : {}
+				}
+			],
+			"aggregation": true,
+			"id": 181,
+			"modifiers": ["ASK", "FILTER"]
+		},
+			
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Which films of the Jurassic Park saga has Steven Spielberg directed?",
+					"keywords": "film, saga, Jurassic Park, directed, Steven Spielberg",
+					"language": "en"
+				},
+				{
+					"string": "Quali film della saga Jurassic Park ha diretto Steven Spielberg?",
+					"keywords": "film, saga, Jurassic Park, diretti, Stiven Spielberg",
+					"language": "it"
+				},
+				{
+					"string": "Quels films de la saga Jurassic Park a été réalisé par Steven Spielberg?",
+					"keywords": "film, saga, Jurassic Park, réalisé, Steven Spielberg",
+					"language": "fr"
+				},
+				{
+					"string": "¿Qué películas de la saga Jurassic Park ha dirigido Steven Spielberg?",
+					"keywords": "película, saga, Parque Jurásico, dirigida, Steven Spielberg",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX purl: <http://purl.org/linguistics/gold/> PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT ?film WHERE { ?film dbo:director dbr:Steven_Spielberg; foaf:name ?name; rdf:type dbo:Film FILTER REGEX(?name, \"Jurassic\") }"
+				},
+			"answers": [
+				{ "head": { "vars": ["film"] },
+				  "results": {
+					"bindings": [
+						{ "film": { "type": "uri", "value": "http://dbpedia.org/resource/Jurassic_Park_(film)" }},
+						{ "film": { "type": "uri", "value": "http://dbpedia.org/resource/The_Lost_World:_Jurassic_Park" }} 
+					] 
+				} 
+			}
+			],
+			"aggregation": true,
+			"id": 182,
+			"modifiers": ["FILTER"]
+		},
+			
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "How many movies has George Lucas directed?",
+					"keywords": "how many, films, director, George Lucas",
+					"language": "en"
+				},
+				{
+					"string": "Quanti film ha diretto George Lucas?",
+					"keywords": "quanti, film, diretto, George Lucas",
+					"language": "it"
+				},
+				{
+					"string": "Combien de films George Lucas a-t-il réalisés?",
+					"keywords": "nombre, films, réalisé par, George Lucas",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuántas películas ha dirigido George Lucas?",
+					"keywords": "número, películas, dirigido, George Lucas",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT COUNT(?film) as ?n_Film WHERE { ?film dbo:director dbr:George_Lucas; rdf:type dbo:Film }"
+				},
+			"answers": [
+				{ "head": { "vars": ["n_Film"] },
+				  "results": {
+					"bindings": [
+						{ "n_Film": { "type": "literal", "value": "16" }} 
+						] 
+					}
+				}
+			],
+			"aggregation": true,
+			"id": 183,
+			"modifiers": ["COUNT"]
+		},
+		
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Which actresses acted with Russell Crowe?",
+					"keywords": "actresses, starring, Russell Crowe",
+					"language": "en"
+				},
+				{
+					"string": "Quali attrici hanno recitato con Russell Crowe?",
+					"keywords": "attrici, recitato con, Russell Crowe",
+					"language": "it"
+				},
+				{
+					"string": "Quelles actrices ont joué avec Russell Crowe?",
+					"keywords": "actrices, joué ,Russell Crowe",
+					"language": "fr"
+				},
+				{
+					"string": "¿Qué actrices actuaron con Russell Crowe?",
+					"keywords": "actrices, protagonizadas, Russell Crowe",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX res: <http://dbpedia.org/resource/> PREFIX dbp: <http://dbpedia.org/property/> SELECT DISTINCT ?actors WHERE { ?film dbo:starring res:Russell_Crowe. ?film dbo:starring ?actors. ?actors foaf:gender ?gender FILTER regex(?gender, \"female\") }" 
+				},
+			"answers": [
+				{ "head": { "vars": ["actors"] },
+					"results": { 
+						"bindings": [
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Abbie_Cornish" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Amanda_Seyfried" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Amiel_Daemion" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Amy_Adams" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Angela_Punch_McGregor" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Angourie_Rice" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Annabelle_Wallis" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Anne_Hathaway" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Antje_Traue" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Ayelet_Zurer" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Bridget_Fonda" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Caroline_Goodall" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Catherine_Zeta-Jones" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Charlotte_Rampling" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Connie_Nielsen" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Danielle_Spencer_(Australian_singer)" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Debi_Mazar" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Deborah_Kennedy" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Diane_Kruger" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Diane_Lane" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Diane_Venora" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Emma_Watson" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Golshifteh_Farahani" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Gretchen_Mol" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Helen_Mirren" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Helen_Slater" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Helena_Bonham_Carter" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Jacqueline_McKenzie" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Jamie_Chung" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Jane_Fonda" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Janet_McTeer" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Jennifer_Connelly" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Kelly_Lynch" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Kim_Basinger" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Kylie_Rogers" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Lindsay_Crouse" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Lolita_Davidovich" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Louise_Fletcher" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Lucy_Liu" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Margaret_Qualley" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Marion_Cotillard" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Mary_McCormack" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Meg_Ryan" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Octavia_Spencer" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Quvenzhan\u00E9_Wallis" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Rachel_McAdams" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Ren\u00E9e_Zellweger" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Ruby_Dee" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Salma_Hayek" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Sharon_Stone" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Sofia_Boutella" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Sophie_Traub" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Vinessa_Shaw" }},
+							{ "actors": { "type": "uri", "value": "http://dbpedia.org/resource/Youki_Kudoh" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 184,
+			"modifiers": ["FILTER"]
+		},
+		
+		{
+			"hybrid": false,
+			"question": [{
+					"string":  "What is the average earnings of the films in which Russell Crowe starred which were produced by Dreamworks?",
+					"keywords": "average, earnings, films, Russell Crowe, produced by, Dreamworks",
+					"language": "en"
+				},
+				{
+					"string": "Qual'è la media degli incassi dei film in cui ha recitato Russell Crowe che sono stati prodotti dalla Dreamworks?",
+					"keywords": "media, guadagno, film, Russell Crowe, prodotti da, Dreamworks",
+					"language": "it"
+				},
+				{
+					"string": "Quel est le revenu moyen des films dans lesquels Russell Crowe a joué et qui ont été produits par Dreamworks?",
+					"keywords": "médias, revenus, film, Russell Crowe, produit par Dreamworks",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuál es el promedio de ganancias de las películas en las que Russell Crowe protagonizó producidas por Dreamworks?",
+					"keywords": "medios, ganancias, cine, Russell Crowe, producido por Dreamworks",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT AVG(xsd:double(?gross)) as ?medium_gross WHERE { ?uri dbo:starring dbr:Russell_Crowe; dbo:distributor dbr:DreamWorks_Pictures; dbo:gross ?gross. }"
+				},
+			"answers": [
+				{ "head": { "vars": ["medium_gross"] },
+				  "results": { 
+					"bindings": [
+						{ "medium_gross": { "type": "literal", "value": "385300000" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 185,
+			"modifiers": ["AVG"]
+		},
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "What are the birth names of Tom Cruise and Whoopi Goldberg?",
+					"keywords": "birth names, Tom Cruise, and, Whoopi Goldberg",
+					"language": "en"
+				},
+				{
+					"string": "Quali sono i nomi di nascita di Tom Cruise e Whoopi Goldberg?",
+					"keywords": "nomi di nascita, Tom Cruise, e, Whoopi Goldberg",
+					"language": "it"
+				},
+				{
+					"string": "Quels sont les noms de naissance de Tom Cruise et Whoopi Goldberg?",
+					"keywords": "noms de naissance, Tom Cruise, et, Whoopi Goldberg",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuáles son los nombres de nacimiento de Tom Cruise y Whoopi Goldberg?",
+					"keywords": "nombres de nacimiento, Tom Cruise, y, Whoopi Goldberg",
+					"language": "es"
+				}
+			],
+			"answertype": "literal",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT DISTINCT ?name WHERE { {dbr:Tom_Cruise dbo:birthName ?name.} UNION {dbr:Whoopi_Goldberg dbo:birthName ?name}}"
+				},
+			"answers": [
+				{ "head": {  "vars": ["name"] },
+				  "results": { 
+					"bindings": [
+						{ "name": { "type": "literal", "value": "Thomas Cruise Mapother IV" }},
+						{ "name": { "type": "literal", "value": "Caryn Elaine Johnson" }}
+						] 
+					} 
+				}
+
+			],
+			"aggregation": true,
+			"id": 186,
+			"modifiers": ["UNION"]
+		},	
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Which is the fifth most populous country in the world?",
+					"keywords": "fifth, most populous, country",
+					"language": "en"
+				},
+				{
+					"string": "Qual' è il quinto paese più popoloso al mondo?",
+					"keywords": "quinto, paese, più popoloso",
+					"language": "it"
+				},
+				{
+					"string": "Quel est le cinquième pays le plus peuplé du monde?",
+					"keywords": "cinquième, pays, le plus peuplé",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuál es el quinto país más poblado del mundo?",
+					"keywords":"quinto, país, más poblado",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT ?country WHERE { ?country rdf:type dbo:Country; dbo:populationTotal ?population } ORDER BY DESC(xsd:integer(?population)) LIMIT 1 OFFSET 4"
+				},
+			"answers": [
+				{ "head": {"vars": ["country"] },
+				  "results": { 
+					"bindings": [
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/China" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 187,
+			"modifiers": ["ORDER BY", "LIMIT", "OFFSET"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Give me the list of states in Europe ordered by name.",
+					"keywords": "states, Europe",
+					"language": "en"
+				},
+				{
+					"string": "Dammi la lista degli stati che si trovano in Europa in ordine alfabetico.",
+					"keywords": "stati, Europa",
+					"language": "it"
+				},
+				{
+					"string": "Donnez-moi la liste des États européens classés par nom.",
+					"keywords": "états, Europe",
+					"language": "fr"
+				},
+				{
+					"string": "Dame la lista de estados de Europa ordenados por nombre.",
+					"keywords": "Estados, Europa",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX dct: <http://purl.org/dc/terms/> SELECT ?country WHERE { ?country rdf:type dbo:Country; dct:subject dbc:Countries_in_Europe }ORDER BY DESC(?country)"
+				},
+			"answers": [
+				{ "head": { "vars": ["country"] },
+				  "results": {
+					"bindings": [
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Albania" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Andorra" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Armenia" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Austria" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Azerbaijan" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Belarus" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Belgium" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Bosnia_and_Herzegovina" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Bulgaria" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Croatia" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Cyprus" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Czech_Republic" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Denmark" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Estonia" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Finland" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/France" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Georgia_(country)" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Germany" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Greece" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Hungary" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Iceland" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Italy" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Kazakhstan" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Kosovo" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Latvia" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Liechtenstein" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Lithuania" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Luxembourg" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Malta" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Moldova" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Monaco" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Montenegro" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Norway" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Poland" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Portugal" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Republic_of_Macedonia" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Romania" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Russia" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/San_Marino" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Serbia" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Slovakia" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Slovenia" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Spain" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Sweden" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Switzerland" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Turkey" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Ukraine" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/United_Kingdom" }},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Vatican_City" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 188,
+			"modifiers": ["ORDER BY"]
+		},
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Give me the list of who directed and produced Saving Private Ryan.",
+					"keywords": "director, producer, Saving Private Ryan",
+					"language": "en"
+				},
+				{
+					"string": "Dammi l'elenco di chi ha diretto e prodotto Salvate il soldato Ryan.",
+					"keywords": "direttore, produttore, Salvate il soldato Ryan",
+					"language": "it"
+				},
+				{
+					"string": "Donnez-moi la liste de ceux qui ont réalisé et produit Il faut sauver le soldat Ryan.",
+					"keywords": "réalisateur, producteur, Il faut sauver le soldat Ryan",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuáles son los nombres de nacimiento de Tom Cruise y Whoopi Goldberg?",
+					"keywords": "director, producer, Saving Private Ryan",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT DISTINCT ?name WHERE { {dbr:Saving_Private_Ryan dbo:producer ?name.} UNION {dbr:Saving_Private_Ryan dbo:director ?name} }"
+				},
+			"answers": [
+				{ "head": { "vars": ["name"] },
+				  "results": {
+					"bindings": [
+						{ "name": { "type": "uri", "value": "http://dbpedia.org/resource/Gary_Levinsohn" }},
+						{ "name": { "type": "uri", "value": "http://dbpedia.org/resource/Mark_Gordon" }},
+						{ "name": { "type": "uri", "value": "http://dbpedia.org/resource/Ian_Bryce" }},
+						{ "name": { "type": "uri", "value": "http://dbpedia.org/resource/Steven_Spielberg" }}
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 189,
+			"modifiers": ["UNION"]
+		},	
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "What are the capitals of Italy and France?",
+					"keywords": "capitals, Italy, and, France",
+					"language": "en"
+				},
+				{
+					"string": "Quali sono le capitali dell'Italia e della Francia?",
+					"keywords": "capitali, Italia, e, Francia",
+					"language": "it"
+				},
+				{
+					"string": "Quelles sont les capitales de l'Italie et de la France?",
+					"keywords": "capitales, Italie, et, France",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuáles son las capitales de Italia y Francia?",
+					"keywords": "capitales, Italia, y, Francia",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbp: <http://dbpedia.org/property/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT DISTINCT ?capital WHERE { {dbr:Italy dbo:capital ?capital.} UNION {dbr:France dbo:capital ?capital.} } "
+				},
+			"answers": [
+				{ "head": { "vars": ["capital"] },
+				  "results": {
+					"bindings": [
+						{ "capital": { "type": "uri", "value": "http://dbpedia.org/resource/Rome" }},
+						{ "capital": { "type": "uri", "value": "http://dbpedia.org/resource/Paris" }}
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 190,
+			"modifiers": ["UNION"]
+		},	
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Is Stanley Kubrick younger than Quentin Tarantino?",
+					"keywords": "younger than, Stanley kubrick, Quentin tarantino",
+					"language": "en"
+				},
+				{
+					"string": "Stanley kubrick è più giovane di Quentin tarantino?",
+					"keywords": "più giovane di, Stanley kubrick,  Quentin tarantino",
+					"language": "it"
+				},
+				{
+					"string": "Stanley Kubrick est-il plus jeune que Quentin Tarantino?",
+					"keywords": "plus jeune que, Stanley kubrick, Quentin tarantino",
+					"language": "fr"
+				},
+				{
+					"string": "¿Stanley Kubrick es más joven que Quentin Tarantino?",
+					"keywords": "más joven que, Stanley kubrick, Quentin tarantino",
+					"language": "es"
+				}
+			],
+			"answertype": "boolean",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> ASK WHERE { dbr:Quentin_Tarantino dbo:birthDate ?QBirthDate . dbr:Stanley_Kubrick dbo:birthDate ?SBirthDate . FILTER(?SBirthDate < ?QBirthDate) }"
+				},
+			"answers": [
+				{  "head": {},
+				   "boolean": false,
+				   "results" : {}
+				}
+			],
+			"aggregation": true,
+			"id": 191,
+			"modifiers": ["ASK", "FILTER"]
+		},
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Is the largest city in Ethiopia also its capital?",
+					"keywords": "largest city, ethiopia, also, capital",
+					"language": "en"
+				},
+				{
+					"string": "La città più grande dell' Etiopia è anche la sua capitale?",
+					"keywords": "città, più grande, Etiopia, anche, capitale",
+					"language": "it"
+				},
+				{
+					"string": "La plus grande ville d'Ethiopie est-elle aussi sa capitale?",
+					"keywords": "ville, plus grande, Ethiopie, aussi, capitale",
+					"language": "fr"
+				},
+				{
+					"string": "¿La ciudad más grande de Etiopía es también su capital?",
+					"keywords": "ciudad, más grande, Etiopía, también, capital",
+					"language": "es"
+				}
+			],
+			"answertype": "boolean",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> ASK WHERE { dbr:Ethiopia dbp:largestCity ?largestCity FILTER REGEX(?largestCity, \"capital\") }"
+				},
+			"answers": [
+				{  "head": {},
+				   "boolean": true,
+				   "results" : {}
+				}
+			],
+			"aggregation": true,
+			"id": 192,
+			"modifiers": ["ASK", "FILTER"]
+		},
+		
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "How many states are there whose capital is also the largest city?",
+					"keywords": "how many, states, capital, city, largest",
+					"language": "en"
+				},
+				{
+					"string": "Quanti sono gli stati la cui capitale è anche la città più grande?",
+					"keywords": "quanti, stati, capitale, città, più grande",
+					"language": "it"
+				},
+				{
+					"string": "Combien d'États dont la capitale est également la plus grande ville?",
+					"keywords": "Combien, états, capital, ville, plus grand",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuántos estados cuya capital también es la ciudad más grande?",
+					"keywords": "Cuántos, estados, capital, ciudad, mayor",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT COUNT(?countries) as ?numC WHERE { ?countries dbp:largestCity ?largestCity FILTER REGEX(?largestCity, \"capital\") }"
+				},
+			"answers": [
+				{ "head": { "vars": ["numC"] },
+				  "results": { 
+					"bindings": [
+						{ "numC": { "type": "literal", "value": "138" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 193,
+			"modifiers": ["COUNT", "FILTER"]
+		},
+		
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Is Barack Obama a politician?",
+					"keywords": "Barack Obama, Politician",
+					"language": "en"
+				},
+				{
+					"string": "Barack Obama è un politico?",
+					"keywords": "Barack Obama, politico",
+					"language": "it"
+				},
+				{
+					"string": "Barack Obama est-il un politicien?",
+					"keywords": "Barack Obama, homme politique",
+					"language": "fr"
+				},
+				{
+					"string": "¿Barack Obama es un político?",
+					"keywords": "Barack Obama, político",
+					"language": "es"
+				}
+			],
+			"answertype": "boolean",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> ASK WHERE {dbr:Barack_Obama rdf:type dbo:Politician }"
+				},
+			"answers": [
+				{  "head": {},
+				   "boolean": true,
+				   "results" : {}
+				}
+			],
+			"aggregation": false,
+			"id": 194,
+			"modifiers": ["ASK"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Did the storming of the Bastille take place before the Battle of Leipzig?",
+					"keywords": "Storming of the Bastille, take place, before, Battle of Leipzig",
+					"language": "en"
+				},
+				{
+					"string": "La presa della Bastiglia avvenne prima della Battaglia di Lipsia?",
+					"keywords": "Presa della Bastiglia, avvenne, prima, Battaglia di Lipsia",
+					"language": "it"
+				},
+				{
+					"string": "La prise de la Bastille a-t-elle eu lieu avant la bataille de Leipzig?",
+					"keywords": "Prise de la Bastille, lieu, avant, bataille de Leipzig",
+					"language": "fr"
+				},
+				{
+					"string": "¿La toma de la Bastilla tuvo lugar antes de la Batalla de Leipzig?",
+					"keywords": "Asalto de la Bastilla, tuvo lugar, antes, Batalla de Leipzig",
+					"language": "es"
+				}
+			],
+			"answertype": "boolean",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> ASK WHERE {dbr:Storming_of_the_Bastille dbo:date ?x . dbr:Battle_of_Leipzig dbo:date ?y FILTER(?x < ?y)  }"
+				},
+			"answers": [
+				{  "head": {},
+				   "boolean": true,
+				   "results" : {}
+				}
+			],
+			"aggregation": true,
+			"id": 195,
+			"modifiers": ["ASK", "FILTER"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Is Barack Obama's predecessor still alive?",
+					"keywords": "predecessor, Barack Obama, alive",
+					"language": "en"
+				},
+				{
+					"string": "Il predecessore di Barack Obama è ancora vivo?",
+					"keywords": "predecessore, Barack Obama, vivo",
+					"language": "it"
+				},
+				{
+					"string": "Le prédécesseur de Barack Obama est-il toujours en vie?",
+					"keywords": "prédécesseur, Barack Obama, vivant",
+					"language": "fr"
+				},
+				{
+					"string": "¿Sigue vivo el predecesor de Barack Obama?",
+					"keywords": "predecesor, Barack Obama, vivo",
+					"language": "es"
+				}
+			],
+			"answertype": "boolean",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX dbp: <http://dbpedia.org/property/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ASK WHERE { dbr:Barack_Obama dbp:predecessor ?predecessor. ?predecessor rdf:type dbo:President. OPTIONAL { ?predecessor dbo:deathDate ?date } FILTER ( ! bound(?date) ) }"
+				},
+			"answers": [
+				{  "head": {},
+				   "boolean": true,
+				   "results" : {}
+				}
+			],
+			"aggregation": true,
+			"id": 196,
+			"modifiers": ["ASK", "FILTER"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "What is the average number of seasons for the TV series produced by Sony Pictures Television?",
+					"keywords": "seasons, average, TV series, produced by, Sony Pictures Television",
+					"language": "en"
+				},
+				{
+					"string": "Qual'è la media di stagioni per le serie TV prodotte da Sony Pictures Television?",
+					"keywords": "media, stagioni, serie TV, prodotte, Sony Pictures Television",
+					"language": "it"
+				},
+				{
+					"string": "Quelle est la moyenne des saisons pour la série télévisée produite par Sony Pictures Television?",
+					"keywords": "médias, saisons, séries télévisées, produit, Sony Pictures Television",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuál es el promedio de temporadas para la serie de televisión producida por Sony Pictures Television?",
+					"keywords": "medios, temporadas, series de televisión, producidas,Sony Pictures Television",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT AVG(?numberS) as ?avgSeason WHERE {?series dbo:company dbr:Sony_Pictures_Television;  dbo:numberOfSeasons ?numberS. }"
+				},
+			"answers": [
+				{ "head": {"vars": ["avgSeason"] },
+				  "results": { "bindings": [
+					{ "avgSeason": { "type": "literal", "value": "2.884892086330935" }} ] } }
+			],
+			"aggregation": true,
+			"id": 197,
+			"modifiers": ["AVG"]
+		},
+		
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "What are the TV series created by Vince Gilligan for Sony, sorted by number of seasons?",
+					"keywords": "TV series, created by, Vince Gilligan, Sony, sorted by, number of seasons",
+					"language": "en"
+				},
+				{
+					"string": "Quali sono le serie TV create da Vince Gilligan per la Sony, ordinate per numero di stagioni?",
+					"keywords": "serie TV, create da, Vince Gilligan, Sony, ordinate per, numero di stagioni",
+					"language": "it"
+				},
+				{
+					"string": "Quelles sont les séries télévisées créées par Vince Gilligan pour Sony, triées par nombre de saisons?",
+					"keywords": "Série télévisée, créée par, Vince Gilligan, Sony, triées par, nombre de saisons",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuáles son las series de televisión creadas por Vince Gilligan para Sony, ordenadas por número de temporadas?",
+					"keywords": "Serie de TV, creada por, Vince Gilligan, Sony, ordenadas por, número de temporadas",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT DISTINCT ?series WHERE {?series dbo:company dbr:Sony_Pictures_Television;  dbo:creator dbr:Vince_Gilligan;  dbo:numberOfSeasons ?numberS. } ORDER BY DESC(?numberS)"
+				},
+			"answers": [
+				{ "head": {  "vars": ["series"] },
+				  "results": { 
+					"bindings": [
+						{ "series": { "type": "uri", "value": "http://dbpedia.org/resource/Breaking_Bad" }},
+						{ "series": { "type": "uri", "value": "http://dbpedia.org/resource/Better_Call_Saul" }},
+						{ "series": { "type": "uri", "value": "http://dbpedia.org/resource/Battle_Creek_(TV_series)" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 198,
+			"modifiers": ["ORDER BY"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "What is the sum of all the episodes of the TV series created by Vince Gilligan?",
+					"keywords": "sum, episodes, TV series, created by, Vince Gilligan",
+					"language": "en"
+				},
+				{
+					"string": "Qual' è la somma di tutti gli episodi delle serie TV create da Vince Gilligan?",
+					"keywords": "somma, episodi, serie TV, create da, Vince Gilligan",
+					"language": "it"
+				},
+				{
+					"string": "Quelle est la somme de tous les épisodes de la série télévisée créée par Vince Gilligan?",
+					"keywords": "sum, episodes, TV series, créé par, Vince Gilligan",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuál es la suma de todos los episodios de la serie de televisión creada por Vince Gilligan?",
+					"keywords": "total, episodios, series de televisión, creados por, Vince Gilligan",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT SUM(?numberE) as ?totalEp WHERE {?series dbo:creator dbr:Vince_Gilligan;  dbo:numberOfEpisodes ?numberE.}"
+				},
+			"answers": [
+				{ "head": { "vars": ["totalEp"] },
+				  "results": { 
+					"bindings": [
+						{ "totalEp": { "type": "literal", "value": "108" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 199,
+			"modifiers": ["SUM"]
+		},
+			
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "What is the third company that has produced the most episodes of TV series?",
+					"keywords": "third, company, producer, most, episodes, TV series",
+					"language": "en"
+				},
+				{
+					"string": "Qual' è la terza compagnia che ha prodotto più episodi di serie TV?",
+					"keywords": "terza, compagnia, produttrice, più, episodi, serie TV",
+					"language": "it"
+				},
+				{
+					"string": "Quelle est la troisième entreprise à avoir produit le plus d'épisodes de séries télévisées?",
+					"keywords": "troisième, entreprise, producteur, le plus, épisodes, séries télévisées",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuál es la tercera compañía que ha producido más episodios de series de televisión?",
+					"keywords": "tercero, compañía, productor, más, episodios, series de televisión",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT ?company WHERE { SELECT ?company SUM(?numberE) as ?totalEp WHERE {?series dbo:company ?company;  dbo:numberOfEpisodes ?numberE. } GROUP BY ?company ORDER BY DESC(?totalEp) LIMIT 1 OFFSET 2 }"
+				},
+			"answers": [
+				{ "head": { "vars": ["company"] },
+				  "results": { 
+						"bindings": [
+							{ "company": { "type": "uri", "value": "http://dbpedia.org/resource/Procter_&_Gamble" }} 
+							] 
+						} 
+				}
+			],
+			"aggregation": true,
+			"id": 200,
+			"modifiers": ["SUM", "GROUP BY", "ORDER BY", "LIMIT", "OFFSET"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "How many children does Barack Obama have?",
+					"keywords": "número, niños, Barack Obama",
+					"language": "en"
+				},
+				{
+					"string": "Quanti figli ha Barack Obama?",
+					"keywords": "numero, figli, Barack Obama",
+					"language": "it"
+				},
+				{
+					"string": "Combien d'enfants Barack Obama a-t-il?",
+					"keywords": "nombre, enfants, Barack Obama",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuántos hijos tiene Barack Obama?",
+					"keywords": "número, niños, Barack Obama",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo":true ,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT COUNT(?children) as ?numC WHERE { dbr:Barack_Obama dbp:children ?children }"
+				},
+			"answers": [
+				{ "head": { "vars": ["numC"] },
+				  "results": { 
+					"bindings": [
+						{ "numC": { "type": "literal", "value": "2" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 201,
+			"modifiers": ["COUNT"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Does Jack Nicholson have children?",
+					"keywords": "Jack Nicholson, children",
+					"language": "en"
+				},
+				{
+					"string": "Jack Nicholson ha figli?",
+					"keywords": "Jack Nicholson, figli",
+					"language": "it"
+				},
+				{
+					"string": "Jack Nicholson a-t-il des enfants?",
+					"keywords": "Jack Nicholson, enfants",
+					"language": "fr"
+				},
+				{
+					"string": "¿Jack Nicholson tiene hijos?",
+					"keywords": "Jack Nicholson, hijos",
+					"language": "es"
+				}
+			],
+			"answertype": "boolean",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> ASK WHERE{  dbr:Jack_Nicholson dbo:child ?child }"
+				},
+			"answers": [
+				{  "head": {},
+				   "boolean": true,
+				   "results" : {}
+				}
+			],
+			"aggregation": false,
+			"id": 202,
+			"modifiers": ["ASK"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Was Natalie Portman born after 1980?",
+					"keywords": "Barack Obama, born, after, 1980",
+					"language": "en"
+				},
+				{
+					"string": "Natalie Portman è nata dopo il 1980?",
+					"keywords": "Natalie Portman, nata, dopo, 1980",
+					"language": "it"
+				},
+				{
+					"string": "Natalie Portman est-il né après 1980?",
+					"keywords": "Natalie Portman, né, après, 1980",
+					"language": "fr"
+				},
+				{
+					"string": "¿Natalie Portman nació después de 1980?",
+					"keywords": "Barack Obama, nacido, después, 1980",
+					"language": "es"
+				}
+			],
+			"answertype": "boolean",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> ASK WHERE { dbr:Natalie_Portman dbo:birthDate ?birthDate FILTER(?birthDate>1980)}"
+				},
+			"answers": [
+				{  "head": {},
+				   "boolean": false,
+				   "results" : {}
+				}
+			],
+			"aggregation": true,
+			"id": 203,
+			"modifiers": ["ASK", "FILTER"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "What is the total number of episodes of the series in which Laura Fraser starred?",
+					"keywords": "total, episodes, series, starred, Laura Fraser",
+					"language": "en"
+				},
+				{
+					"string": "Qual'è il totale degli episodi delle serie in cui ha recitato Laura Fraser?",
+					"keywords": "totale, episodi, serie, ha recitato, Laura Fraser",
+					"language": "it"
+				},
+				{
+					"string": "Quel est le nombre total d'épisodes de la série dans laquelle Laura Fraser a joué?",
+					"keywords": "total, épisodes, séries, joué, Laura Fraser",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuál es el número total de episodios de la serie en la que protagonizó Laura Fraser?",
+					"keywords": "total, episodios, series, protagonizada, Laura Fraser",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX purl: <http://purl.org/linguistics/gold/> SELECT SUM(?episodes) as ?total_ep WHERE { ?series purl:hypernym dbr:Series; dbo:starring dbr:Laura_Fraser; dbo:numberOfEpisodes ?episodes }"
+				},
+			"answers": [
+				{ "head": { "vars": ["total_ep"] },
+				  "results": { 
+					"bindings": [
+						{ "total_ep": { "type": "literal", "value": "81" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": false,
+			"id": 204,
+			"modifiers": ["SUM"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Is Macron younger than his predecessor?",
+					"keywords": "Macron, younger, predecessor",
+					"language": "en"
+				},
+				{
+					"string": "Macron è più giovane del suo predecessore?",
+					"keywords": "età, Obama, predecessore",
+					"language": "it"
+				},
+				{
+					"string": "Macron est-il plus jeune que son prédécesseur?",
+					"keywords": "l'âge, Obama, prédécesseur",
+					"language": "fr"
+				},
+				{
+					"string": "¿Es Macron más joven que su predecesor?",
+					"keywords": "edad, Obama, predecesor",
+					"language": "es"
+				}
+			],
+			"answertype": "boolean",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX dbp: <http://dbpedia.org/property/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ASK WHERE { dbr:Emmanuel_Macron dbo:birthDate ?OBirthDate. dbr:Emmanuel_Macron dbp:predecessor ?predecessor. ?predecessor dbo:birthDate ?PBirthDate. FILTER(?OBirthDate < ?PBirthDate) }"
+				},
+			"answers": [
+				{  "head": {},
+				   "boolean": false,
+				   "results" : {}
+				}
+			],
+			"aggregation": true,
+			"id": 205,
+			"modifiers": ["ASK", "FILTER"]
+		},
+				
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Was Giacomo Leopardi born and died in Italy?",
+					"keywords": "Giacomo Leopardi, place of birth, equal, place of death",
+					"language": "en"
+				},
+				{
+					"string": "Giacomo Leopardi è nato e morto in italia?",
+					"keywords": "Giacomo Leopardi, luogo nascita, uguale, luogo morte",
+					"language": "it"
+				},
+				{
+					"string": "Giacomo Leopardi est-il né et mort en Italie?",
+					"keywords": "Giacomo Leopardi, lieu de naissance, égal, lieu de décès",
+					"language": "fr"
+				},
+				{
+					"string": "¿Giacomo Leopardi nació y murió en Italia?",
+					"keywords": "Giacomo Leopardi, lugar de nacimiento, igual, lugar de muerte",
+					"language": "es"
+				}
+			],
+			"answertype": "boolean",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> ASK WHERE {dbr:Giacomo_Leopardi dbo:birthPlace ?x. ?x dbo:country ?x_country. dbr:Giacomo_Leopardi dbo:deathPlace ?y. ?y dbo:country ?y_country . FILTER (?x_country = ?y_country && regex(?x_country, \"Italy\")) }"
+				},
+			"answers": [
+				{  "head": {},
+				   "boolean": true,
+				   "results" : {}
+				}
+			],
+			"aggregation": true,
+			"id": 206,
+			"modifiers": ["ASK", "FILTER"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "What are the writers born Italy who died in 2015?",
+					"keywords": "writers, birthplace Italy, death place Italy, 2015",
+					"language": "en"
+				},
+				{
+					"string": "Quali sono gli scrittori nati e morti in italia? Morti nel 2015?",
+					"keywords": "scrittori, luogo nascita italia, luogo morte italia, 2015",
+					"language": "it"
+				},
+				{
+					"string": "¿Cuáles son los escritores nacidos y fallecidos en Italia? Murió en 2015?",
+					"keywords": "écrivains, lieu de naissance Italie, lieu de décès Italie, 2015",
+					"language": "fr"
+				},
+				{
+					"string": "Quels sont les écrivains nés et morts en Italie? Décédé en 2015?",
+					"keywords": "escritores, lugar de nacimiento Italia, lugar de muerte Italia, 2015",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  SELECT DISTINCT ?uri  WHERE { ?uri dbo:birthPlace ?x.  ?x dbo:country ?x_country. ?uri rdf:type dbo:Writer. ?uri dbo:deathDate ?date. FILTER (regex(?x_country, \"Italy\") && (?date >= \"2015-01-01\"^^xsd:date) && (?date <= \"2015-12-31\"^^xsd:date)) }"
+				},
+			"answers": [
+				{ "head": { "vars": ["uri"] },
+				  "results": {"bindings": [
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Marcello_Fabbri" }},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Alfredo_Vernacotola" }},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Mario_Cervi" }},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Franco_Scaglia" }},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Sebastiano_Vassalli" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 207,
+			"modifiers": ["FILTER"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "How many writers were born and died in Germany?",
+					"keywords": "number, writers, born, died, Germany",
+					"language": "en"
+				},
+				{
+					"string": "Quanti sono gli scrittori nati e morti in Germania?",
+					"keywords": "numero, scrittori, nati, morti, Germania",
+					"language": "it"
+				},
+				{
+					"string": "Combien d'écrivains sont nés et sont morts en Allemagne?",
+					"keywords": "nombre, écrivains, nés, morts, Allemagne",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuántos escritores nacieron y murieron en Alemania?",
+					"keywords":"número, escritores, nacidos, fallecidos, Alemania",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT DISTINCT COUNT(?uri) as ?num_Writer  WHERE { ?uri dbo:birthPlace ?x.  ?x dbo:country dbr:Germany.  ?uri dbo:deathPlace ?y.  ?y dbo:country dbr:Germany . ?uri rdf:type dbo:Writer  }"
+				},
+			"answers": [
+				{ "head": { "vars": ["num_Writer"] },
+				  "results": {
+					"bindings": [
+						{ "num_Writer": { "type": "literal", "value": "291" }} ] } }
+			],
+			"aggregation": true,
+			"id": 208,
+			"modifiers": ["COUNT"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Who is the oldest living Austrian writer?",
+					"keywords": "writer, oldest, living, Austrian",
+					"language": "en"
+				},
+				{
+					"string": "Chi è lo scrittore più anziano ancora vivente nato in Austria?",
+					"keywords": "scrittore, più anziano, vivente, nato, Austria",
+					"language": "it"
+				},
+				{
+					"string": "Qui est le plus ancien écrivain autrichien vivant?",
+					"keywords": "écrivain, plus ancien, autrichien, vivant",
+					"language": "fr"
+				},
+				{
+					"string": "¿Quién es el escritor austriaco vivo más viejo?",
+					"keywords": "escritor, más viejo, austriaco",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT DISTINCT ?uri  WHERE { ?uri dbo:birthPlace ?x.  ?x dbo:country dbr:Austria. ?uri rdf:type dbo:Writer. ?uri dbo:birthDate ?bd OPTIONAL { ?uri dbo:deathDate ?dd } FILTER (!bound(?dd)) }ORDER BY ASC(?bd) LIMIT 1"
+				},
+			"answers": [
+				{ "head": { "vars": ["uri"] },
+				  "results": {
+					"bindings": [
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/page/Doris_Orgel" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 209,
+			"modifiers": ["FILTER", "ORDER BY", "LIMIT"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "What are the second and third capitals in the world with higher population density?",
+					"keywords": "second, third, capitals, population density, higher",
+					"language": "en"
+				},
+				{
+					"string": "Quali sono la seconda e la terza capitale al mondo con densità di popolazione maggiore?",
+					"keywords": "seconda, terza, capitali, densità di popolazione, maggiore",
+					"language": "it"
+				},
+				{
+					"string": "Quelles sont les deuxième et troisième capitales du monde avec une densité de population plus élevée?",
+					"keywords": "deuxième, troisième, capitales, densité de population, plus élevée",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuáles son las segundas y terceras capitales del mundo con mayor densidad de población?",
+					"keywords": "segundo, tercero, capitales, densidad de población, mayor",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT ?capital WHERE { ?uri dbo:capital ?capital;   dbo:populationDensity ?density  } ORDER BY DESC(?density) LIMIT 2 OFFSET 2 "
+				},
+			"answers": [
+				{ "head": { "vars": ["capital"] },
+				  "results": { 
+					"bindings": [
+						{ "capital": { "type": "uri", "value": "http://dbpedia.org/resource/Dublin" }},
+						{ "capital": { "type": "uri", "value": "http://dbpedia.org/resource/Cockburn_Town" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 210,
+			"modifiers": ["ORDER BY", "LIMIT", "OFFSET"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Which ongoing BBC series has the most episodes?",
+					"keywords":"series, ongoing, BBC, most, number of episodes",
+					"language": "en"
+				},
+				{
+					"string": "Quale serie ancora in corso prodotta dalla BBC ha il maggior numero di episodi?",
+					"keywords": "serie, in corso, BBC, maggior, numero episodi",
+					"language": "it"
+				},
+				{
+					"string": "Quelle série de la BBC en cours a le plus d'épisodes?",
+					"keywords": "séries, en cours, BBC, la plupart, nombre d'épisodes",
+					"language": "fr"
+				},
+				{
+					"string": "¿Qué serie de la BBC en curso tiene más episodios?",
+					"keywords": "serie, en curso, BBC, más, número de episodios",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT ?series WHERE {?series dbo:company dbr:BBC; dbo:numberOfEpisodes ?numEp. OPTIONAL { ?series dbo:completionDate ?date } FILTER (! bound(?date)) }ORDER BY DESC(?numEp) LIMIT 1"
+				},
+			"answers": [
+				{ "head": { "vars": ["series"] },
+				  "results": { 
+					"bindings": [
+						{ "series": { "type": "uri", "value": "http://dbpedia.org/resource/The_One_Show" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 211,
+			"modifiers": ["FILTER", "ORDER BY", "LIMIT"]
+		},
+		
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Which book written by Ken Follett that has the most pages?",
+					"keywords": "book, Ken Follett, most, number of pages",
+					"language": "en"
+				},
+				{
+					"string": "Quale libro scritto da Ken Follett che ha il maggior numero di pagine?",
+					"keywords": "libro, Ken Follett, maggior, numero di pagine",
+					"language": "it"
+				},
+				{	"string": "Quel livre écrit par Ken Follett qui a le plus de pages?",
+					"keywords": "livre, Ken Follett, la plupart, nombre de pages",
+					"language": "fr"
+				},
+				{
+					"string": "¿Qué libro escrito por Ken Follett que tiene más páginas?",
+					"keywords": "libro, Ken Follett, más, número de páginas",
+					"language": "es"
+				}
+			],
+			"answertype": "boolean",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT DISTINCT ?book WHERE { ?book dbo:author dbr:Ken_Follett; dbo:numberOfPages ?numPag. } ORDER BY DESC(?numPag) LIMIT 1"
+				},
+			"answers": [
+				{  "head": {},
+				   "boolean": true,
+				   "results" : {}
+				}
+			],
+			"aggregation": true,
+			"id": 212,
+			"modifiers": ["ORDER BY", "LIMIT"]
+		},
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Give me the budget and earnings of Once Upon a Time in the West.",
+					"keywords": "budget, and, earnings, Once Upon a Time in the West",
+					"language": "en"
+				},
+				{
+					"string": "Dammi il budget e i guadagni di C'era una volta il West.",
+					"keywords": "budget, e, guadagni, C'era una volta il West",
+					"language": "it"
+				},
+				{
+					"string": "Donnez-moi le budget et les gains de Il était une fois dans l'Ouest.",
+					"keywords": "budget, et, gains, Il était une fois dans l'Ouest",
+					"language": "fr"
+				},
+				{
+					"string": "Dame el presupuesto y las ganancias de Hasta que llegó su hora.",
+					"keywords": "presupuesto, y, ganancias, Hasta que llegó su hora",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT ?x WHERE { {dbr:Once_Upon_a_Time_in_the_West dbo:budget ?x.} UNION {dbr:Once_Upon_a_Time_in_the_West dbo:gross ?x.}}"
+				},
+			"answers": [
+				{ "head": { "vars": ["x"] },
+				  "results": {
+					"bindings": [
+						{ "x": { "type": "literal", "value": "5000000.0" }},
+						{ "x": { "type": "literal", "value": "5321508.0" }} 
+					] 
+				} 
+			}
+			],
+			"aggregation": true,
+			"id": 213,
+			"modifiers": ["UNION"]
+		},	
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Is the book \"Days of Eternity\" by Ken Follett the precedent of the \"Pillars of the Earth\"?",
+					"keywords": "The days of Eternity, Ken Follett, precedent, Pillars of the Earth",
+					"language": "en"
+				},
+				{
+					"string": "Il libro \"I giorni dell' Eternità\" di Ken Follett è il precedente dei \"Pilastri della Terra\"?",
+					"keywords": "I giorni dell' Eternità, Ken Follett, precedente, Pilastri della Terra",
+					"language": "it"
+				},
+				{
+					"string": "Le livre \"Days of Eternity\" de Ken Follett est-il le précédent des \"Piliers de la Terre\"?",
+					"keywords": "Les jours de l'éternité, Ken Follett, précédent, Piliers de la Terre",
+					"language": "fr"
+				},
+				{
+					"string": "¿Es el libro \"Días de la eternidad\" de Ken Follett el precedente de los \"Pilares de la Tierra\"?",
+					"keywords": "Los días de la eternidad, Ken Follett, precedente, Pilares de la Tierra",
+					"language": "es"
+				}
+			],
+			"answertype": "boolean",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> ASK WHERE { dbr:Edge_of_Eternity dbo:previousWork dbr:The_Pillars_of_the_Earth }"
+				},
+			"answers": [
+				{  "head": {},
+				   "boolean": false,
+				   "results" : {}
+				}
+			],
+			"aggregation":false,
+			"id": 214,
+			"modifiers": ["ASK"]
+		},
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Does the book \"The Fall of the Giants\" have more pages than the \"Pillars of the Earth\" book?",
+					"keywords": "The fall of the giants, number of pages, greater than, the Pillars of the Earth",
+					"language": "en"
+				},
+				{
+					"string": "Il libro \"La caduta dei giganti\" ha un numero di pagine superiore al libro i \"Pilastri della Terra\"?",
+					"keywords": "La caduta dei giganti, numero di pagine, superiore a, i Pilastri della Terra",
+					"language": "it"
+				},
+				{
+					"string": "Le livre \"La Chute des Géants\" a-t-il plus de pages que le livre \"Piliers de la Terre\"?",
+					"keywords": "La chute des géants, nombre de pages, supérieur à, les Piliers de la Terre",
+					"language": "fr"
+				},
+				{
+					"string": "¿El libro \"La caída de los gigantes\" tiene más páginas que el libro \"Pilares de la Tierra\"?",
+					"keywords": "La caída de los gigantes, número de páginas, mayor que, los Pilares de la Tierra",
+					"language": "es"
+				}
+			],
+			"answertype": "boolean",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> ASK WHERE { dbr:Fall_of_Giants dbo:numberOfPages ?n. dbr:The_Pillars_of_the_Earth dbo:numberOfPages ?m FILTER (?n>?m) }"
+				},
+			"answers": [
+				{  "head": {},
+				   "boolean": true,
+				   "results" : {}
+				}
+			],
+			"aggregation": true,
+			"id": 215,
+			"modifiers": ["ASK", "FILTER"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "What is the average earnings of the films Amanda Seyfried starred in?",
+					"keywords": "average earnings, film, Amanda Seyfried, starred in",
+					"language": "en"
+				},
+				{
+					"string": "Qual è il guadagno medio dei film in cui ha recitato Amanda Seyfried?",
+					"keywords": "guadagno medio, film , Amanda Seyfried, recitato",
+					"language": "it"
+				},
+				{
+					"string": "Quel est le revenu moyen des films dans lesquels Amanda Seyfried a joué?",
+					"keywords": "revenus moyens, film, Amanda Seyfried, joué",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuál es el promedio de ganancias de las películas que protagonizó Amanda Seyfried?",
+					"keywords": "ganancias promedio, película, protagonizó, Amanda Seyfried",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbp: <http://dbpedia.org/property/> SELECT AVG(xsd:double(?gross)) as ?AvgGross WHERE { ?uri rdf:type dbo:Film; dbo:gross ?gross.  ?uri dbo:starring dbr:Amanda_Seyfried OPTIONAL { ?uri rdfs:label ?string FILTER ( lang(?string) = \"en\" ) } }"
+				},
+			"answers": [
+				{ "head": { "vars": ["AvgGross"] },
+				  "results": {
+					"bindings": [
+						{ "AvgGross": { "type": "literal", "value": "123496317.222222222222222" }} 
+						] 
+					}
+				}
+			],
+			"aggregation": true,
+			"id": 216,
+			"modifiers": ["AVG", "FILTER"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "How many films has Marlon Brando starred in?",
+					"keywords": "how many, film, Marlon Brando, starred in",
+					"language": "en"
+				},
+				{
+					"string": "In quanti film ha recitato Marlon Brando?",
+					"keywords": "numero, film, recitato, Marlon Brando",
+					"language": "it"
+				},
+				{
+					"string": "Dans combien de films Marlon Brando a-t-il joué?",
+					"keywords": "combien, films, Marlon Brando, joué",
+					"language": "fr"
+				},
+				{
+					"string": "¿En cuántas películas jugó Marlon Brando?",
+					"keywords": "cuántas, películas, Marlon Brando",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbp: <http://dbpedia.org/property/> SELECT COUNT(DISTINCT ?uri) as ?nFilm WHERE { ?uri rdf:type dbo:Film. ?uri dbo:starring dbr:Marlon_Brando}"
+				},
+			"answers": [
+				{ "head": { "vars": ["nFilm"] },
+				  "results": {
+					"bindings": [
+						{ "nFilm": { "type": "literal", "value": "39" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 217,
+			"modifiers": ["COUNT"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Which film in which Tom Cruise starred in has the lowest budget?",
+					"keywords": "budget, film, lowest, Tom Cruise",
+					"language": "en"
+				},
+				{
+					"string": "Quale film in cui ha recitato Tom Cruise ha il budget più basso?",
+					"keywords": "budget, film, più basso, Tom Criuse",
+					"language": "it"
+				},
+				{
+					"string": "Quel film dans lequel Tom Cruise a joué a le budget le plus bas?",
+					"keywords": "budget, film, joué, Tom Cruise, plus bas",
+					"language": "fr"
+				},
+				{
+					"string": "¿Qué película protagonizada por Tom Cruise tiene el presupuesto más bajo?",
+					"keywords": "presupuesto, película, más bajo, Tom Cruise",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbp: <http://dbpedia.org/property/> SELECT MIN(xsd:double(?budget))  as ?minBudget WHERE { ?uri rdf:type dbo:Film; dbo:budget ?budget. ?uri dbo:starring dbr:Tom_Cruise}"
+				},
+			"answers": [
+				{ "head": { "vars": ["minBudget"] },
+				  "results": { 
+					"bindings": [
+					{ "minBudget": { "type": "literal", "value": "33.0" }} ] } }
+			],
+			"aggregation": true,
+			"id": 218,
+			"modifiers": ["MIN"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Which film in which Kevin Spacey starred in has the highest budget?",
+					"keywords": "film, Kevin Spacey, budget, highest",
+					"language": "en"
+				},
+				{
+					"string": "Quale film in cui ha recitato Kevin Spacey ha il budget più alto?",
+					"keywords": "film, Kevin Spacey, budget, più alto",
+					"language": "it"
+				},
+				{
+					"string": "Quel film dans lequel Kevin Spacey a joué a le budget le plus élevé?",
+					"keywords": "film, Kevin Spacey, budget, plus élevé",
+					"language": "fr"
+				},
+				{
+					"string": "¿Qué película protagonizada por Kevin Spacey tiene el mayor presupuesto?",
+					"keywords": "película, Kevin Spacey, presupuesto, más alto",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbp: <http://dbpedia.org/property/> SELECT ?uri WHERE { ?uri rdf:type dbo:Film; dbo:budget ?budget. ?uri dbo:starring dbr:Kevin_Spacey. } ORDER BY DESC(?budget) LIMIT 1"
+				},
+			"answers": [
+				{ "head": {"vars": ["uri"] },
+					"results": { 
+						"bindings": [
+							{ "uri": { "type": "uri", "value": "http://dbpedia.org/page/The_Big_Kahuna_(film)" }} 
+							] 
+						} 
+				}
+			],
+			"aggregation": true,
+			"id": 219,
+			"modifiers": ["ORDER BY", "LIMIT"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Which films in which Catherine Zeta-Jones starred in have earned less than the initial budget?",
+					"keywords": "film, starred, Catherine Zeta-Jones, earnings, lower, initial budget",
+					"language": "en"
+				},
+				{
+					"string": "Quali film in cui ha recitato Catherine Zeta-Jones hanno guadagnato meno del budget iniziale?",
+					"keywords": "film, ha recitato, Catherine Zeta-Jones, guadagno, inferiore, budget iniziale",
+					"language": "it"
+				},
+				{
+					"string": "Quels films dans lesquels Catherine Zeta-Jones a joué ont gagné moins que le budget initial?",
+					"keywords": "film, Catherine Zeta-Jones, joué, gagné, moins que, baisse, budget initial",
+					"language": "fr"
+				},
+				{
+					"string": "¿Qué películas protagonizadas por Catherine Zeta-Jones han ganado menos que el presupuesto inicial?",
+					"keywords": "película, protagonizada, Catherine Zeta-Jones, ganado, menos que, presupuesto inicial",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbp: <http://dbpedia.org/property/> SELECT ?uri WHERE { ?uri rdf:type dbo:Film; dbo:budget ?budget; dbo:gross ?gross.  ?uri dbo:starring dbr:Catherine_Zeta-Jones . FILTER(?budget>?gross) }ORDER BY ?uri"
+				},
+			"answers": [
+				{ "head": { "vars": ["uri"] },
+				  "results": {
+					"bindings": [
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/America's_Sweethearts" }},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Red_2_(film)" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": false,
+			"id": 220,
+			"modifiers": ["FILTER", "ORDER BY"]
+		},
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "What are the films Nicolas Cage starred in whose title begins with G?",
+					"keywords": "film, starred in, Nicolas Cage, title, starts with",
+					"language": "en"
+				},
+				{
+					"string": "Quali sono i film in cui ha recitato Nicolas Cage che il cui titolo inizia per G?",
+					"keywords": "film, ha recitato, Nicolas Cage, titolo, inizia per",
+					"language": "it"
+				},
+				{
+					"string": "Quels sont les films dont Nicolas Cage a joué et dont le titre commence par G?",
+					"keywords": "film, joué, Nicolas Cage, titre, commence par",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuáles son las películas que protagonizó Nicolas Cage cuyo título comienza con G?",
+					"keywords": "película, protagonizó, Nicolas Cage, título, comienza con ",
+					"language": "es"
+				}
+			],
+			"answertype": "literal",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbp: <http://dbpedia.org/property/> PREFIX foaf:<http://xmlns.com/foaf/0.1/> SELECT DISTINCT ?name WHERE { ?uri rdf:type dbo:Film; foaf:name ?name. ?uri dbo:starring dbr:Nicolas_Cage FILTER regex(?name, \"^G\")}"
+				},
+			"answers": [
+				{ "head": { "vars": ["name"] },
+				  "results": { 
+					"bindings": [
+						{ "name": { "type": "literal", "value": "Ghost Rider: Spirit of Vengeance" }},
+						{ "name": { "type": "literal", "value": "G-Force" }},
+						{ "name": { "type": "literal", "value": "Ghost Rider" }},
+						{ "name": { "type": "literal", "value": "Gone in 60 Seconds" }}
+					] 
+				} 
+				}
+			],
+			"aggregation": true,
+			"id": 221,
+			"modifiers": ["FILTER"]
+		},
+		
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "What was the first book published by Haruki Murakami?",
+					"keywords": "first, book, published, Haruki Murakami",
+					"language": "en"
+				},
+				{
+					"string": "Qual'è stato il primo libro pubblicato da Haruki Murakami?",
+					"keywords": "primo, libro, pubblicato, Haruki Murakami",
+					"language": "it"
+				},
+				{
+					"string": "Quel a été le premier livre publié par Haruki Murakami?",
+					"keywords": "premier, livre, publié, Haruki Murakami",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuál fue el primer libro publicado por Haruki Murakami?",
+					"keywords": "primer, libro, publicado, Haruki Murakami?",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbp: <http://dbpedia.org/property/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT ?book WHERE {  ?book dbo:author dbr:Haruki_Murakami. ?book dbo:publicationDate ?date }ORDER BY xsd:date(?date) LIMIT 1"
+				},
+			"answers": [
+				{ "head": {"vars": ["book"] },
+					"results": { 
+						"bindings": [
+							{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/A_Wild_Sheep_Chase" }} 
+							] 
+						} 
+				}
+			],
+			"aggregation": true,
+			"id": 222,
+			"modifiers": ["ORDER BY", "LIMIT"]
+		},
+		
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "What were the second and third books published by William Goldman?",
+					"keywords": "second, third, book, published by, William Goldman",
+					"language": "en"
+				},
+				{
+					"string": "Quali sono stati il secondo e il terzo libro pubblicati da William Goldman?",
+					"keywords": "secondo, terzo, libro, pubblicato da, William Goldman",
+					"language": "it"
+				},
+				{
+					"string": "Quels ont été les deuxième et troisième livres publiés par William Goldman?",
+					"keywords": "deuxième, troisième, livre, publié par, William Goldman",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuáles fueron los libros segundo y tercero publicados por William Goldman?",
+					"keywords": "segundo, tercer, libro, publicado por, William Goldman",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbp: <http://dbpedia.org/property/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT DISTINCT ?book WHERE {?book dbo:author dbr:William_Goldman; dbp:releaseDate ?date} ORDER BY xsd:date(?date) LIMIT 2 OFFSET 1"
+				},
+			"answers": [
+				{ "head": {"vars": ["book"] },
+				  "results": { 
+					"bindings": [
+						{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Father's_Day_(novel)" }},
+						{ "book": { "type": "uri", "value": "http://dbpedia.org/resource/Control_(novel)" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 223,
+			"modifiers": ["ORDER BY", "LIMIT", "OFFSET"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "In what year did Edgar Allan Poe publish his first book?",
+					"keywords": "year, publication, first, book, Edgar Allan Poe",
+					"language": "en"
+				},
+				{
+					"string": "In che anno ha pubblicato il primo libro Edgar Allan Poe?",
+					"keywords": "anno, pubblicato, primo, libro, Edgar Allan Poe",
+					"language": "it"
+				},
+				{
+					"string": "En quelle année Edgar Allan Poe a-t-il publié son premier livre?",
+					"keywords": "année, publié, premier, livre, Edgar Allan Poe",
+					"language": "fr"
+				},
+				{
+					"string": "¿En qué año Edgar Allan Poe publicó su primer libro?",
+					"keywords": "año, publicó, primer, libro, Edgar Allan Poe",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbp: <http://dbpedia.org/property/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT DISTINCT ?date WHERE {?book dbo:author dbr:Edgar_Allan_Poe.  ?book dbp:releaseDate ?date . } ORDER BY (?date) LIMIT 1"
+				},
+			"answers": [
+				{ "head": { "vars": ["date"] },
+				  "results": { 
+					"bindings": [
+						{ "date": { "type": "literal", "value": "December 1844" }} ] } }
+			],
+			"aggregation": true,
+			"id": 224,
+			"modifiers": ["ORDER BY", "LIMIT"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Did Ken Follett start his career before Sarah Waters?",
+					"keywords": "Ken Follett, start career, before, Sarah Waters",
+					"language": "en"
+				},
+				{
+					"string": "ken Follett ha iniziato la sua carriera prima di Sarah Waters?",
+					"keywords": "Ken Follett, ha iniziato, prima, Sarah Waters",
+					"language": "it"
+				},
+				{
+					"string": "Ken Follett a-t-il commencé sa carrière avant Sarah Waters?",
+					"keywords": "Ken Follett, a commencé, avant, Sarah Waters",
+					"language": "fr"
+				},
+				{
+					"string": "¿Comenzó Ken Follett su carrera antes de Sarah Waters?",
+					"keywords": "Ken Follett, comenzó, antes, Sarah Waters",
+					"language": "es"
+				}
+			],
+			"answertype": "boolean",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbr: <http://dbpedia.org/resource/> PREFIX dbo: <http://dbpedia.org/ontology/ ASK WHERE {dbr:Ken_Follett dbo:activeYearsStartYear ?Kdate. dbr:Sarah_Waters dbo:activeYearsStartYear ?Sdate. FILTER (?Kdate<?Sdate) }"
+				},
+			"answers": [
+				{  "head": {},
+				   "boolean": true,
+				   "results" : {}
+				}
+			],
+			"aggregation": true,
+			"id": 225,
+			"modifiers": ["ASK", "FILTER"]
+		},
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "What are the first publication date and the last publication date of Mazinger Z?",
+					"keywords": "first publication date, and, last publication date, Mazinger Z",
+					"language": "en"
+				},
+				{
+					"string": "Quali sono la prima e l'ultima data di pubblicazione di Mazinga Z?",
+					"keywords": "prima data di pubblicazione, e, ultima data di pubblicazione, Mazinga Z",
+					"language": "it"
+				},
+				{
+					"string": "Quelles sont la première date de publication et la dernière date de publication de Mazinger Z?",
+					"keywords": "première date de publication, et, dernière date de publication, Mazinger Z",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuáles son la primera fecha de publicación y la última fecha de publicación de Mazinger Z?",
+					"keywords": "primera fecha de publicación, y, última fecha de publicación, Mazinger Z",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT ?x WHERE { {dbr:Mazinger_Z dbo:firstPublicationDate ?x.} UNION {dbr:Mazinger_Z dbo:lastPublicationDate ?x.}}"
+				},
+			"answers": [
+				{ "head": { "vars": ["x"] },
+				  "results": {
+					"bindings": [
+						{ "x": { "type": "literal", "value": "1972-10-02" }},
+						{ "x": { "type": "literal", "value": "1974-08-13" }} 
+					] 
+				} 
+			}
+			],
+			"aggregation": true,
+			"id": 226,
+			"modifiers": ["UNION"]
+		},			
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "What are the films shot in the Harry Potter saga?",
+					"keywords": "names, movies, Harry Potter saga",
+					"language": "en"
+				},
+				{
+					"string": "Quali sono i film girati nella saga di Harry Potter?",
+					"keywords": "nomi, film, saga di Harry Potter",
+					"language": "it"
+				},
+				{
+					"string": "Quels sont les films tournés dans la saga Harry Potter?",
+					"keywords":"noms, films, saga Harry Potter",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuáles son las películas rodadas en la saga de Harry Potter?",
+					"keywords": "nombres, películas, saga de Harry Potter",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": false,
+			"query": {
+				"sparql":  "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX foaf:<http://xmlns.com/foaf/0.1/> SELECT DISTINCT ?film WHERE { ?film rdf:type dbo:Film; foaf:name ?name. FILTER regex (?name, \"^Harry Potter\") }"
+				},
+			"answers": [
+				{ "head": { "link": [], "vars": ["film"] },
+				  "results": { 
+					"bindings": [
+						{ "film": { "type": "uri", "value": "http://dbpedia.org/resource/Harry_Potter_and_the_Prisoner_of_Azkaban_(film)" }},
+						{ "film": { "type": "uri", "value": "http://dbpedia.org/resource/Production_of_Harry_Potter_and_the_Deathly_Hallows" }},
+						{ "film": { "type": "uri", "value": "http://dbpedia.org/resource/Harry_Potter_and_the_Chamber_of_Secrets_(film)" }},
+						{ "film": { "type": "uri", "value": "http://dbpedia.org/resource/Harry_Potter_and_the_Goblet_of_Fire_(film)" }},
+						{ "film": { "type": "uri", "value": "http://dbpedia.org/resource/Harry_Potter_and_the_Order_of_the_Phoenix_(film)" }},
+						{ "film": { "type": "uri", "value": "http://dbpedia.org/resource/Harry_Potter_and_the_Philosopher's_Stone_(film)" }},
+						{ "film": { "type": "uri", "value": "http://dbpedia.org/resource/Harry_Potter_and_the_Half-Blood_Prince_(film)" }},
+						{ "film": { "type": "uri", "value": "http://dbpedia.org/resource/Harry_Potter_(film_series)" }},
+						{ "film": { "type": "uri", "value": "http://dbpedia.org/resource/Harry_Potter_and_the_Deathly_Hallows_\u2013_Part_1" }},
+						{ "film": { "type": "uri", "value": "http://dbpedia.org/resource/Harry_Potter_and_the_Deathly_Hallows_\u2013_Part_2" }} 
+					] 
+				} 
+				}
+			],
+			"aggregation": true,
+			"id": 227,
+			"modifiers": ["FILTER"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Which Harry Potter film has had the highest grossing?",
+					"keywords": "movie, Harry Potter, most, gain",
+					"language": "en"
+				},
+				{
+					"string": "Quale film di Harry Potter ha avuto il maggior numero di incassi?",
+					"keywords": "film, Harry Potter, maggior ,guadagno",
+					"language": "it"
+				},
+				{
+					"string": "Quel film Harry Potter a eu le plus gros succès?",
+					"keywords": "film, Harry Potter, le plus, gagne",
+					"language": "fr"
+				},
+				{
+					"string": "¿Qué película de Harry Potter ha tenido la mayor recaudación?",
+					"keywords": "película, Harry Potter, más, gana",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX foaf:<http://xmlns.com/foaf/0.1/> SELECT DISTINCT ?film WHERE { ?film rdf:type dbo:Film; foaf:name ?name; dbo:gross ?gross FILTER regex (?name, \"^Harry Potter\") } ORDER BY DESC(?gross) LIMIT 1"
+				},
+			"answers": [
+				{ "head": { "vars": ["film"] },
+				  "results": {
+					"bindings": [
+						{ "film": { "type": "uri", "value": "http://dbpedia.org/resource/Harry_Potter_and_the_Philosopher's_Stone_(film)" }}
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 228,
+			"modifiers": ["FILTER", "ORDER BY", "LIMIT"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Who are the writers who started their career in 1998?",
+					"keywords": "writers, beginning, career, 1998",
+					"language": "en"
+				},
+				{
+					"string": "Quali sono gli scrittori che hanno iniziato la loro carriera nel 1998?",
+					"keywords": "scrittori, inizio, carriera, 1998",
+					"language": "it"
+				},
+				{
+					"string": "Quels sont les écrivains qui ont commencé leur carrière en 1998?",
+					"keywords": "écrivains, début, carrière, 1998",
+					"language": "fr"
+				},
+				{
+					"string": "¿Quiénes son los escritores que comenzaron su carrera en 1998?",
+					"keywords": "escritores, comienzo, carrera, 1998",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT DISTINCT ?writer WHERE { ?book rdf:type dbo:Book; dbo:author ?writer. ?writer dbo:activeYearsStartYear ?date; rdf:type dbo:Writer. FILTER (YEAR(xsd:date(?date))=1998) }"
+				},
+			"answers": [
+				{ "head": {"vars": ["writer"] },
+				  "results": { 
+					"bindings": [
+						{ "writer": { "type": "uri", "value": "http://dbpedia.org/resource/China_Mi\u00E9ville" }},
+						{ "writer": { "type": "uri", "value": "http://dbpedia.org/resource/Eoin_Colfer" }},
+						{ "writer": { "type": "uri", "value": "http://dbpedia.org/resource/David_Almond" }},
+						{ "writer": { "type": "uri", "value": "http://dbpedia.org/resource/Daniel_Handler" }},
+						{ "writer": { "type": "uri", "value": "http://dbpedia.org/resource/Magnus_Mills" }},
+						{ "writer": { "type": "uri", "value": "http://dbpedia.org/resource/Yu_Jie" }},
+						{ "writer": { "type": "uri", "value": "http://dbpedia.org/resource/Ian_Irvine" }},
+						{ "writer": { "type": "uri", "value": "http://dbpedia.org/resource/Kiran_Desai" }},
+						{ "writer": { "type": "uri", "value": "http://dbpedia.org/resource/Ned_Vizzini" }},
+						{ "writer": { "type": "uri", "value": "http://dbpedia.org/resource/Sarah_Waters" }},
+						{ "writer": { "type": "uri", "value": "http://dbpedia.org/resource/Emma_Holly" }},
+						{ "writer": { "type": "uri", "value": "http://dbpedia.org/resource/Karin_Alvtegen" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 229,
+			"modifiers": ["FILTER" ,"YEAR"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Which actors have starred in more than 30 television shows?",
+					"keywords": "actors, starred, more than, 30, television shows",
+					"language": "en"
+				},
+				{
+					"string": "Quali attori hanno recitato in più di 30 serie televisive?",
+					"keywords": "attori, recitato, più di, 30, serie televisive",
+					"language": "it"
+				},
+				{
+					"string": "Quels acteurs ont joué dans plus de 30 émissions de télévision?",
+					"keywords": "acteurs, vedette, plus de, 30, séries",
+					"language": "fr"
+				},
+				{
+					"string": "¿Qué actores han protagonizado más de 30 programas de televisión?",
+					"keywords": "actores, protagonizados, más de, 30, programas de televisión",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT DISTINCT ?actor WHERE { ?series rdf:type dbo:TelevisionShow; dbo:starring ?actor. } GROUP BY ?actor HAVING ( COUNT(?series) > 30 )"
+				},
+			"answers": [
+				{ "head": { "vars": ["actor"] },
+				  "results": { 
+					"bindings": [
+						{ "actor": { "type": "uri", "value": "http://dbpedia.org/resource/Frank_Welker" }},
+						{ "actor": { "type": "uri", "value": "http://dbpedia.org/resource/Tay_Ping_Hui" }},
+						{ "actor": { "type": "uri", "value": "http://dbpedia.org/resource/Elvin_Ng" }},
+						{ "actor": { "type": "uri", "value": "http://dbpedia.org/resource/Bosco_Wong" }},
+						{ "actor": { "type": "uri", "value": "http://dbpedia.org/resource/Sean_Bean" }},
+						{ "actor": { "type": "uri", "value": "http://dbpedia.org/resource/Wayne_Lai" }},
+						{ "actor": { "type": "uri", "value": "http://dbpedia.org/resource/Dana_White" }},
+						{ "actor": { "type": "uri", "value": "http://dbpedia.org/resource/Roger_Kwok" }},
+						{ "actor": { "type": "uri", "value": "http://dbpedia.org/resource/Tavia_Yeung" }},
+						{ "actor": { "type": "uri", "value": "http://dbpedia.org/resource/Charmaine_Sheh" }},
+						{ "actor": { "type": "uri", "value": "http://dbpedia.org/resource/Kenneth_Ma" }},
+						{ "actor": { "type": "uri", "value": "http://dbpedia.org/resource/Myolie_Wu" }},
+						{ "actor": { "type": "uri", "value": "http://dbpedia.org/resource/Mikael_Persbrandt" }},
+						{ "actor": { "type": "uri", "value": "http://dbpedia.org/resource/Peter_Haber" }},
+						{ "actor": { "type": "uri", "value": "http://dbpedia.org/resource/Moses_Chan" }},
+						{ "actor": { "type": "uri", "value": "http://dbpedia.org/resource/Chen_Hanwei"}}
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 230,
+			"modifiers": ["GROUP BY", "HAVING", "COUNT"]
+		},
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Who are the author and publisher of Don Quixote?",
+					"keywords": "author, and, publisher, Don Quixote",
+					"language": "en"
+				},
+				{
+					"string": "Chi sono l'autore e l'editore di Don Chisciotte?",
+					"keywords": "autore, e, editore, Don Chisciotte",
+					"language": "it"
+				},
+				{
+					"string": "Qui sont l'auteur et l'éditeur de Don Quichotte?",
+					"keywords": "auteur, et, éditeur, Don Quichotte",
+					"language": "fr"
+				},
+				{
+					"string": "¿Quiénes son el autor y editor de Don Quijote?",
+					"keywords": "autor, y, editor, Don Quijote",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT ?x WHERE { {dbr:Don_Quixote dbo:author ?x.} UNION {dbr:Don_Quixote dbo:publisher ?x.}}"
+				},
+			"answers": [
+				{ "head": { "vars": ["x"] },
+				  "results": { 
+					"bindings": [
+						{ "x": { "type": "uri", "value": "http://dbpedia.org/resource/Miguel_de_Cervantes" }},
+						{ "x": { "type": "uri", "value": "http://dbpedia.org/resource/Francisco_de_Robles" }}
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 231,
+			"modifiers": ["UNION"]
+		},	
+			{ 
+			"hybrid": false,
+			"question": [{
+					"string": "Which actress has starred in the highest number of television shows?",
+					"keywords": "actress, starred in, highest number of, television shows",
+					"language": "en"
+				},
+				{
+					"string": "Quale attrice ha recitato nel maggior numero di programmi televisivi?",
+					"keywords": "attrice, recitato, maggior numero di, programmi televisivi",
+					"language": "it"
+				},
+				{
+					"string": "Quelle actrice a joué dans le plus grand nombre d'émissions de télévision?",
+					"keywords": "actrice, joué, plus grand nombre, émissions de télévision",
+					"language": "fr"
+				},
+				{
+					"string": "¿Qué actriz ha protagonizado el mayor número de programas de televisión?",
+					"keywords": "actriz, protagonizado, mayor número de, programas de televisión",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX foaf:<http://xmlns.com/foaf/0.1/> SELECT ?actor WHERE { SELECT DISTINCT ?actor COUNT(?series) as ?numS WHERE  { ?series rdf:type dbo:TelevisionShow; dbo:starring ?actor. ?actor foaf:gender ?gender FILTER regex(?gender, \"female\") }GROUP BY ?actor ORDER BY DESC(?numS) LIMIT 1 }"
+				},
+			"answers": [
+				{ "head": { "vars": ["actor"] },
+					"results": { 
+						"bindings": [
+							{ "actor": { "type": "uri", "value": "http://dbpedia.org/page/Tavia_Yeung" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 232,
+			"modifiers": ["FILTER", "GROUP BY", "ORDER BY", "LIMIT"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "How many male actors have starred in more than 10 TV series?",
+					"keywords": "number, actors, men, starred in, more than, 10, series",
+					"language": "en"
+				},
+				{
+					"string": "Quanti attori uomini hanno recitato in più di 10 serie TV?",
+					"keywords": "numero, attori, uomini, recitato, più di, 10, serie",
+					"language": "it"
+				},
+				{
+					"string": "Combien d'acteurs masculins ont joué dans plus de 10 séries télévisées?",
+					"keywords": "nombre, acteurs, hommes, joué, plus de, 10, séries ",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuántos actores masculinos han protagonizado más de 10 series de televisión?",
+					"keywords": "número, actores, hombres, protagonizado, más de, 10, series",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX foaf:<http://xmlns.com/foaf/0.1/> SELECT COUNT(DISTINCT ?actor) as ?numA WHERE { SELECT DISTINCT ?actor WHERE { ?series rdf:type dbo:TelevisionShow; dbo:starring ?actor. ?actor foaf:gender ?gender FILTER regex(?gender, \"male\") } GROUP BY ?actor HAVING(COUNT(?series) > 10) }"
+				},
+			"answers": [
+				{ "head": { "vars": ["numA"] },
+				  "results": { 
+					"bindings": [
+					{ "numA": { "type": "literal", "value": "758" }} ] } }
+			],
+			"aggregation": true,
+			"id": 233,
+			"modifiers": ["COUNT", "FILTER", "GROUP BY", "HAVING"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "What are the two least used frequent flayer programs used by airlines?",
+					"keywords": "two, frequent flyer, less used, airlines",
+					"language": "en"
+				},
+				{
+					"string": "Quali sono i due programmi frequent flayer meno utilizzati dalle compagnie aeree?",
+					"keywords": "due, frequent flayer, meno usati, compagnie aeree",
+					"language": "it"
+				},
+				{
+					"string": "Quels sont les deux programmes frequent flayer les moins utilisés par les compagnies aériennes?",
+					"keywords": "deux, gfrequent flayer, moins utilisé, compagnies aériennes",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuáles son los dos programas frequent flayer menos utilizados por las aerolíneas?",
+					"keywords": "dos, frequent flayer, menos utilizado, aerolíneas",
+					"language": "es"
+				}
+			],
+			"answertype": "literal",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbp: <http://dbpedia.org/property/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX foaf:<http://xmlns.com/foaf/0.1/> SELECT STR(?fFlayer) aS ?frequentFlayer WHERE { ?airline rdf:type dbo:Airline;  dbp:frequentFlyer ?fFlayer. } GROUP BY ?fFlayer ORDER BY ASC(COUNT(DISTINCT ?airline)) LIMIT 2"
+				},
+			"answers": [
+				{ "head": { "vars": ["frequentFlayer"] },
+				   "results": { 
+						"bindings": [
+							{ "frequentFlayer": { "type": "literal", "value": "Flying Dutchman" }},
+							{ "frequentFlayer": { "type": "literal", "value": "Loyalty Rewards Program" }} 
+							] 
+						} 
+				}
+			],
+			"aggregation": true,
+			"id": 234,
+			"modifiers": ["GROUP BY", "ORDER BY", "COUNT", "LIMIT"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "What is the average number of employees of an airline?",
+					"keywords": "average, number of employees, airline",
+					"language": "en"
+				},
+				{
+					"string": "Qual'è la media di impiegati di una compagnia aerea?",
+					"keywords": "media, numero impiegati, compagnia aerea",
+					"language": "it"
+				},
+				{
+					"string": "Quel est l'employé moyen d'une compagnie aérienne?",
+					"keywords": "moyenne, nombre d'employés, compagnie aérienne",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuál es el empleado promedio de una aerolínea?",
+					"keywords": "promedio, número de empleados, aerolínea",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT AVG(?numE) as ?avgE WHERE { ?airline rdf:type dbo:Airline; dbo:numberOfEmployees ?numE } "
+				},
+			"answers": [
+				 {"head": { "vars": ["avgE"] },
+				 "results": { 
+					"bindings": [
+						{ "avgE": { "type": "literal", "value": "12440.282758620689655" }} ] } }
+			],
+			"aggregation": true,
+			"id": 235,
+			"modifiers": ["AVG"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Did Leonardo DiCaprio ever write a film?",
+					"keywords": "Leonardo DiCaprio, wrote, film",
+					"language": "en"
+				},
+				{
+					"string": "Leonardo DiCaprio ha mai scritto un film?",
+					"keywords": "Leonardo DiCaprio, ha scritto, film",
+					"language": "it"
+				},
+				{
+					"string": "Leonardo DiCaprio a-t-il déjà écrit un film?",
+					"keywords": "Leonardo DiCaprio, a écrit, film",
+					"language": "fr"
+				},
+				{
+					"string": "¿Leonardo DiCaprio alguna vez escribió una película?",
+					"keywords":"Leonardo DiCaprio, escribió, película",
+					"language": "es"
+				}
+			],
+			"answertype": "boolean",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ASK WHERE { ?film dbo:narrator dbr:Leonardo_DiCaprio; rdf:type dbo:Film }"
+				},
+			"answers": [
+				{  "head": {},
+				   "boolean": true,
+				   "results" : {}
+				}
+			],
+			"aggregation":false ,
+			"id": 236,
+			"modifiers": ["ASK"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Has Walt Disney ever won an Oscar?",
+					"keywords": "Walt Disney, won, oscar",
+					"language": "en"
+				},
+				{
+					"string": "Walt Disney ha mai vinto un oscar?",
+					"keywords": "Walt Disney,vinto, oscar",
+					"language": "it"
+				},
+				{
+					"string": "Walt Disney a-t-il déjà remporté un Oscar?",
+					"keywords": "Walt Disney, a gagné, oscar",
+					"language": "fr"
+				},
+				{
+					"string": "¿Walt Disney alguna vez ganó un Oscar?",
+					"keywords": "Walt Disney, ganó, Oscar",
+					"language": "es"
+				}
+			],
+			"answertype": "boolean",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> ASK WHERE { dbr:Walt_Disney dbo:award dbr:Academy_Awards }"
+				},
+			"answers": [
+				{  "head": {},
+				   "boolean": true,
+				   "results" : {}
+				}
+			],
+			"aggregation": false,
+			"id": 237,
+			"modifiers": ["ASK"]
+		},
+		
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "How many cartoons are produced by Walt Disney?",
+					"keywords": "how many, cartoons, produced by, Walt Disney",
+					"language": "en"
+				},
+				{
+					"string": "Quanti sono i cartoni animati prodotti da Walt Disney?",
+					"keywords": "quanti, cartoni animati, prodotti da, Walt Disney",
+					"language": "it"
+				},
+				{
+					"string": "Combien de dessins animés sont produits par Walt_Disney?",
+					"keywords": "combien, dessins animés, produits par, Walt Disney",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuántos dibujos animados produce Walt Disney?",
+					"keywords": "Cuántos, dibujos animados, produce, Walt Disney",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/>  PREFIX purl: <http://purl.org/linguistics/gold/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT COUNT(DISTINCT ?uri) as ?NUMc { ?uri dbo:producer dbr:Walt_Disney. ?uri rdf:type dbo:Cartoon}"
+				},
+			"answers": [
+				{ "head": {"vars": ["NUMc"] },
+				  "results": { 
+					"bindings": [
+						{ "NUMc": { "type": "literal", "value": "243" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": false,
+			"id": 238,
+			"modifiers": ["COUNT"]
+		},		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Give me the population density of Warsaw as well as its population total.",
+					"keywords": "population density, Warsaw, population total",
+					"language": "en"
+				},
+				{
+					"string": "Dammi la densità di popolazione di Varsavia e la sua popolazione totale.",
+					"keywords": "densità di popolazione, Varsavia, popolazione totale",
+					"language": "it"
+				},
+				{
+					"string": "Donnez-moi la densité de la population de Varsovie ainsi que sa population totale.",
+					"keywords": "densité de population, Varsovie, population totale",
+					"language": "fr"
+				},
+				{
+					"string": "Dame la densidad de población de Varsovia, así como su población total.",
+					"keywords": "densidad de población, Varsovia, población total",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT ?x WHERE { {dbr:Warsaw dbo:populationDensity ?x.} UNION {dbr:Warsaw dbo:populationTotal ?x.}}"
+				},
+			"answers": [{
+				"head": {
+					"vars": ["x"]
+				},
+				"results": {
+					"bindings": [
+					{"x": {"type": "number", "value": "3337.0"}},
+					{"x": {"type": "number", "value": "1744351"}}
+					]
+				}
+			}],
+			"aggregation": true,
+			"id": 239,
+			"modifiers": ["UNION"]
+		},	
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "How many songs did Elvis release between 1950 and 1970?",
+					"keywords": "how many, songs, Elvis, release, between, 1950, 1970",
+					"language": "en"
+				},
+				{
+					"string": "Quante sono le canzoni rilasciate da Elvis tra il 1950 e il 1970?",
+					"keywords": "quante, canzoni, Elvis, rilasciate, tra, 1950, 1970",
+					"language": "it"
+				},
+				{
+					"string": "Combien de chansons Elvis a-t-il sorti entre 1950 et 1970?",
+					"keywords": "combien, chansons, Elvis, sorti, entre, 1950, 1970",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuántas canciones lanzó Elvis entre 1950 y 1970?",
+					"keywords": "cuántas, canciones, Elvis, lanzó, entre, 1950, 1970",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/>  PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT COUNT(DISTINCT ?uri) AS ?numC WHERE { ?uri rdf:type dbo:Song; dbo:artist dbr:Elvis_Presley; dbo:releaseDate ?date. FILTER (?date >= '1950-01-01'^^xsd:date && ?date <= '1970-12-31'^^xsd:date) }"
+				},
+			"answers": [
+				{ "head": {  "vars": ["numC"] },
+				  "results": { 
+					"bindings": [
+						{ "numC": { "type": "literal", "value": "16" }} ] } }
+			],
+			"aggregation": true,
+			"id": 240,
+			"modifiers": ["COUNT", "FILTER"]
+		},
+		
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Which song was released by Elvis and written by Bennie Benjamin between 1950 and 1970?",
+					"keywords": "song, released by, Elvis, written by, Bennie benjamin, between, 1950, 1970",
+					"language": "en"
+				},
+				{
+					"string": "Quale canzoni sono state rilasciate da Elvis e scritte da Bennie Benjamin tra il 1950 e il 1970?",
+					"keywords": "canzoni, rilasciate da, Elvis, scritte, Bennie Benjamin, tra, 1950, 1970",
+					"language": "it"
+				},
+				{
+					"string": "Quelle chanson a été publiée par Elvis et écrite par Bennie Benjamin entre 1950 et 1970?",
+					"keywords": "chanson, publiée par, Elvis, écrite par, Bennie Benjamin, entre, 1950, 1970",
+					"language": "fr"
+				},
+				{
+					"string": "¿Qué canción fue lanzada por Elvis y escrita por Bennie Benjamin entre 1950 y 1970?",
+					"keywords": "Canción, lanzada por, Elvis, escrita por, Bennie Benjamin, entre, 1950, 1970",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT ?uri WHERE { ?uri rdf:type dbo:Song; dbo:artist dbr:Elvis_Presley; dbo:releaseDate ?date; dbo:writer dbr:Bennie_Benjamin. FILTER (?date >= '1950-01-01'^^xsd:date && ?date <= '1970-12-31'^^xsd:date) }"
+				},
+			"answers": [
+				{ "head": { "vars": ["uri"] },
+				  "results": {
+					"bindings": [
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/I_Will_Be_Home_Again" }} 
+						] 
+					}
+				}
+			],
+			"aggregation": true,
+			"id": 241,
+			"modifiers": ["FILTER"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "What was the penultimate song released by Elvis?",
+					"keywords": "penultimate, song, released by, Elvis",
+					"language": "en"
+				},
+				{
+					"string": "Qual è stata la penultima canzone rilasciata da Elvis?",
+					"keywords": "penultima, canzone, rilasciata da, Elvis",
+					"language": "it"
+				},
+				{
+					"string": "Quelle a été l'avant-dernière chanson publiée par Elvis?",
+					"keywords": "avant-dernier, chanson, publiée par, Elvis",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuál fue la penúltima canción lanzada por Elvis?",
+					"keywords": "penúltima, canción, lanzada por, Elvis",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT ?uri WHERE { ?uri rdf:type dbo:Song; dbo:artist dbr:Elvis_Presley; dbo:releaseDate ?date. }ORDER BY DESC(xsd:date(?date)) LIMIT 1 OFFSET 1 "
+				},
+			"answers": [
+				{ "head": { "vars": ["uri"] },
+				  "results": { 
+					"bindings": [
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Little_Darlin'__Little_Darlin'__1" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 242,
+			"modifiers": ["ORDER BY", "LIMIT", "OFFSET"]
+		},
+		
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Which Elvis songs are part of the Elvis is Back album?",
+					"keywords": "songs, albums, Elvis is Back?",
+					"language": "en"
+				},
+				{
+					"string": "Quali canzoni di Elvis fanno parte dell' album Elvis is Back?",
+					"keywords": "canzoni, album, Elvis is Back?",
+					"language": "it"
+				},
+				{
+					"string": "Quelles chansons d'Elvis font partie de l'album Elvis is Back?",
+					"keywords": "chansons, albums, Elvis est de retour?",
+					"language": "fr"
+				},
+				{
+					"string": "¿Qué canciones de Elvis son parte del álbum Elvis is Back?",
+					"keywords": "canciones, álbumes, Elvis is Back?",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT ?uri WHERE { ?uri rdf:type dbo:Song; dbo:artist dbr:Elvis_Presley; dbo:album ?album FILTER regex(?album, \"Elvis_Is_Back\") }ORDER BY ?uri"
+				},
+			"answers": [
+				{ "head": { "vars": ["uri"] },
+				  "results": { 
+					"bindings": [
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Girl_Next_Door_Went_A-Walking" }},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/I_Will_Be_Home_Again" }},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Like_a_Baby" }},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/The_Girl_of_My_Best_Friend" }},
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Thrill_of_Your_Love" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 243,
+			"modifiers": ["FILTER", "ORDER BY"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Did Elvis' wife have children with another man?",
+					"keywords": "wife, Elvis, children, man",
+					"language": "en"
+				},
+				{
+					"string": "La moglie di Elvis aveva figli con un altro uomo?",
+					"keywords": "moglie, Elvis, figli, uomo",
+					"language": "it"
+				},
+				{
+					"string": "La femme d'Elvis a-t-elle eu des enfants avec un autre homme?",
+					"keywords": "épouse, Elvis, enfants, un autre homme",
+					"language": "fr"
+				},
+				{
+					"string": "¿La esposa de Elvis tuvo hijos con otro hombre?",
+					"keywords": "esposa, Elvis, hijos, otro hombre",
+					"language": "es"
+				}
+			],
+			"answertype": "boolean",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ASK WHERE  {dbr:Elvis_Presley dbo:spouse ?spouse. ?spouse dbo:child ?child FILTER NOT EXISTS {?child dbo:child dbr:Elvis_Presley} }"
+				},
+			"answers": [
+				{  "head": {},
+				   "boolean": true,
+				   "results" : {}
+				}
+			],
+			"aggregation": true,
+			"id": 244,
+			"modifiers": ["ASK", "FILTER"]
+		},
+		
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "Which city contains the most entertainment companies?",
+					"keywords": "city, most companies, entertainment",
+					"language": "en"
+				},
+				{
+					"string": "Quale città contiene il maggior numero di compagnie per l'intrattenimento?",
+					"keywords": "città/paese, maggior numero, compagnie, intrattenimento",
+					"language": "it"
+				},
+				{
+					"string": "Quelle ville contient le plus d'entreprises de divertissement?",
+					"keywords": "ville, la plupart des entreprises, divertissement",
+					"language": "fr"
+				},
+				{
+					"string": "¿Qué ciudad contiene más empresas de entretenimiento?",
+					"keywords":"ciudad, la mayoría de las empresas, entretenimiento",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  SELECT ?city WHERE { SELECT DISTINCT ?city COUNT(DISTINCT ?company) as ?numC  WHERE  {?company rdf:type dbo:Company;  dbo:industry dbr:List_of_entertainment_industry_topics; dbo:locationCity ?city. ?city rdf:type dbo:City. }GROUP BY ?city ORDER BY DESC(?numC) LIMIT 1 }"
+				},
+			"answers": [
+				{ "head": { "vars": ["city"] },
+				  "results": {
+					"bindings": [
+						{ "city": { "type": "uri", "value": "http://dbpedia.org/resource/Los_Angeles" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 245,
+			"modifiers": ["GROUP BY", "ORDER BY", "COUNT", "LIMIT"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "What is the average number of pages of the Harry Potter books?",
+					"keywords": "average, number of pages, books, Harry Potter",
+					"language": "en"
+				},
+				{
+					"string": "Qual è la media di numero di pagine dei libri su Harry Potter?",
+					"keywords": "media, numero pagine, libri, Harry Potter",
+					"language": "it"
+				},
+				{
+					"string": "Quelle est la moyenne des pages de livres sur Harry Potter?",
+					"keywords": "moyenne, nombre de pages, livres, Harry Potter",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuál es el promedio de páginas de libros sobre Harry Potter?",
+					"keywords": "promedio, número de páginas, libros, Harry Potter",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX foaf:<http://xmlns.com/foaf/0.1/> SELECT AVG(?numPag) as ?AvgPag WHERE {?book rdf:type dbo:Book; foaf:name ?name; dbo:numberOfPages ?numPag FILTER REGEX(?name, \"Harry Potter\") }"
+				},
+			"answers": [
+				{ "head": { "vars": ["AvgPag"] },
+				  "results": { 
+					"bindings": [
+						{ "AvgPag": { "type": "literal", "value": "545.4" }} ] } }
+			],
+			"aggregation": true,
+			"id": 246,
+			"modifiers": ["AVG", "FILTER"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "How many lakes are located in Europe?",
+					"keywords":"number, lakes, located in, Europe",
+					"language": "en"
+				},
+				{
+					"string": "Quanti sono i laghi che si trovano in Europa?",
+					"keywords": "numero, laghi, trovano in, Europa",
+					"language": "it"
+				},
+				{
+					"string": "Combien de lacs sont situés en Europe?",
+					"keywords": "nombre, lacs, situés en, Europe",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuántos lagos hay en Europa?",
+					"keywords": "número, lagos, en, Europa",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dct: <http://purl.org/dc/terms/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT COUNT(DISTINCT ?lake) AS ?numLake WHERE { ?lake rdf:type dbo:Lake; dbo:country ?country.?country rdf:type dbo:Country;dct:subject dbc:Countries_in_Europe }"
+				},
+			"answers": [
+				{ "head": { "vars": ["numLake"] },
+				  "results": {
+					"bindings": [
+						{ "numLake": { "type": "literal", "value": "3126" }} ] } }
+			],
+			"aggregation": true,
+			"id":247 ,
+			"modifiers": ["COUNT"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Which states in Europe have not adopted the euro?",
+					"keywords": "states, Europe, currency, different, euro",
+					"language": "en"
+				},
+				{
+					"string": "Quali stati in Europa non hanno adottato l'euro?",
+					"keywords": "stati, Europa, moneta, diversa, euro",
+					"language": "it"
+				},
+				{
+					"string": "Quels États européens n'ont pas adopté l'euro?",
+					"keywords": "états, europe, monnaie, différent, euro",
+					"language": "fr"
+				},
+				{
+					"string": "¿Qué estados de Europa no han adoptado el euro?",
+					"keywords": "estados, Europa, moneda, diferente, euro",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": false,
+			"query": {
+				"sparql": "SELECT DISTINCT ?country WHERE { ?country rdf:type dbo:Country; dct:subject dbc:Countries_in_Europe. FILTER NOT EXISTS{?country dbo:currency dbr:Euro}}"
+				},
+			"answers": [
+				{ "head": { "vars": ["country"] },
+				  "results": {
+					"bindings": [
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Albania"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Azerbaijan"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Belarus"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Bosnia_and_Herzegovina"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Bulgaria"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Croatia"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Czech_Republic"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Hungary"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Iceland"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Italy"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Kazakhstan"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Liechtenstein"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Malta"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Moldova"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Norway"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Poland"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Romania"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Russia"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Slovakia"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Switzerland"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Denmark"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Georgia_(country)"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Serbia"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Ukraine"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/United_Kingdom"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Armenia"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Republic_of_Macedonia"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Sweden"}},
+						{ "country": { "type": "uri", "value": "http://dbpedia.org/resource/Turkey"}}
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 248,
+			"modifiers": ["DINSTINCT", "FILTER"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "How many states in Europe have adopted the euro as currency?",
+					"keywords": "number, states, Europe, currency, euro",
+					"language": "en"
+				},
+				{
+					"string": "Quanti stati in Europa hanno adottato come moneta l'euro?",
+					"keywords": "numero, stati, Europa, moneta, euro",
+					"language": "it"
+				},
+				{
+					"string": "Combien d'États européens ont adopté l'euro comme monnaie?",
+					"keywords": "nombre, états, Europe, monnaie, euro",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuántos estados en Europa han adoptado el euro como moneda?",
+					"keywords": "número, estados, Europa, moneda, euro",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dct: <http://purl.org/dc/terms/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT DISTINCT COUNT(?country) as ?numC WHERE {  ?country rdf:type dbo:Country; dct:subject dbc:Countries_in_Europe. ?country dbo:currency dbr:Euro }"
+				},
+			"answers": [
+				{ "head": { "vars": ["numC"] },
+				  "results": { 
+					"bindings": [
+						{ "numC": { "type": "literal", "value": "20" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 249,
+			"modifiers": ["COUNT"]
+		},
+		
+		{
+			"hybrid": false,
+			"question": [{
+					"string": "How many states are there where English is one of the official languages?",
+					"keywords": "number, states, english, language, official",
+					"language": "en"
+				},
+				{
+					"string": "Quanti sono gli stati dove l'inglese è una delle lingue ufficiali?",
+					"keywords": "numero, stati, inglese, lingua, ufficiale",
+					"language": "it"
+				},
+				{
+					"string": "Combien d'États y a-t-il où l'anglais est l'une des langues officielles?",
+					"keywords": "nombre, états, anglais, langue, officiel",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuántos estados hay donde el inglés es uno de los idiomas oficiales?",
+					"keywords": "número, estados, inglés, idioma, oficial",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT COUNT(DISTINCT ?country) as ?numC WHERE {  ?country rdf:type dbo:Country. ?country dbo:officialLanguage ?language FILTER REGEX(?language, \"English\")}"
+				},
+			"answers": [
+				{ "head": { "vars": ["numC"] },
+				  "results": { 
+					"bindings": [
+						{ "numC": { "type": "literal", "value": "117" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 250,
+			"modifiers": ["COUNT", "FILTER"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "In how many countries more than 10 languages are spoken?",
+					"keywords": "number, countries, languages spoken, greater than, 10",
+					"language": "en"
+				},
+				{
+					"string": "In quanti paesi si parlano più di 10 lingue?",
+					"keywords": "numero, paesi, lingue parlate, maggiore di, 10",
+					"language": "it"
+				},
+				{
+					"string": "Dans combien de pays plus de 10 langues sont parlées?",
+					"keywords": "nombre, états, langues parlées, supérieur à, 10",
+					"language": "fr"
+				},
+				{
+					"string": "¿En cuántos países se hablan más de 10 idiomas?",
+					"keywords": "número, estados, idiomas hablados, mayor que, 10",
+					"language": "es"
+				}
+			],
+			"answertype": "number",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT COUNT(DISTINCT ?country) AS ?numC WHERE { SELECT ?country WHERE {  ?country rdf:type dbo:Country. ?country dbo:language ?language } GROUP BY ?country HAVING (COUNT(DISTINCT ?language)>10) }"
+				},
+			"answers": [
+				{ "head": { "vars": ["numC"] },
+				  "results": { 
+					"bindings": [
+						{ "numC": { "type": "literal", "datatype": "http://www.w3.org/2001/XMLSchema#integer", "value": "11" }} ] } }
+			],
+			"aggregation": true,
+			"id": 251,
+			"modifiers": ["GROUP BY", "HAVING", "COUNT"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "What are the 5 largest cities in the UK based on their urban area?",
+					"keywords": "5, cities, urban area, UK",
+					"language": "en"
+				},
+				{
+					"string": "Quali sono le 5 città più grandi del regno unito in base alla loro area urbana?",
+					"keywords": "5, città, area urbana, Regno Unito",
+					"language": "it"
+				},
+				{
+					"string": "Quelles sont les 5 plus grandes villes du Royaume-Uni en fonction de leur zone urbaine?",
+					"keywords":"5, villes, zone urbaine, Royaume-Uni",
+					"language": "fr"
+				},
+				{
+					"string": "¿Cuáles son las 5 ciudades más grandes del Reino Unido según su área urbana?",
+					"keywords": "5, ciudades, área urbana, Reino Unido",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT DISTINCT ?city WHERE { ?city rdf:type dbo:City; dbo:country dbr:United_Kingdom; dbo:areaUrban ?areaU. } ORDER BY ?areaU LIMIT 5 "
+				},
+			"answers": [
+				{ "head": { "vars": ["city"] },
+				  "results": { 
+					"bindings": [
+						{ "city": { "type": "uri", "value": "http://dbpedia.org/resource/Southampton" }},
+						{ "city": { "type": "uri", "value": "http://dbpedia.org/resource/Cardiff" }},
+						{ "city": { "type": "uri", "value": "http://dbpedia.org/resource/Brighton_and_Hove" }},
+						{ "city": { "type": "uri", "value": "http://dbpedia.org/resource/Stoke-on-Trent" }},
+						{ "city": { "type": "uri", "value": "http://dbpedia.org/resource/Leeds" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 252,
+			"modifiers": ["ORDER BY", "LIMIT"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Who are the artists who have written more than 50 songs in their career?",
+					"keywords": "artists, written, more than, 50, songs",
+					"language": "en"
+				},
+				{
+					"string": "Quali sono gli artisti che hanno scritto più di 50 canzoni nella loro carriera?",
+					"keywords": "artisti, scrivere, più di, 50, canzoni",
+					"language": "it"
+				},
+				{
+					"string": "Qui sont les artistes qui ont écrit plus de 50 chansons au cours de leur carrière?",
+					"keywords": "artistes, écrit, plus de, 50, chansons",
+					"language": "fr"
+				},
+				{
+					"string": "¿Quiénes son los artistas que han escrito más de 50 canciones en su carrera?",
+					"keywords": "artistas, escrito, más de, 50, canciones",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": true,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT ?artist WHERE { SELECT ?artist COUNT(DISTINCT ?song) as ?numSong WHERE { ?song rdf:type dbo:Song; dbo:writer ?artist } GROUP BY ?artist HAVING(COUNT(?song)>50) ORDER BY DESC(?numSong) }"
+				},
+			"answers": [
+				{ "head": { "vars": ["artist"] },
+				"results": { 
+					"bindings": [
+						{ "artist": { "type": "uri", "value": "http://dbpedia.org/resource/Lennon\u2013McCartney" }},
+						{ "artist": { "type": "uri", "value": "http://dbpedia.org/resource/Bob_Dylan" }},
+						{ "artist": { "type": "uri", "value": "http://dbpedia.org/resource/Roger_Waters" }},
+						{ "artist": { "type": "uri", "value": "http://dbpedia.org/resource/George_Harrison" }},
+						{ "artist": { "type": "uri", "value": "http://dbpedia.org/resource/David_Bowie" }},
+						{ "artist": { "type": "uri", "value": "http://dbpedia.org/resource/Jagger/Richards" }},
+						{ "artist": { "type": "uri", "value": "http://dbpedia.org/resource/Jimmy_Page" }},
+						{ "artist": { "type": "uri", "value": "http://dbpedia.org/resource/Brian_Wilson" }},
+						{ "artist": { "type": "uri", "value": "http://dbpedia.org/resource/Robert_Plant" }} 
+						] 
+					} 
+				}
+			],
+			"aggregation": true,
+			"id": 253,
+			"modifiers": ["COUNT", "GROUP BY", "HAVING" , "ORDER BY"]
+		},
+		
+			{
+			"hybrid": false,
+			"question": [{
+					"string": "Who is the youngest singer born in Italy?",
+					"keywords": "singer, youngest, born, Italy",
+					"language": "en"
+				},
+				{
+					"string": "Chi è il più giovane cantante nato in Italia?",
+					"keywords": "cantante, più giovane, nato, Italia",
+					"language": "it"
+				},
+				{
+					"string": "Qui est le plus jeune chanteur né en Italie?",
+					"keywords": "chanteur, plus jeune, né, Italie",
+					"language": "fr"
+				},
+				{
+					"string": "¿Quién es el cantante más joven nacido en Italia?",
+					"keywords": "cantante, más joven, nacido, Italia",
+					"language": "es"
+				}
+			],
+			"answertype": "resource",
+			"onlydbo": false,
+			"query": {
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX purl: <http://purl.org/linguistics/gold/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX yago: <http://dbpedia.org/class/yago/> SELECT ?artist WHERE { ?artist dbp:occupation \"Singer\"^^rdf:langString. ?artist dbo:birthPlace ?bPlace; dbo:birthDate ?date. ?bPlace dbo:country dbr:Italy } ORDER BY DESC(?date) LIMIT 1"
+				},
+			"answers": [
+				{ "head": { "vars": ["artist"] },
+				  "results": { 
+					"bindings": [
+						{ "artist": { "type": "uri", "value": "http://dbpedia.org/resource/Aurora_Kapo"}} 
+						] 
+					} 
+				}
+			],
+			"aggregation": false,
+			"id": 254,
+			"modifiers": ["ORDER BY", "LIMIT"]
+		}
+	]
+	
+}

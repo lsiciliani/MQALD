@@ -82,34 +82,41 @@ public class CreateDataset {
                         if (!file.exists()) {
                             throw new IOException("File not present: " + file.getCanonicalPath());
                         }
-                        LOG.info("Merge training...");
-                        QaldIO.mergeDatasets(new File(cmd.getOptionValue("d") + "/MQALD-train-multilingual.json"),
-                                new File(cmd.getOptionValue("d") + "/qald-9-train-multilingual.json"),
-                                new File(cmd.getOptionValue("d") + "/qald-8-train-multilingual.json"),
-                                new File(cmd.getOptionValue("d") + "/qald-7-train-multilingual.json"));
-                        LOG.info("Merge test...");
-                        QaldIO.mergeDatasets(new File(cmd.getOptionValue("d") + "/test-pre-merge-multilingual.json"),
-                                new File(cmd.getOptionValue("d") + "/qald-9-test-multilingual.json"),
-                                new File(cmd.getOptionValue("d") + "/qald-8-test-multilingual.json"),
-                                new File(cmd.getOptionValue("d") + "/qald-7-test-multilingual.json"));
-                        LOG.info("Filtering test...");
-                        QaldIO.filterDataset(new File(cmd.getOptionValue("d") + "/test-pre-merge-multilingual.json"),
-                                new File(cmd.getOptionValue("d") + "/MQALD-train-multilingual.json"),
-                                new File(cmd.getOptionValue("d") + "/MQALD-test-multilingual.json"));
-                        new File(cmd.getOptionValue("d") + "/test-pre-merge-multilingual.json").delete();
-                        LOG.info("Filtering modifiers...");
-                        QaldIO.filterModifiers(new File(cmd.getOptionValue("d") + "/MQALD-train-multilingual.json"),
-                                new File(cmd.getOptionValue("d") + "/MQALD-train-MOD-multilingual.json"),
-                                new File(cmd.getOptionValue("d") + "/MQALD-train-NOMOD-multilingual.json"));
-                        QaldIO.filterModifiers(new File(cmd.getOptionValue("d") + "/MQALD-test-multilingual.json"),
-                                new File(cmd.getOptionValue("d") + "/MQALD-test-MOD-multilingual.json"),
-                                new File(cmd.getOptionValue("d") + "/MQALD-test-NOMOD-multilingual.json"));
-                        LOG.info("Create CSV...");
-                        QaldIO.createCSV(new File(cmd.getOptionValue("d") + "/MQALD-train-MOD-multilingual.json"),
-                                new File(cmd.getOptionValue("d") + "/MQALD-train-MOD-multilingual.csv"));
-                        QaldIO.createCSV(new File(cmd.getOptionValue("d") + "/MQALD-test-MOD-multilingual.json"),
-                                new File(cmd.getOptionValue("d") + "/MQALD-test-MOD-multilingual.csv"));
                     }
+                    LOG.info("Merge training...");
+                    QaldIO.mergeDatasets(new File(cmd.getOptionValue("d") + "/QALD-train-multilingual.json"),
+                            new File(cmd.getOptionValue("d") + "/qald-9-train-multilingual.json"),
+                            new File(cmd.getOptionValue("d") + "/qald-8-train-multilingual.json"),
+                            new File(cmd.getOptionValue("d") + "/qald-7-train-multilingual.json"));
+                    LOG.info("Merge test...");
+                    QaldIO.mergeDatasets(new File(cmd.getOptionValue("d") + "/test-pre-merge-multilingual.json"),
+                            new File(cmd.getOptionValue("d") + "/qald-9-test-multilingual.json"),
+                            new File(cmd.getOptionValue("d") + "/qald-8-test-multilingual.json"),
+                            new File(cmd.getOptionValue("d") + "/qald-7-test-multilingual.json"));
+                    LOG.info("Filtering test...");
+                    QaldIO.filterDataset(new File(cmd.getOptionValue("d") + "/test-pre-merge-multilingual.json"),
+                            new File(cmd.getOptionValue("d") + "/QALD-train-multilingual.json"),
+                            new File(cmd.getOptionValue("d") + "/QALD-test-multilingual.json"));
+                    new File(cmd.getOptionValue("d") + "/test-pre-merge-multilingual.json").delete();
+                    LOG.info("Filtering modifiers...");
+                    QaldIO.filterModifiers(new File(cmd.getOptionValue("d") + "/QALD-train-multilingual.json"),
+                            new File(cmd.getOptionValue("d") + "/QALD-train-MOD-multilingual.json"),
+                            new File(cmd.getOptionValue("d") + "/QALD-train-NOMOD-multilingual.json"));
+                    QaldIO.filterModifiers(new File(cmd.getOptionValue("d") + "/QALD-test-multilingual.json"),
+                            new File(cmd.getOptionValue("d") + "/QALD-test-MOD-multilingual.json"),
+                            new File(cmd.getOptionValue("d") + "/QALD-test-NOMOD-multilingual.json"));
+                    LOG.info("Create MQALD test...");
+                    QaldIO.mergeDatasets(new File(cmd.getOptionValue("d") + "MQALD.json"),
+                            new File(cmd.getOptionValue("d") + "/QALD-test-MOD-multilingual.json"),
+                            new File(cmd.getOptionValue("d") + "/MQALD_new_query.json"));
+                    QaldIO.mergeDatasets(new File(cmd.getOptionValue("d") + "MQALD-QALD-test-NOMOD.json"),
+                            new File(cmd.getOptionValue("d") + "/QALD-test-multilingual.json"),
+                            new File(cmd.getOptionValue("d") + "/MQALD_new_query.json"));
+                    LOG.info("Create CSV...");
+                    QaldIO.createCSV(new File(cmd.getOptionValue("d") + "/QALD-train-MOD-multilingual.json"),
+                            new File(cmd.getOptionValue("d") + "/QALD-train-MOD-multilingual.csv"));
+                    QaldIO.createCSV(new File(cmd.getOptionValue("d") + "/QALD-test-MOD-multilingual.json"),
+                            new File(cmd.getOptionValue("d") + "/QALD-test-MOD-multilingual.csv"));
                 } catch (Exception ex) {
                     LOG.log(Level.SEVERE, null, ex);
                 }
