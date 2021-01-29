@@ -7,7 +7,7 @@ The translation process is already tricky to solve even when trying to answer si
 The attention over this aspect is growing but has never been thoroughly addressed by the existing literature.
 Starting from the latest advances in this field, we want to make a further step towards this direction by giving a comprehensive description of this topic, the main issues revolving around it, and making publicly available a dataset designed to evaluate the performance of a QA system in translating such articulated questions into a specific data query language. 
 
-The last version of the MQALD dataset is available on Zenodo: https://zenodo.org/record/4050353
+The last version of the MQALD dataset is available on Zenodo: https://zenodo.org/record/4479876
 
 Setup
 --------

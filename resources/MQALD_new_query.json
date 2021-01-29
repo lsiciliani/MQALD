@@ -301,13 +301,13 @@
 			"answertype": "resource",
 			"onlydbo": true,
 			"query": {
-				"sparql": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT ?uri WHERE  { ?uri rdf:type dbo:Mountain; dbo:elevation ?elevation; dbo:locatedInArea dbr:Italy  }ORDER BY DESC(?elevation) LIMIT 1 OFFSET 3"
+				"sparql": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> SELECT ?uri WHERE  { ?uri rdf:type dbo:Mountain; dbo:elevation ?elevation; dbo:locatedInArea dbr:Italy  }ORDER BY DESC(?elevation) LIMIT 1 OFFSET 2"
 				},
 			"answers": [
 				{ "head": { "vars": ["uri"] },
 				"results": {
 					"bindings": [
-						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Signalkuppe" }}
+						{ "uri": { "type": "uri", "value": "http://dbpedia.org/resource/Rocher_de_la_Tournette" }}
 						] 
 						} 
 				}
@@ -682,23 +682,23 @@
 		{
 			"hybrid": false,
 			"question": [{
-					"string": "Is Leonardo Da Vinci the author of the Mona Lisa?",
-					"keywords": "Leonardo Da Vinci, author, Mona Lisa",
+					"string": "Is Leonardo Da Vinci the creator of the Mona Lisa?",
+					"keywords": "Leonardo Da Vinci, creator, Mona Lisa",
 					"language": "en"
 				},
 				{
-					"string": "Leonardo Da Vinci è l'autore della Mona Lisa?",
-					"keywords": "Leonardo Da Vinci, autore, Mona Lisa",
+					"string": "Leonardo Da Vinci è il creatore della Mona Lisa?",
+					"keywords": "Leonardo Da Vinci, creatore, Mona Lisa",
 					"language": "it"
 				},
 				{
-					"string": "Leonardo Da Vinci est-il l'auteur de la Joconde?",
-					"keywords": "Leonardo Da Vinci, auteur, Joconde",
+					"string": "Leonardo Da Vinci est-il le créateur de la Joconde?",
+					"keywords": "Leonardo Da Vinci, créateur, Joconde",
 					"language": "fr"
 				},
 				{
-					"string": "¿Es Leonardo Da Vinci el autor de la Mona Lisa?",
-					"keywords": "Leonardo Da Vinci, autor, Mona Lisa",
+					"string": "¿Es Leonardo Da Vinci el creador de la Mona Lisa?",
+					"keywords": "Leonardo Da Vinci, creador, Mona Lisa",
 					"language": "es"
 				}
 			],
@@ -3727,45 +3727,40 @@
 			{
 			"hybrid": false,
 			"question": [{
-					"string": "Give me the population density of Warsaw as well as its population total.",
-					"keywords": "population density, Warsaw, population total",
+					"string": "Is the population density of Warsaw higher than 4000?",
+					"keywords": "population density, Warsaw, higher than, 4000",
 					"language": "en"
 				},
 				{
-					"string": "Dammi la densità di popolazione di Varsavia e la sua popolazione totale.",
-					"keywords": "densità di popolazione, Varsavia, popolazione totale",
+					"string": "La densità di popolazione di Varsavia è superiore a 4000?",
+					"keywords": "ddensità di popolazione, Varsavia, superiore a, 4000",
 					"language": "it"
 				},
 				{
-					"string": "Donnez-moi la densité de la population de Varsovie ainsi que sa population totale.",
-					"keywords": "densité de population, Varsovie, population totale",
+					"string": "La densité de population de Varsovie est-elle supérieure à 4000?",
+					"keywords": "densité de population, Varsovie, supérieure à, 4000",
 					"language": "fr"
 				},
 				{
-					"string": "Dame la densidad de población de Varsovia, así como su población total.",
-					"keywords": "densidad de población, Varsovia, población total",
+					"string": "¿Es la densidad de población de Varsovia superior a 4000?",
+					"keywords": "densidad de población, Varsovia, superior a, 4000",
 					"language": "es"
 				}
 			],
-			"answertype": "number",
+			"answertype": "boolean",
 			"onlydbo": true,
 			"query": {
-				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT ?x WHERE { {dbr:Warsaw dbo:populationDensity ?x.} UNION {dbr:Warsaw dbo:populationTotal ?x.}}"
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ASK WHERE { dbr:Warsaw dbo:populationDensity ?x. FILTER(?x>4000)}"
 				},
-			"answers": [{
-				"head": {
-					"vars": ["x"]
-				},
-				"results": {
-					"bindings": [
-					{"x": {"type": "number", "value": "3337.0"}},
-					{"x": {"type": "number", "value": "1744351"}}
-					]
+			"answers": [
+				{  "head": {},
+				   "boolean": false,
+				   "results" : {}
 				}
-			}],
-			"aggregation": true,
+			],
+			"aggregation": false,
 			"id": 239,
-			"modifiers": ["UNION"]
+			"modifiers": ["ASK","FILTER"]
 		},	
 			{
 			"hybrid": false,
@@ -3962,7 +3957,7 @@
 			"answertype": "boolean",
 			"onlydbo": false,
 			"query": {
-				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ASK WHERE  {dbr:Elvis_Presley dbo:spouse ?spouse. ?spouse dbo:child ?child FILTER NOT EXISTS {?child dbo:child dbr:Elvis_Presley} }"
+				"sparql": "PREFIX dbo: <http://dbpedia.org/ontology/> PREFIX dbr: <http://dbpedia.org/resource/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ASK WHERE  {dbr:Elvis_Presley dbo:spouse ?spouse. ?spouse dbo:child ?child FILTER NOT EXISTS {dbr:Elvis_Presley dbo:child ?child} }"
 				},
 			"answers": [
 				{  "head": {},
