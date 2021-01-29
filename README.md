@@ -1,5 +1,5 @@
 MQALD (updated 29/01/2021)
-====================
+=============================
 
 Question Answering (QA) over Knowledge Graphs (KG) has the aim of developing a system that is capable of answering a user's question using the information coming from one or multiple Knowledge Graphs, like DBpedia, Wikidata and so on.
 This kind of system needs to translate the question of the user, written using natural language, into a query formulated through a data query language that is compliant with the underlying KG.
