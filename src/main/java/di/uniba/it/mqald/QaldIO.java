@@ -222,6 +222,9 @@ public class QaldIO {
                 if (q.containsKey("hybrid")) {
                     question.setHybrid((boolean) q.get("hybrid"));
                 }
+                if (q.containsKey("qald-version")) {
+                    question.setQaldVersion("qald-version");
+                }
                 if (q.containsKey("question")) {
                     JSONArray elem = (JSONArray) q.get("question");
                     Iterator it_elem = elem.iterator();
@@ -356,16 +359,12 @@ public class QaldIO {
         FileWriter writer = new FileWriter(outputFile);
         JSONObject fileObj = new JSONObject();
         JSONArray questionsArray = new JSONArray();
-        List<File> files = new ArrayList<>();
-        for (File f : inputFiles) {
-            files.add(f);
-        }
         JSONParser parser = new JSONParser();
         List<String> storedQuestions = new ArrayList<>();
         int contained = 0;
         int totalnumber = 0;
         int i = 1;
-        for (File f : files) {
+        for (File f : inputFiles) {
             LOG.log(Level.INFO, "Reading: {0}", f.getName());
             JSONObject data = (JSONObject) parser.parse(new FileReader(f));
             JSONArray qs = (JSONArray) data.get("questions");
@@ -388,7 +387,9 @@ public class QaldIO {
                 if (!storedQuestions.contains(qString.toLowerCase())) {
                     storedQuestions.add(qString.toLowerCase());
                     q.replace("id", i);
-                    q.put("qald-version", f.getName().replaceAll("[^0-9]", ""));
+                    if (!q.containsKey("qald-version")) {
+                        q.put("qald-version", f.getName().replaceAll("[^0-9]", ""));
+                    }
                     i++;
                     questionsArray.add(q);
                 } else {

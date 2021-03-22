@@ -62,6 +62,8 @@ public class Question {
     private List<Answer> answers;
 
     private JSONObject answerObj;
+    
+    private String qaldVersion;
 
     /**
      *
@@ -228,5 +230,15 @@ public class Question {
     public void setAnswerObj(JSONObject answerObj) {
         this.answerObj = answerObj;
     }
+
+    public String getQaldVersion() {
+        return qaldVersion;
+    }
+
+    public void setQaldVersion(String qaldVersion) {
+        this.qaldVersion = qaldVersion;
+    }
+    
+    
 
 }

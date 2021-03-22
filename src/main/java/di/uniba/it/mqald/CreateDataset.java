@@ -107,11 +107,11 @@ public class CreateDataset {
                             new File(cmd.getOptionValue("d") + "/QALD-test-NOMOD-multilingual.json"));
                     LOG.info("Create MQALD test...");
                     QaldIO.mergeDatasets(new File(cmd.getOptionValue("d") + "MQALD.json"),
-                            new File(cmd.getOptionValue("d") + "/QALD-test-MOD-multilingual.json"),
-                            new File(cmd.getOptionValue("d") + "/MQALD_new_query.json"));
+                            new File(cmd.getOptionValue("d") + "/MQALD_new_query.json"),
+                            new File(cmd.getOptionValue("d") + "/QALD-test-MOD-multilingual.json"));
                     QaldIO.mergeDatasets(new File(cmd.getOptionValue("d") + "MQALD-QALD-test-NOMOD.json"),
-                            new File(cmd.getOptionValue("d") + "/QALD-test-multilingual.json"),
-                            new File(cmd.getOptionValue("d") + "/MQALD_new_query.json"));
+                            new File(cmd.getOptionValue("d") + "/MQALD_new_query.json"),
+                            new File(cmd.getOptionValue("d") + "/QALD-test-multilingual.json"));
                     LOG.info("Create CSV...");
                     QaldIO.createCSV(new File(cmd.getOptionValue("d") + "/QALD-train-MOD-multilingual.json"),
                             new File(cmd.getOptionValue("d") + "/QALD-train-MOD-multilingual.csv"));

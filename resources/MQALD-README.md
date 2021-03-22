@@ -1,8 +1,9 @@
-MQALD ver. 3.00 (29/10/2021)
+MQALD ver. 4.00 (22/03/2021)
 ================================
 
 Changes:
 
+* ver. 4.00 fix qald-version field in JSON
 * ver. 3.00 query fix in MQALD
 * ver. 2.00 query fix in MQALD
 
