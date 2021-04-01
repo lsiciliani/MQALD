@@ -1,4 +1,4 @@
-MQALD ver. 4.00 (22/03/2021)
+MQALD ver. 4.00 (01/04/2021)
 ================================
 
 Changes:
@@ -30,6 +30,7 @@ We release several files containing a different subset of queries, in particular
 
 * **MQALD.json:** contains the novel questions plus the QALD test queries with modifiers
 * **MQALD_new_query.json:** contains only the novel questions
+* **MQALD-QALD-test-NOMOD.json** contains the novel questions plus all the QALD test queries (with and without modifiers)
 * QALD-test-MOD-multilingual.json: contains only the QALD test queries with modifiers
 * QALD-test-multilingual.json: contains the QALD test queries
 * QALD-test-NOMOD-multilingual.json: contains the QALD test queries without modifiers
